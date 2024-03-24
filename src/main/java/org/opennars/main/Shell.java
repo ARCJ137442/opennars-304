@@ -105,7 +105,7 @@ public class Shell {
             System.exit(0);
         }
         
-        log("creating Nar...");
+        log("creating Nar with args [" + String.join(", ", args) + "] ...");
         Nar nar = Shell.createNar(args);
         
         if(args.length > 4) {

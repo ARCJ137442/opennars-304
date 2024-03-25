@@ -45,9 +45,9 @@ public class Equivalence extends Statement {
      */
     private Equivalence(final Term[] components, final int order) {
         super(components);
-        
+
         temporalOrder = order;
-        
+
         init(components);
     }
 
@@ -60,61 +60,67 @@ public class Equivalence extends Statement {
     public Equivalence clone() {
         return new Equivalence(term, temporalOrder);
     }
-    
-    @Override public Equivalence clone(final Term[] t) {  
-        if(t == null) {
+
+    @Override
+    public Equivalence clone(final Term[] t) {
+        if (t == null) {
             return null;
         }
-        if (t.length!=2)
+        if (t.length != 2)
             throw new IllegalStateException("Equivalence requires 2 components: " + Arrays.toString(t));
-        
+
         return make(t[0], t[1], temporalOrder);
     }
-    
-    /** alternate version of Inheritance.make that allows equivalent subject and predicate
-     * to be reduced to the common term.      */
+
+    /**
+     * alternate version of Inheritance.make that allows equivalent subject and
+     * predicate
+     * to be reduced to the common term.
+     */
     public static Term makeTerm(final Term subject, final Term predicate, final int temporalOrder) {
         if (subject.equals(predicate))
-            return subject;                
-        return make(subject, predicate, temporalOrder);        
-    }    
-
+            return subject;
+        return make(subject, predicate, temporalOrder);
+    }
 
     /**
      * Try to make a new compound from two term. Called by the inference
      * rules.
      *
-     * @param subject The first component
+     * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or null
      */
-    public static Equivalence make(final Term subject, final Term predicate) {  // to be extended to check if subject is Conjunction
+    public static Equivalence make(final Term subject, final Term predicate) { // to be extended to check if subject is
+                                                                               // Conjunction
         return make(subject, predicate, TemporalRules.ORDER_NONE);
     }
 
-    public static Equivalence make(Term subject, Term predicate, int temporalOrder) {  // to be extended to check if subject is Conjunction
-        if (invalidStatement(subject, predicate) && temporalOrder != TemporalRules.ORDER_FORWARD && temporalOrder != TemporalRules.ORDER_CONCURRENT) {
+    public static Equivalence make(Term subject, Term predicate, int temporalOrder) { // to be extended to check if
+                                                                                      // subject is Conjunction
+        if (invalidStatement(subject, predicate) && temporalOrder != TemporalRules.ORDER_FORWARD
+                && temporalOrder != TemporalRules.ORDER_CONCURRENT) {
             return null;
         }
-        
+
         if ((subject instanceof Implication) || (subject instanceof Equivalence)
                 || (predicate instanceof Implication) || (predicate instanceof Equivalence) ||
                 (subject instanceof Interval) || (predicate instanceof Interval)) {
             return null;
         }
-                
+
         if ((temporalOrder == TemporalRules.ORDER_BACKWARD)
                 || ((subject.compareTo(predicate) > 0) && (temporalOrder != TemporalRules.ORDER_FORWARD))) {
             final Term interm = subject;
             subject = predicate;
             predicate = interm;
         }
-        
+
         final NativeOperator copula;
         switch (temporalOrder) {
             case TemporalRules.ORDER_BACKWARD:
                 temporalOrder = TemporalRules.ORDER_FORWARD;
-                //TODO determine if this missing break is intended
+                // TODO determine if this missing break is intended
             case TemporalRules.ORDER_FORWARD:
                 copula = NativeOperator.EQUIVALENCE_AFTER;
                 break;
@@ -125,13 +131,13 @@ public class Equivalence extends Statement {
                 copula = NativeOperator.EQUIVALENCE;
         }
         final Term[] t;
-        if (temporalOrder==TemporalRules.ORDER_FORWARD)
+        if (temporalOrder == TemporalRules.ORDER_FORWARD)
             t = new Term[] { subject, predicate };
         else
             t = Term.toSortedSetArray(subject, predicate);
-       
+
         if (t.length != 2)
-            return null;        
+            return null;
         return new Equivalence(t, temporalOrder);
     }
 

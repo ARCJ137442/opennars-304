@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.NavigableSet;
 
 /**
- * A compound term whose intension is the intersection of the extensions of its term as defined in the NARS-theory
+ * A compound term whose intension is the intersection of the extensions of its
+ * term as defined in the NARS-theory
  *
  * @author Patrick Hammer
  */
@@ -40,19 +41,22 @@ public class IntersectionInt extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
+     * 
      * @param arg The component list of the term
      */
     private IntersectionInt(final Term[] arg) {
-        super( arg );
-        
-        if (Debug.DETAILED) { Terms.verifySortedAndUnique(arg, false); }        
-        
+        super(arg);
+
+        if (Debug.DETAILED) {
+            Terms.verifySortedAndUnique(arg, false);
+        }
+
         init(arg);
     }
 
-
     /**
      * Clone an object
+     * 
      * @return A new object, to be casted into a Conjunction
      */
     @Override
@@ -60,52 +64,52 @@ public class IntersectionInt extends CompoundTerm {
         return new IntersectionInt(term);
     }
 
-  @Override
+    @Override
     public Term clone(final Term[] replaced) {
-        if(replaced == null) {
+        if (replaced == null) {
             return null;
         }
         return make(replaced);
     }
-        
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
+     * 
      * @param term1 The first component
      * @param term2 The second component
      * @return A compound generated or a term it reduced to
      */
     public static Term make(final Term term1, final Term term2) {
-        
+
         if ((term1 instanceof SetExt) && (term2 instanceof SetExt)) {
             // set union
             final Term[] both = ObjectArrays.concat(
-                    ((CompoundTerm) term1).term, 
+                    ((CompoundTerm) term1).term,
                     ((CompoundTerm) term2).term, Term.class);
             return SetExt.make(both);
         }
         if ((term1 instanceof SetInt) && (term2 instanceof SetInt)) {
             // set intersection
             final NavigableSet<Term> set = Term.toSortedSet(((CompoundTerm) term1).term);
-            
-            set.retainAll(((CompoundTerm) term2).asTermList());     
-            
-            //technically this can be used directly if it can be converted to array
-            //but wait until we can verify that NavigableSet.toarray does it or write a helper function like existed previously
+
+            set.retainAll(((CompoundTerm) term2).asTermList());
+
+            // technically this can be used directly if it can be converted to array
+            // but wait until we can verify that NavigableSet.toarray does it or write a
+            // helper function like existed previously
             return SetInt.make(set.toArray(new Term[0]));
         }
-        
+
         final List<Term> se = new ArrayList();
         if (term1 instanceof IntersectionInt) {
             ((CompoundTerm) term1).addTermsTo(se);
             if (term2 instanceof IntersectionInt) {
-                // (&,(&,P,Q),(&,R,S)) = (&,P,Q,R,S)                
+                // (&,(&,P,Q),(&,R,S)) = (&,P,Q,R,S)
                 ((CompoundTerm) term2).addTermsTo(se);
-            }               
-            else {
+            } else {
                 // (&,(&,P,Q),R) = (&,P,Q,R)
                 se.add(term2);
-            }               
+            }
         } else if (term2 instanceof IntersectionInt) {
             // (&,R,(&,P,Q)) = (&,P,Q,R)
             ((CompoundTerm) term2).addTermsTo(se);
@@ -117,20 +121,21 @@ public class IntersectionInt extends CompoundTerm {
         return make(se.toArray(new Term[0]));
     }
 
-    
     public static Term make(Term[] t) {
         t = Term.toSortedSetArray(t);
         switch (t.length) {
-            case 0: return null;
-            case 1: return t[0];
+            case 0:
+                return null;
+            case 1:
+                return t[0];
             default:
-               return new IntersectionInt(t); 
+                return new IntersectionInt(t);
         }
     }
-    
-    
+
     /**
      * Get the operator of the term.
+     * 
      * @return the operator of the term
      */
     @Override
@@ -140,6 +145,7 @@ public class IntersectionInt extends CompoundTerm {
 
     /**
      * Check if the compound is commutative.
+     * 
      * @return true for commutative
      */
     @Override

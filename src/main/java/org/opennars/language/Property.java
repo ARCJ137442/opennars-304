@@ -24,18 +24,20 @@
 package org.opennars.language;
 
 /**
- * A Statement about a Property relation, which is used only in Narsese for I/O, 
+ * A Statement about a Property relation, which is used only in Narsese for I/O,
  * and translated into Inheritance for internal use.
  *
  * @author Patrick Hammer
  */
-public abstract class Property /*would extend "Statement" if it were its own type */ {
-    
+public abstract class Property /* would extend "Statement" if it were its own type */ {
+
     /**
-     * Try to make a new compound from two components. Called by the inference rules.
+     * Try to make a new compound from two components. Called by the inference
+     * rules.
      * <p>
-     *  A --] B becomes A --&gt; [B]
-     * @param subject The first component
+     * A --] B becomes A --&gt; [B]
+     * 
+     * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or null
      */

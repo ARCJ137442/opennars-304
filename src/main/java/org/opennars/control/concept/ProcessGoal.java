@@ -67,30 +67,32 @@ import org.opennars.plugin.mental.InternalExperience;
 public class ProcessGoal {
     /**
      * To accept a new goal, and check for revisions and realization, then
-     * decide whether to actively pursue it, potentially executing in case of an operation goal
+     * decide whether to actively pursue it, potentially executing in case of an
+     * operation goal
      *
      * @param concept The concept of the goal
-     * @param nal The derivation context
-     * @param task The goal task to be processed
+     * @param nal     The derivation context
+     * @param task    The goal task to be processed
      */
     protected static void processGoal(final Concept concept, final DerivationContext nal, final Task task) {
         final Sentence goal = task.sentence;
-        final Task oldGoalT = concept.selectCandidate(task, concept.desires, nal.time); // revise with the existing desire values
+        final Task oldGoalT = concept.selectCandidate(task, concept.desires, nal.time); // revise with the existing
+                                                                                        // desire values
         Sentence oldGoal = null;
         final Stamp newStamp = goal.stamp;
         if (oldGoalT != null) {
             oldGoal = oldGoalT.sentence;
             final Stamp oldStamp = oldGoal.stamp;
-            if (newStamp.equals(oldStamp,false,false,true)) {
+            if (newStamp.equals(oldStamp, false, false, true)) {
                 return; // duplicate
             }
         }
 
         Task beliefT = null;
-        if(task.aboveThreshold()) {
+        if (task.aboveThreshold()) {
             beliefT = concept.selectCandidate(task, concept.beliefs, nal.time);
 
-            for (final Task iQuest : concept.quests ) {
+            for (final Task iQuest : concept.quests) {
                 trySolution(task.sentence, iQuest, nal, true);
             }
 
@@ -104,12 +106,14 @@ public class ProcessGoal {
         if (oldGoalT != null && revisible(goal, oldGoal, nal.narParameters)) {
             final Stamp oldStamp = oldGoal.stamp;
             nal.setTheNewStamp(newStamp, oldStamp, nal.time.time());
-            final Sentence projectedGoal = oldGoal.projection(task.sentence.getOccurenceTime(), newStamp.getOccurrenceTime(), concept.memory);
-            if (projectedGoal!=null) {
+            final Sentence projectedGoal = oldGoal.projection(task.sentence.getOccurenceTime(),
+                    newStamp.getOccurrenceTime(), concept.memory);
+            if (projectedGoal != null) {
                 nal.setCurrentBelief(projectedGoal);
                 final boolean wasRevised = revision(task.sentence, projectedGoal, concept, false, nal);
                 if (wasRevised) {
-                    /* It was revised, so there is a new task for which this method will be called
+                    /*
+                     * It was revised, so there is a new task for which this method will be called
                      * with higher/lower desire.
                      * We return because it is not allowed to go on directly due to decision making.
                      * see https://groups.google.com/forum/#!topic/open-nars/lQD0no2ovx4
@@ -119,21 +123,21 @@ public class ProcessGoal {
             }
         }
 
-        final Stamp s2=goal.stamp.clone();
+        final Stamp s2 = goal.stamp.clone();
         s2.setOccurrenceTime(nal.time.time());
-        if(s2.after(task.sentence.stamp, nal.narParameters.DURATION)) {
+        if (s2.after(task.sentence.stamp, nal.narParameters.DURATION)) {
             // this task is not up to date we have to project it first
 
             final Sentence projGoal = task.sentence.projection(nal.time.time(), nal.narParameters.DURATION, nal.memory);
-            if(projGoal!=null && projGoal.truth.getExpectation() > nal.narParameters.DECISION_THRESHOLD) {
+            if (projGoal != null && projGoal.truth.getExpectation() > nal.narParameters.DECISION_THRESHOLD) {
 
                 // keep goal updated
                 nal.singlePremiseTask(projGoal, task.budget.clone());
 
-                // we don't return here, allowing "roundtrips now", relevant for executing multiple steps of learned implication chains
+                // we don't return here, allowing "roundtrips now", relevant for executing
+                // multiple steps of learned implication chains
             }
         }
-
 
         if (!task.aboveThreshold()) {
             return;
@@ -142,11 +146,12 @@ public class ProcessGoal {
         double AntiSatisfaction = 0.5f; // we dont know anything about that goal yet
         if (beliefT != null) {
             final Sentence belief = beliefT.sentence;
-            final Sentence projectedBelief = belief.projection(task.sentence.getOccurenceTime(), nal.narParameters.DURATION, nal.memory);
+            final Sentence projectedBelief = belief.projection(task.sentence.getOccurenceTime(),
+                    nal.narParameters.DURATION, nal.memory);
             AntiSatisfaction = task.sentence.truth.getExpDifAbs(projectedBelief.truth);
         }
 
-        task.setPriority(task.getPriority()* (float)AntiSatisfaction);
+        task.setPriority(task.getPriority() * (float) AntiSatisfaction);
         if (!task.aboveThreshold()) {
             return;
         }
@@ -157,14 +162,15 @@ public class ProcessGoal {
             return;
         }
         final boolean inhitedBabblingGoal = task.isInput() && !concept.allowBabbling;
-        if(inhitedBabblingGoal) {
+        if (inhitedBabblingGoal) {
             return;
         }
         bestReactionForGoal(concept, nal, projectedGoal, task);
         questionFromGoal(task, nal);
-        concept.addToTable(task, false, concept.desires, nal.narParameters.CONCEPT_GOALS_MAX, Events.ConceptGoalAdd.class, Events.ConceptGoalRemove.class);
+        concept.addToTable(task, false, concept.desires, nal.narParameters.CONCEPT_GOALS_MAX,
+                Events.ConceptGoalAdd.class, Events.ConceptGoalRemove.class);
         InternalExperience.InternalExperienceFromTask(concept.memory, task, false, nal.time);
-        if(!(task.sentence.getTerm() instanceof Operation)) {
+        if (!(task.sentence.getTerm() instanceof Operation)) {
             return;
         }
         processOperationGoal(projectedGoal, nal, concept, oldGoalT, task);
@@ -175,32 +181,35 @@ public class ProcessGoal {
      * only called by processGoal
      *
      * @param projectedGoal The current goal
-     * @param nal The derivation context
-     * @param concept The concept of the current goal
-     * @param oldGoalT The best goal in the goal table
-     * @param task The goal task
+     * @param nal           The derivation context
+     * @param concept       The concept of the current goal
+     * @param oldGoalT      The best goal in the goal table
+     * @param task          The goal task
      */
-    protected static void processOperationGoal(final Sentence projectedGoal, final DerivationContext nal, final Concept concept, final Task oldGoalT, final Task task) {
-        if(projectedGoal.truth.getExpectation() > nal.narParameters.DECISION_THRESHOLD) {
-            //see whether the goal evidence is fully included in the old goal, if yes don't execute
-            //as execution for this reason already happened (or did not since there was evidence against it)
+    protected static void processOperationGoal(final Sentence projectedGoal, final DerivationContext nal,
+            final Concept concept, final Task oldGoalT, final Task task) {
+        if (projectedGoal.truth.getExpectation() > nal.narParameters.DECISION_THRESHOLD) {
+            // see whether the goal evidence is fully included in the old goal, if yes don't
+            // execute
+            // as execution for this reason already happened (or did not since there was
+            // evidence against it)
             final Set<BaseEntry> oldEvidence = new LinkedHashSet<>();
-            boolean Subset=false;
-            if(oldGoalT != null) {
+            boolean Subset = false;
+            if (oldGoalT != null) {
                 Subset = true;
-                for(final BaseEntry l: oldGoalT.sentence.stamp.evidentialBase) {
+                for (final BaseEntry l : oldGoalT.sentence.stamp.evidentialBase) {
                     oldEvidence.add(l);
                 }
-                for(final BaseEntry l: task.sentence.stamp.evidentialBase) {
-                    if(!oldEvidence.contains(l)) {
+                for (final BaseEntry l : task.sentence.stamp.evidentialBase) {
+                    if (!oldEvidence.contains(l)) {
                         Subset = false;
                         break;
                     }
                 }
             }
-            if(!Subset && !executeOperation(nal, task)) {
+            if (!Subset && !executeOperation(nal, task)) {
                 concept.memory.emit(Events.UnexecutableGoal.class, task, concept, nal);
-                return; //it was made true by itself
+                return; // it was made true by itself
             }
         }
     }
@@ -210,40 +219,43 @@ public class ProcessGoal {
      * only called by processGoal
      *
      * @param task the task for which the question should be processed
-     * @param nal The derivation context
+     * @param nal  The derivation context
      */
     public static void questionFromGoal(final Task task, final DerivationContext nal) {
-        if(nal.narParameters.QUESTION_GENERATION_ON_DECISION_MAKING || nal.narParameters.HOW_QUESTION_GENERATION_ON_DECISION_MAKING) {
-            //ok, how can we achieve it? add a question of whether it is fullfilled
-            final List<Term> qu= new ArrayList<>();
-            if(nal.narParameters.HOW_QUESTION_GENERATION_ON_DECISION_MAKING) {
-                if(!(task.sentence.term instanceof Equivalence) && !(task.sentence.term instanceof Implication)) {
-                    final Variable how=new Variable("?how");
-                    //Implication imp=Implication.make(how, task.sentence.term, TemporalRules.ORDER_CONCURRENT);
-                    final Implication imp2=Implication.make(how, task.sentence.term, TemporalRules.ORDER_FORWARD);
-                    //qu.add(imp);
-                    if(!(task.sentence.term instanceof Operation)) {
+        if (nal.narParameters.QUESTION_GENERATION_ON_DECISION_MAKING
+                || nal.narParameters.HOW_QUESTION_GENERATION_ON_DECISION_MAKING) {
+            // ok, how can we achieve it? add a question of whether it is fullfilled
+            final List<Term> qu = new ArrayList<>();
+            if (nal.narParameters.HOW_QUESTION_GENERATION_ON_DECISION_MAKING) {
+                if (!(task.sentence.term instanceof Equivalence) && !(task.sentence.term instanceof Implication)) {
+                    final Variable how = new Variable("?how");
+                    // Implication imp=Implication.make(how, task.sentence.term,
+                    // TemporalRules.ORDER_CONCURRENT);
+                    final Implication imp2 = Implication.make(how, task.sentence.term, TemporalRules.ORDER_FORWARD);
+                    // qu.add(imp);
+                    if (!(task.sentence.term instanceof Operation)) {
                         qu.add(imp2);
                     }
                 }
             }
-            if(nal.narParameters.QUESTION_GENERATION_ON_DECISION_MAKING) {
+            if (nal.narParameters.QUESTION_GENERATION_ON_DECISION_MAKING) {
                 qu.add(task.sentence.term);
             }
-            for(final Term q : qu) {
-                if(q!=null) {
+            for (final Term q : qu) {
+                if (q != null) {
                     final Stamp st = new Stamp(task.sentence.stamp, nal.time.time());
-                    st.setOccurrenceTime(task.sentence.getOccurenceTime()); //set tense of question to goal tense
+                    st.setOccurrenceTime(task.sentence.getOccurenceTime()); // set tense of question to goal tense
                     final Sentence s = new Sentence(
-                        q,
-                        Symbols.QUESTION_MARK,
-                        null,
-                        st);
+                            q,
+                            Symbols.QUESTION_MARK,
+                            null,
+                            st);
 
-                    if(s!=null) {
-                        final BudgetValue budget=new BudgetValue(task.getPriority()*nal.narParameters.CURIOSITY_DESIRE_PRIORITY_MUL,
-                            task.getDurability()*nal.narParameters.CURIOSITY_DESIRE_DURABILITY_MUL,
-                            1, nal.narParameters);
+                    if (s != null) {
+                        final BudgetValue budget = new BudgetValue(
+                                task.getPriority() * nal.narParameters.CURIOSITY_DESIRE_PRIORITY_MUL,
+                                task.getDurability() * nal.narParameters.CURIOSITY_DESIRE_DURABILITY_MUL,
+                                1, nal.narParameters);
                         nal.singlePremiseTask(s, budget);
                     }
                 }
@@ -259,153 +271,176 @@ public class ProcessGoal {
         public long mintime = -1;
         public long maxtime = -1;
         public float timeOffset;
-        public Map<Term,Term> substitution;
+        public Map<Term, Term> substitution;
     }
 
     /**
      * When a goal is processed, use the best memorized reaction
-     * that is applicable to the current context (recent events) in case that it exists.
-     * This is a special case of the choice rule and allows certain behaviors to be automated.
+     * that is applicable to the current context (recent events) in case that it
+     * exists.
+     * This is a special case of the choice rule and allows certain behaviors to be
+     * automated.
      *
-     * @param concept The concept of the goal to realize
-     * @param nal The derivation context
+     * @param concept       The concept of the goal to realize
+     * @param nal           The derivation context
      * @param projectedGoal The current goal
-     * @param task The goal task
+     * @param task          The goal task
      */
-    public static void bestReactionForGoal(final Concept concept, final DerivationContext nal, final Sentence projectedGoal, final Task task) {
-        concept.incAcquiredQuality(); //useful as it is represents a goal concept that can hold important procedure knowledge
-        //1. pull up variable based preconditions from component concepts without replacing them
+    public static void bestReactionForGoal(final Concept concept, final DerivationContext nal,
+            final Sentence projectedGoal, final Task task) {
+        concept.incAcquiredQuality(); // useful as it is represents a goal concept that can hold important procedure
+                                      // knowledge
+        // 1. pull up variable based preconditions from component concepts without
+        // replacing them
         Map<Term, Integer> ret = (projectedGoal.getTerm()).countTermRecursively(null);
         List<Task> generalPreconditions = new ArrayList<>();
-        for(Term t : ret.keySet()) {
-            final Concept get_concept = nal.memory.concept(t); //the concept to pull preconditions from
-            if(get_concept == null || get_concept == concept) { //target concept does not exist or is the same as the goal concept
+        for (Term t : ret.keySet()) {
+            final Concept get_concept = nal.memory.concept(t); // the concept to pull preconditions from
+            if (get_concept == null || get_concept == concept) { // target concept does not exist or is the same as the
+                                                                 // goal concept
                 continue;
             }
-            //pull variable based preconditions from component concepts
-            synchronized(get_concept) {
+            // pull variable based preconditions from component concepts
+            synchronized (get_concept) {
                 boolean useful_component = false;
-                for(Task precon : get_concept.general_executable_preconditions) {
-                    //check whether the conclusion matches
-                    if(Variables.findSubstitute(nal.memory.randomNumber, Symbols.VAR_INDEPENDENT, ((Implication)precon.sentence.term).getPredicate(), projectedGoal.term, new LinkedHashMap<>(), new LinkedHashMap<>())) {
-                        for(Task prec : get_concept.general_executable_preconditions) {
+                for (Task precon : get_concept.general_executable_preconditions) {
+                    // check whether the conclusion matches
+                    if (Variables.findSubstitute(nal.memory.randomNumber, Symbols.VAR_INDEPENDENT,
+                            ((Implication) precon.sentence.term).getPredicate(), projectedGoal.term,
+                            new LinkedHashMap<>(), new LinkedHashMap<>())) {
+                        for (Task prec : get_concept.general_executable_preconditions) {
                             generalPreconditions.add(prec);
                             useful_component = true;
                         }
                     }
                 }
-                if(useful_component) {
-                    get_concept.incAcquiredQuality(); //useful as it contributed predictive hypotheses
+                if (useful_component) {
+                    get_concept.incAcquiredQuality(); // useful as it contributed predictive hypotheses
                 }
             }
         }
-        //2. Accumulate all general preconditions of itself too and create list for anticipations
+        // 2. Accumulate all general preconditions of itself too and create list for
+        // anticipations
         generalPreconditions.addAll(concept.general_executable_preconditions);
-        Map<Operation,List<ExecutablePrecondition>> anticipationsToMake = new LinkedHashMap<>();
-        //3. For the more specific hypotheses first and then the general
-        for(List<Task> table : new List[] {concept.executable_preconditions, generalPreconditions}) {
-            //4. Apply choice rule, using the highest truth expectation solution and anticipate the results
-            ExecutablePrecondition bestOpWithMeta = calcBestExecutablePrecondition(nal, concept, projectedGoal, table, anticipationsToMake);
-            //5. And executing it, also forming an expectation about the result
-            if(executePrecondition(nal, bestOpWithMeta, concept, projectedGoal, task)) {
+        Map<Operation, List<ExecutablePrecondition>> anticipationsToMake = new LinkedHashMap<>();
+        // 3. For the more specific hypotheses first and then the general
+        for (List<Task> table : new List[] { concept.executable_preconditions, generalPreconditions }) {
+            // 4. Apply choice rule, using the highest truth expectation solution and
+            // anticipate the results
+            ExecutablePrecondition bestOpWithMeta = calcBestExecutablePrecondition(nal, concept, projectedGoal, table,
+                    anticipationsToMake);
+            // 5. And executing it, also forming an expectation about the result
+            if (executePrecondition(nal, bestOpWithMeta, concept, projectedGoal, task)) {
                 Concept op = nal.memory.concept(bestOpWithMeta.bestop);
-                if(op != null && bestOpWithMeta.executable_precond.sentence.truth.getConfidence() > nal.narParameters.MOTOR_BABBLING_CONFIDENCE_THRESHOLD) {
-                    synchronized(op) {
+                if (op != null && bestOpWithMeta.executable_precond.sentence.truth
+                        .getConfidence() > nal.narParameters.MOTOR_BABBLING_CONFIDENCE_THRESHOLD) {
+                    synchronized (op) {
                         op.allowBabbling = false;
                     }
                 }
                 System.out.println("Executed based on: " + bestOpWithMeta.executable_precond);
-                for(ExecutablePrecondition precon : anticipationsToMake.get(bestOpWithMeta.bestop)) {
+                for (ExecutablePrecondition precon : anticipationsToMake.get(bestOpWithMeta.bestop)) {
                     float distance = precon.timeOffset - nal.time.time();
-                    float urgency = 2.0f + 1.0f/distance;
+                    float urgency = 2.0f + 1.0f / distance;
 
-                    ProcessAnticipation.anticipate(nal, precon.executable_precond.sentence, precon.executable_precond.budget, precon.mintime, precon.maxtime, urgency, precon.substitution);
+                    ProcessAnticipation.anticipate(nal, precon.executable_precond.sentence,
+                            precon.executable_precond.budget, precon.mintime, precon.maxtime, urgency,
+                            precon.substitution);
                 }
-                return; //don't try the other table as a specific solution was already used
+                return; // don't try the other table as a specific solution was already used
             }
         }
     }
 
     /**
-     * Search for the best precondition that best matches recent events, and is most successful in leading to goal fulfilment
+     * Search for the best precondition that best matches recent events, and is most
+     * successful in leading to goal fulfilment
      *
-     * @param nal The derivation context
-     * @param concept The goal concept
-     * @param projectedGoal The goal projected to the current time
-     * @param execPreconditions The procedural hypotheses with the executable preconditions
+     * @param nal               The derivation context
+     * @param concept           The goal concept
+     * @param projectedGoal     The goal projected to the current time
+     * @param execPreconditions The procedural hypotheses with the executable
+     *                          preconditions
      * @return The procedural hypothesis with the highest result truth expectation
      */
-    private static ExecutablePrecondition calcBestExecutablePrecondition(final DerivationContext nal, final Concept concept, final Sentence projectedGoal, List<Task> execPreconditions, Map<Operation,List<ExecutablePrecondition>> anticipationsToMake) {
+    private static ExecutablePrecondition calcBestExecutablePrecondition(final DerivationContext nal,
+            final Concept concept, final Sentence projectedGoal, List<Task> execPreconditions,
+            Map<Operation, List<ExecutablePrecondition>> anticipationsToMake) {
         ExecutablePrecondition result = new ExecutablePrecondition();
-        for(final Task t: execPreconditions) {
+        for (final Task t : execPreconditions) {
             final CompoundTerm precTerm = ((Conjunction) ((Implication) t.getTerm()).getSubject());
             final Term[] prec = precTerm.term;
-            final Term[] newprec = new Term[prec.length-3];
+            final Term[] newprec = new Term[prec.length - 3];
             System.arraycopy(prec, 0, newprec, 0, prec.length - 3);
-            float timeOffset = (long) (((Interval)prec[prec.length-1]).time);
+            float timeOffset = (long) (((Interval) prec[prec.length - 1]).time);
             float timeWindowHalf = timeOffset * nal.narParameters.ANTICIPATION_TOLERANCE;
-            final Operation op = (Operation) prec[prec.length-2];
-            final Term precondition = Conjunction.make(newprec,TemporalRules.ORDER_FORWARD);
+            final Operation op = (Operation) prec[prec.length - 2];
+            final Term precondition = Conjunction.make(newprec, TemporalRules.ORDER_FORWARD);
             long newesttime = -1;
             Task bestsofar = null;
             List<Float> prec_intervals = new ArrayList<>();
-            for(Long l : CompoundTerm.extractIntervals(nal.memory, precTerm)) {
+            for (Long l : CompoundTerm.extractIntervals(nal.memory, precTerm)) {
                 prec_intervals.add((float) l);
             }
-            Map<Term,Term> subsconc = new LinkedHashMap<>();
+            Map<Term, Term> subsconc = new LinkedHashMap<>();
             boolean conclusionMatches = Variables.findSubstitute(nal.memory.randomNumber, Symbols.VAR_INDEPENDENT,
-                            CompoundTerm.replaceIntervals(((Implication) t.getTerm()).getPredicate()),
-                            CompoundTerm.replaceIntervals(projectedGoal.getTerm()), subsconc, new LinkedHashMap<>());
-            //ok we can look now how much it is fullfilled
-            //check recent events in event bag
-            Map<Term,Term> subsBest = new LinkedHashMap<>();
-            synchronized(concept.memory.seq_current) {
-                for(final Task p : concept.memory.seq_current) {
-                    if(p.sentence.isJudgment() && !p.sentence.isEternal() && p.sentence.getOccurenceTime() > newesttime && p.sentence.getOccurenceTime() <= nal.time.time()) {
-                        Map<Term,Term> subs = new LinkedHashMap<>(subsconc);
-                        boolean preconditionMatches = Variables.findSubstitute(nal.memory.randomNumber, Symbols.VAR_INDEPENDENT,
-                            CompoundTerm.replaceIntervals(precondition),
-                            CompoundTerm.replaceIntervals(p.sentence.term), subs, new LinkedHashMap<>());
-                        if(preconditionMatches && conclusionMatches){
-                            Task pNew = new Task(p.sentence.clone(), p.budget.clone(), p.isInput() ? Task.EnumType.INPUT : Task.EnumType.DERIVED);
+                    CompoundTerm.replaceIntervals(((Implication) t.getTerm()).getPredicate()),
+                    CompoundTerm.replaceIntervals(projectedGoal.getTerm()), subsconc, new LinkedHashMap<>());
+            // ok we can look now how much it is fullfilled
+            // check recent events in event bag
+            Map<Term, Term> subsBest = new LinkedHashMap<>();
+            synchronized (concept.memory.seq_current) {
+                for (final Task p : concept.memory.seq_current) {
+                    if (p.sentence.isJudgment() && !p.sentence.isEternal() && p.sentence.getOccurenceTime() > newesttime
+                            && p.sentence.getOccurenceTime() <= nal.time.time()) {
+                        Map<Term, Term> subs = new LinkedHashMap<>(subsconc);
+                        boolean preconditionMatches = Variables.findSubstitute(nal.memory.randomNumber,
+                                Symbols.VAR_INDEPENDENT,
+                                CompoundTerm.replaceIntervals(precondition),
+                                CompoundTerm.replaceIntervals(p.sentence.term), subs, new LinkedHashMap<>());
+                        if (preconditionMatches && conclusionMatches) {
+                            Task pNew = new Task(p.sentence.clone(), p.budget.clone(),
+                                    p.isInput() ? Task.EnumType.INPUT : Task.EnumType.DERIVED);
                             newesttime = p.sentence.getOccurenceTime();
-                            //Apply interval penalty for interval differences in the precondition
-                            LocalRules.intervalProjection(nal, pNew.sentence.term, precondition, prec_intervals, pNew.sentence.truth);
+                            // Apply interval penalty for interval differences in the precondition
+                            LocalRules.intervalProjection(nal, pNew.sentence.term, precondition, prec_intervals,
+                                    pNew.sentence.truth);
                             bestsofar = pNew;
                             subsBest = subs;
                         }
                     }
                 }
             }
-            if(bestsofar == null) {
+            if (bestsofar == null) {
                 continue;
             }
-            //ok now we can take the desire value:
+            // ok now we can take the desire value:
             final TruthValue A = projectedGoal.getTruth();
-            //and the truth of the hypothesis:
+            // and the truth of the hypothesis:
             final TruthValue Hyp = t.sentence.truth;
-            //and derive the conjunction of the left side:
+            // and derive the conjunction of the left side:
             final TruthValue leftside = TruthFunctions.desireDed(A, Hyp, concept.memory.narParameters);
-            //overlap will almost never happen, but to make sure
-            if(Stamp.baseOverlap(projectedGoal.stamp, t.sentence.stamp) ||
-                Stamp.baseOverlap(bestsofar.sentence.stamp, t.sentence.stamp) ||
-                Stamp.baseOverlap(projectedGoal.stamp, bestsofar.sentence.stamp)) {
+            // overlap will almost never happen, but to make sure
+            if (Stamp.baseOverlap(projectedGoal.stamp, t.sentence.stamp) ||
+                    Stamp.baseOverlap(bestsofar.sentence.stamp, t.sentence.stamp) ||
+                    Stamp.baseOverlap(projectedGoal.stamp, bestsofar.sentence.stamp)) {
                 continue;
             }
-            //and the truth of the precondition:
-            final Sentence projectedPrecon = bestsofar.sentence.projection(nal.time.time() /*- distance*/, nal.time.time(), concept.memory);
-            if(projectedPrecon.isEternal()) {
-                continue; //projection wasn't better than eternalization, too long in the past
+            // and the truth of the precondition:
+            final Sentence projectedPrecon = bestsofar.sentence.projection(nal.time.time() /*- distance*/,
+                    nal.time.time(), concept.memory);
+            if (projectedPrecon.isEternal()) {
+                continue; // projection wasn't better than eternalization, too long in the past
             }
             final TruthValue precon = projectedPrecon.truth;
 
-            //in order to derive the operator desire value:
+            // in order to derive the operator desire value:
             final TruthValue opdesire = TruthFunctions.desireDed(precon, leftside, concept.memory.narParameters);
             final float expecdesire = opdesire.getExpectation();
-            Operation bestop = (Operation) ((CompoundTerm)op).applySubstitute(subsBest);
+            Operation bestop = (Operation) ((CompoundTerm) op).applySubstitute(subsBest);
             long mintime = (long) (nal.time.time() + timeOffset - timeWindowHalf);
             long maxtime = (long) (nal.time.time() + timeOffset + timeWindowHalf);
-            if(expecdesire > result.bestop_truthexp) {
+            if (expecdesire > result.bestop_truthexp) {
                 result.bestop = bestop;
                 result.bestop_truthexp = expecdesire;
                 result.bestop_truth = opdesire;
@@ -414,7 +449,7 @@ public class ProcessGoal {
                 result.mintime = mintime;
                 result.maxtime = maxtime;
                 result.timeOffset = timeOffset;
-                if(anticipationsToMake.get(result.bestop) == null) {
+                if (anticipationsToMake.get(result.bestop) == null) {
                     anticipationsToMake.put(result.bestop, new ArrayList<ExecutablePrecondition>());
                 }
                 anticipationsToMake.get(result.bestop).add(result);
@@ -426,25 +461,30 @@ public class ProcessGoal {
     /**
      * Execute the operation suggested by the most applicable precondition
      *
-     * @param nal The derivation context
-     * @param precon The procedural hypothesis leading to goal
-     * @param concept The concept of the goal
+     * @param nal           The derivation context
+     * @param precon        The procedural hypothesis leading to goal
+     * @param concept       The concept of the goal
      * @param projectedGoal The goal projected to the current time
-     * @param task The goal task
+     * @param task          The goal task
      */
-    private static boolean executePrecondition(final DerivationContext nal, ExecutablePrecondition precon, final Concept concept, final Sentence projectedGoal, final Task task) {
-        if(precon.bestop != null && precon.bestop_truthexp > nal.narParameters.DECISION_THRESHOLD /*&& Math.random() < bestop_truthexp */) {
+    private static boolean executePrecondition(final DerivationContext nal, ExecutablePrecondition precon,
+            final Concept concept, final Sentence projectedGoal, final Task task) {
+        if (precon.bestop != null && precon.bestop_truthexp > nal.narParameters.DECISION_THRESHOLD /*
+                                                                                                    * && Math.random() <
+                                                                                                    * bestop_truthexp
+                                                                                                    */) {
             final Sentence createdSentence = new Sentence(
-                precon.bestop,
-                Symbols.GOAL_MARK,
-                precon.bestop_truth,
-                projectedGoal.stamp);
+                    precon.bestop,
+                    Symbols.GOAL_MARK,
+                    precon.bestop_truth,
+                    projectedGoal.stamp);
             final Task t = new Task(createdSentence,
-                new BudgetValue(1.0f,1.0f,1.0f, nal.narParameters),
-                Task.EnumType.DERIVED);
-            //System.out.println("used " +t.getTerm().toString() + String.valueOf(nal.memory.randomNumber.nextInt()));
-            if(!task.sentence.stamp.evidenceIsCyclic()) {
-                if(!executeOperation(nal, t)) { //this task is just used as dummy
+                    new BudgetValue(1.0f, 1.0f, 1.0f, nal.narParameters),
+                    Task.EnumType.DERIVED);
+            // System.out.println("used " +t.getTerm().toString() +
+            // String.valueOf(nal.memory.randomNumber.nextInt()));
+            if (!task.sentence.stamp.evidenceIsCyclic()) {
+                if (!executeOperation(nal, t)) { // this task is just used as dummy
                     concept.memory.emit(Events.UnexecutableGoal.class, task, concept, nal);
                     return false;
                 }
@@ -459,34 +499,34 @@ public class ProcessGoal {
      * Returns true if the Task has a Term which can be executed
      *
      * @param nal The derivation concept
-     * @param t The operation goal task
+     * @param t   The operation goal task
      */
     public static boolean executeOperation(final DerivationContext nal, final Task t) {
         final Term content = t.getTerm();
-        if(!(nal.memory.allowExecution) || !(content instanceof Operation)) {
+        if (!(nal.memory.allowExecution) || !(content instanceof Operation)) {
             return false;
         }
-        final Operation op=(Operation)content;
+        final Operation op = (Operation) content;
         final Operator oper = op.getOperator();
         final Product prod = (Product) op.getSubject();
         final Term arg = prod.term[0];
-        if(oper instanceof FunctionOperator) {
-            for(int i=0;i<prod.term.length-1;i++) { //except last one, the output arg
-                if(prod.term[i].hasVarDep() || prod.term[i].hasVarIndep()) {
+        if (oper instanceof FunctionOperator) {
+            for (int i = 0; i < prod.term.length - 1; i++) { // except last one, the output arg
+                if (prod.term[i].hasVarDep() || prod.term[i].hasVarIndep()) {
                     return false;
                 }
             }
         } else {
-            if(content.hasVarDep() || content.hasVarIndep()) {
+            if (content.hasVarDep() || content.hasVarIndep()) {
                 return false;
             }
         }
-        if(!arg.equals(Term.SELF)) { //will be deprecated in the future
+        if (!arg.equals(Term.SELF)) { // will be deprecated in the future
             return false;
         }
 
         op.setTask(t);
-        if(!oper.call(op, nal.memory, nal.time)) {
+        if (!oper.call(op, nal.memory, nal.time)) {
             return false;
         }
         if (Debug.DETAILED) {

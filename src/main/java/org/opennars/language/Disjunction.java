@@ -29,7 +29,7 @@ import org.opennars.main.Debug;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 
+/**
  * A disjunction of Statements as defined in the NARS-theory
  *
  * @author Pei Wang
@@ -39,18 +39,22 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
+     * 
      * @param arg The component list of the term
      */
     private Disjunction(final Term[] arg) {
         super(arg);
-        
-        if (Debug.DETAILED) { Terms.verifySortedAndUnique(arg, false);         }        
-        
+
+        if (Debug.DETAILED) {
+            Terms.verifySortedAndUnique(arg, false);
+        }
+
         init(arg);
     }
-    
+
     /**
      * Clone an object
+     * 
      * @return A new object
      */
     @Override
@@ -60,15 +64,15 @@ public class Disjunction extends CompoundTerm {
 
     @Override
     public Term clone(final Term[] x) {
-        if(x == null) {
+        if (x == null) {
             return null;
         }
         return make(x);
     }
-    
-    
+
     /**
      * Try to make a new Disjunction from two term. Called by the inference rules.
+     * 
      * @param term1 The first component
      * @param term2 The first component
      * @return A Disjunction generated or a Term it reduced to
@@ -80,15 +84,14 @@ public class Disjunction extends CompoundTerm {
             if (term2 instanceof Disjunction) {
                 // (&,(&,P,Q),(&,R,S)) = (&,P,Q,R,S)
                 set.addAll(((CompoundTerm) term2).asTermList());
-            } 
-            else {
+            } else {
                 // (&,(&,P,Q),R) = (&,P,Q,R)
                 set.add(term2);
-            }                          
+            }
         } else if (term2 instanceof Disjunction) {
             // (&,R,(&,P,Q)) = (&,P,Q,R)
             set.addAll(((CompoundTerm) term2).asTermList());
-            set.add(term1);                              
+            set.add(term1);
         } else {
             set.add(term1);
             set.add(term2);
@@ -96,21 +99,22 @@ public class Disjunction extends CompoundTerm {
         return make(set.toArray(new Term[0]));
     }
 
-
     public static Term make(Term[] t) {
         t = Term.toSortedSetArray(t);
-        
-        if (t.length == 0) return null;
+
+        if (t.length == 0)
+            return null;
         if (t.length == 1) {
             // special case: single component
             return t[0];
-        }                         
-        
+        }
+
         return new Disjunction(t);
     }
-    
+
     /**
      * Get the operator of the term.
+     * 
      * @return the operator of the term
      */
     @Override
@@ -120,6 +124,7 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Disjunction is commutative.
+     * 
      * @return true for commutative
      */
     @Override

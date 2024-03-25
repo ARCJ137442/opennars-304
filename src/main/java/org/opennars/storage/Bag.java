@@ -33,9 +33,9 @@ import org.opennars.main.Parameters;
  * Original Bag implementation which distributes items into
  * discrete levels (queues) according to priority
  */
-public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>  {
-    
-       /** priority levels */
+public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type> {
+
+    /** priority levels */
     private final int TOTAL_LEVEL;
     /** firing threshold */
     private final int THRESHOLD;
@@ -55,7 +55,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
     private int currentLevel;
     /** maximum number of items to be taken out at current level */
     private int currentCounter;
-    
+
     public Bag(final int levels, final int capacity, Parameters narParameters) {
         this(levels, capacity, (int) (narParameters.BAG_THRESHOLD * levels));
     }
@@ -63,13 +63,13 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
     /** thresholdLevel = 0 disables "fire level completely" threshold effect */
     public Bag(final int levels, final int capacity, final int thresholdLevel) {
         this.TOTAL_LEVEL = levels;
-        DISTRIBUTOR = new Distributor(TOTAL_LEVEL); 
+        DISTRIBUTOR = new Distributor(TOTAL_LEVEL);
         this.THRESHOLD = thresholdLevel;
         this.capacity = capacity;
         clear();
     }
-    
-     public void clear() {
+
+    public void clear() {
         itemTable = new ArrayList<ArrayList<Type>>(TOTAL_LEVEL);
         for (int i = 0; i < TOTAL_LEVEL; i++) {
             itemTable.add(new ArrayList<Type>());
@@ -83,6 +83,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Get the average priority of Items
+     * 
      * @return The average priority of Items in the bag
      */
     public float getAveragePriority() {
@@ -98,6 +99,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Check if an item is in the bag
+     * 
      * @param it An item
      * @return Whether the Item is in the Bag
      */
@@ -107,6 +109,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Get an Item by key
+     * 
      * @param key The key of the Item
      * @return The Item with the given key
      */
@@ -116,18 +119,19 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Add a new Item into the Bag
+     * 
      * @param newItem The new Item
      * @return Whether the new Item is added into the Bag
      */
     public Type putIn(Type newItem) {
         K newKey = newItem.name();
         Type oldItem = nameTable.put(newKey, newItem);
-        if (oldItem != null) {                  // merge duplications
+        if (oldItem != null) { // merge duplications
             outOfBase(oldItem);
             newItem.merge(oldItem);
         }
-        Type overflowItem = intoBase(newItem);  // put the (new or merged) item into itemTable
-        if (overflowItem != null) {             // remove overflow
+        Type overflowItem = intoBase(newItem); // put the (new or merged) item into itemTable
+        if (overflowItem != null) { // remove overflow
             K overflowKey = overflowItem.name();
             nameTable.remove(overflowKey);
             return overflowItem;
@@ -135,16 +139,16 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
             return null;
         }
     }
-    
+
     /**
      * Put an item back into the itemTable
      * <p>
      * The only place where the forgetting rate is applied
      *
      * @param oldItem The Item to put back
-     * @param m related memory
+     * @param m       related memory
      * @return the item which was removed, or null if none removed
-     */    
+     */
     public Type putBack(final Type oldItem, final float forgetCycles, final Memory m) {
         final float relativeThreshold = m.narParameters.FORGET_QUALITY_RELATIVE;
         BudgetFunctions.applyForgetting(oldItem.budget, forgetCycles, relativeThreshold);
@@ -153,6 +157,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Choose an Item according to priority distribution and take it out of the Bag
+     * 
      * @return The selected Item
      */
     public Type takeOut() {
@@ -162,19 +167,19 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
         if (emptyLevel(currentLevel) || (currentCounter == 0)) { // done with the current level
             currentLevel = DISTRIBUTOR.pick(levelIndex);
             levelIndex = DISTRIBUTOR.next(levelIndex);
-            while (emptyLevel(currentLevel)) {          // look for a non-empty level
+            while (emptyLevel(currentLevel)) { // look for a non-empty level
                 currentLevel = DISTRIBUTOR.pick(levelIndex);
                 levelIndex = DISTRIBUTOR.next(levelIndex);
             }
             if (currentLevel < THRESHOLD) { // for dormant levels, take one item
                 currentCounter = 1;
-            } else {                  // for active levels, take all current items
+            } else { // for active levels, take all current items
                 currentCounter = itemTable.get(currentLevel).size();
             }
         }
         Type selected = takeOutFirst(currentLevel); // take out the first item in the level
         int belongingLevel = getLevel(selected);
-        if(currentLevel != belongingLevel) {
+        if (currentLevel != belongingLevel) {
             intoBase(selected);
             return takeOut();
         }
@@ -185,6 +190,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Pick an item by key, then remove it from the bag
+     * 
      * @param key The given key
      * @return The Item with the key
      */
@@ -196,12 +202,14 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
         }
         return picked;
     }
+
     public Type pickOut(Type val) {
         return pickOut(val.name());
     }
 
     /**
      * Check whether a level is empty
+     * 
      * @param n The level index
      * @return Whether that level is empty
      */
@@ -211,41 +219,44 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Decide the put-in level according to priority
+     * 
      * @param item The Item to put in
      * @return The put-in level
      */
     private int getLevel(Type item) {
         float fl = item.getPriority() * TOTAL_LEVEL;
         int level = (int) Math.ceil(fl) - 1;
-        return (level < 0) ? 0 : level;     // cannot be -1
+        return (level < 0) ? 0 : level; // cannot be -1
     }
 
     /**
      * Insert an item into the itemTable, and return the overflow
+     * 
      * @param newItem The Item to put in
      * @return The overflow Item
      */
     private Type intoBase(Type newItem) {
         Type oldItem = null;
         int inLevel = getLevel(newItem);
-        if (nameTable.size() > capacity) {      // the bag is full
+        if (nameTable.size() > capacity) { // the bag is full
             int outLevel = 0;
             while (emptyLevel(outLevel)) {
                 outLevel++;
             }
-            if (outLevel > inLevel) {           // ignore the item and exit
+            if (outLevel > inLevel) { // ignore the item and exit
                 return newItem;
-            } else {                            // remove an old item in the lowest non-empty level
+            } else { // remove an old item in the lowest non-empty level
                 oldItem = takeOutFirst(outLevel);
             }
         }
-        itemTable.get(inLevel).add(newItem);        // FIFO
-        mass += (inLevel + 1);                  // increase total mass
-        return oldItem;		// TODO return null is a bad smell
+        itemTable.get(inLevel).add(newItem); // FIFO
+        mass += (inLevel + 1); // increase total mass
+        return oldItem; // TODO return null is a bad smell
     }
 
     /**
      * Take out the first or last Type in a level from the itemTable
+     * 
      * @param level The current level
      * @return The first Item
      */
@@ -258,6 +269,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
 
     /**
      * Remove an item from itemTable, then adjust mass
+     * 
      * @param oldItem The Item to be removed
      */
     protected void outOfBase(Type oldItem) {
@@ -272,7 +284,7 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
     @Override
     public String toString() {
         StringBuffer buf = new StringBuffer(" ");
-	for (int i = TOTAL_LEVEL; i >= 0 ; i--) {
+        for (int i = TOTAL_LEVEL; i >= 0; i--) {
             if (!emptyLevel(i - 1)) {
                 buf = buf.append("\n --- Level " + i + ":\n ");
                 for (int j = 0; j < itemTable.get(i - 1).size(); j++) {
@@ -282,12 +294,12 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
         }
         return buf.toString();
     }
-    
+
     /** TODO bad paste from preceding */
     public String toStringLong() {
-        StringBuffer buf = new StringBuffer(" BAG " + getClass().getSimpleName() );
-        buf.append(" ").append( showSizes() );
-		for (int i = TOTAL_LEVEL; i >= 0; i--) {
+        StringBuffer buf = new StringBuffer(" BAG " + getClass().getSimpleName());
+        buf.append(" ").append(showSizes());
+        for (int i = TOTAL_LEVEL; i >= 0; i--) {
             if (!emptyLevel(i - 1)) {
                 buf = buf.append("\n --- LEVEL " + i + ":\n ");
                 for (int j = 0; j < itemTable.get(i - 1).size(); j++) {
@@ -295,23 +307,23 @@ public class Bag<Type extends Item<K>,K> implements Serializable, Iterable<Type>
                 }
             }
         }
-		buf.append(">>>> end of Bag").append( getClass().getSimpleName() );
+        buf.append(">>>> end of Bag").append(getClass().getSimpleName());
         return buf.toString();
     }
-    
+
     String showSizes() {
         StringBuilder buf = new StringBuilder(" ");
-    	int levels = 0;
-    	for ( ArrayList<Type> items : itemTable) {
-            if ((items != null) && ! items.isEmpty()) {
-				levels++;
-				buf.append( items.size() ).append( " " );
+        int levels = 0;
+        for (ArrayList<Type> items : itemTable) {
+            if ((items != null) && !items.isEmpty()) {
+                levels++;
+                buf.append(items.size()).append(" ");
             }
-		}
-    	return "Levels: " + Integer.toString( levels ) + ", sizes: " + buf;
+        }
+        return "Levels: " + Integer.toString(levels) + ", sizes: " + buf;
     }
-    
-    public int size() { 
+
+    public int size() {
         return nameTable.size();
     }
 

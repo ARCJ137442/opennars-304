@@ -41,24 +41,27 @@ import static org.opennars.perf.NALStressMeasure.perfNAL;
  * Runs NALTestPerf continuously, for profiling
  */
 public class NALPerfLoop {
-    
-    public static void main(final String[] args) throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
-       
+
+    public static void main(final String[] args)
+            throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+
         final int repeats = 2;
         final int warmups = 1;
         final int extraCycles = 2048;
         final int randomExtraCycles = 512;
-          
+
         final Reasoner n = new Nar();
 
         final Collection c = NALTest.params();
         while (true) {
             for (final Object o : c) {
-                final String examplePath = (String)((Object[])o)[0];
+                final String examplePath = (String) ((Object[]) o)[0];
                 Debug.DETAILED = false;
-                
-                perfNAL(n, examplePath,extraCycles+ (int)(Math.random()*randomExtraCycles),repeats,warmups,true);
+
+                perfNAL(n, examplePath, extraCycles + (int) (Math.random() * randomExtraCycles), repeats, warmups,
+                        true);
             }
-        }        
+        }
     }
 }

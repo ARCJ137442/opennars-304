@@ -34,7 +34,8 @@ import java.text.ParseException;
 import java.util.Random;
 
 /**
- * Checks for the stability of the system over a long time period (days, weeks, etc)
+ * Checks for the stability of the system over a long time period (days, weeks,
+ * etc)
  *
  * @author Robert Wünsche
  */
@@ -89,11 +90,12 @@ public class LongTermStability {
         consumer.addInput(String.format("<(*, {%d}, {%d})--> %s>%s :|:", objectId, placeId, relation, taskType));
         consumer.addInput(String.format("<(*, %d, {%d})--> %s>%s :|:", objectId, placeId, relation, taskType));
         // set
-        consumer.addInput(String.format("<(*, {%d, %d}, {%d})--> %s>%s :|:", objectId, objectId + 500000, placeId, relation, taskType));
+        consumer.addInput(String.format("<(*, {%d, %d}, {%d})--> %s>%s :|:", objectId, objectId + 500000, placeId,
+                relation, taskType));
 
         // duplicate set
-        consumer.addInput(String.format("<(*, {%d, %d}, {%d})--> %s>%s :|:", objectId, objectId, placeId, relation, taskType));
-
+        consumer.addInput(
+                String.format("<(*, {%d, %d}, {%d})--> %s>%s :|:", objectId, objectId, placeId, relation, taskType));
 
         consumer.addInput(String.format("<%d --> (/, %s, _, %d)>%s :|:", placeId, relation, objectId, taskType));
         consumer.addInput(String.format("<%d --> (/, %s, %d, _)>%s :|:", objectId, relation, placeId, taskType));
@@ -108,7 +110,9 @@ public class LongTermStability {
         consumer.addInput(String.format("<{%d} --> (/, %s, {%d}, _)>%s :|:", objectId, relation, placeId, taskType));
     }
 
-    public static void main(String[] args) throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    public static void main(String[] args)
+            throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
         Reasoner reasonerUnderTest = new Nar();
         final LongTermStability test = new LongTermStability(reasonerUnderTest);
 

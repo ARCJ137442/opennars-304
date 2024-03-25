@@ -38,11 +38,10 @@ import org.opennars.main.Parameters;
  */
 public class TruthValue implements Cloneable, Serializable { // implements Cloneable {
 
-
     final static Term Truth_TRUE = new Term("TRUE");
     final static Term Truth_FALSE = new Term("FALSE");
     final static Term Truth_UNSURE = new Term("UNSURE");
-    
+
     /**
      * character that marks the two ends of a truth value
      */
@@ -63,21 +62,21 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
      * Whether the truth value is derived from a definition
      */
     private boolean analytic = false;
-    
+
     private Parameters narParameters;
 
     /**
      * @param narParameters parameters of the reasoner
      */
     public TruthValue(Parameters narParameters) {
-        this(0,0, narParameters);
+        this(0, 0, narParameters);
     }
-    
+
     /**
      * Constructor
      *
-     * @param f frequency value
-     * @param c confidence value
+     * @param f             frequency value
+     * @param c             confidence value
      * @param narParameters parameters of the reasoner
      */
     public TruthValue(final float f, final double c, Parameters narParameters) {
@@ -87,15 +86,15 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
     /**
      * Constructor
      *
-     * @param f frequency value
-     * @param c confidence value
-     * @param isAnalytic is the truth value an analytic one?
+     * @param f             frequency value
+     * @param c             confidence value
+     * @param isAnalytic    is the truth value an analytic one?
      * @param narParameters parameters of the reasoner
      */
     public TruthValue(final float f, final double c, final boolean isAnalytic, Parameters narParameters) {
         this.narParameters = narParameters;
-        setFrequency(f);                
-        setConfidence(c);        
+        setFrequency(f);
+        setConfidence(c);
         setAnalytic(isAnalytic);
     }
 
@@ -133,20 +132,20 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
         this.frequency = f;
         return this;
     }
-    
+
     public TruthValue setConfidence(final double c) {
         double max_confidence = 1.0 - this.narParameters.TRUTH_EPSILON;
         this.confidence = (c < max_confidence) ? c : max_confidence;
         return this;
     }
-    
+
     public TruthValue mulConfidence(final float mul) {
         final double max_confidence = 1.0 - this.narParameters.TRUTH_EPSILON;
         final double c = this.confidence * mul;
         this.confidence = (c < max_confidence) ? c : max_confidence;
         return this;
     }
-    
+
     /**
      * @return is it a analytic truth value?
      */
@@ -167,7 +166,7 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
      * @return expectation value
      */
     public float getExpectation() {
-        return ((float)confidence * (frequency - 0.5f) + 0.5f);
+        return ((float) confidence * (frequency - 0.5f) + 0.5f);
     }
 
     /**
@@ -194,7 +193,7 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
         final double d = Math.abs(a - b);
         return (d < epsilon);
     }
-    
+
     /**
      * Compare two truth values
      *
@@ -202,12 +201,11 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
      * @return Whether the two are equivalent
      */
     @Override
-    public boolean equals(final Object that) { 
+    public boolean equals(final Object that) {
         if (that instanceof TruthValue) {
-            final TruthValue t = (TruthValue)that;
-            return
-                isEqual(getFrequency(), t.getFrequency(), this.narParameters.TRUTH_EPSILON) &&
-                isEqual(getConfidence(), t.getConfidence(), this.narParameters.TRUTH_EPSILON);
+            final TruthValue t = (TruthValue) that;
+            return isEqual(getFrequency(), t.getFrequency(), this.narParameters.TRUTH_EPSILON) &&
+                    isEqual(getConfidence(), t.getConfidence(), this.narParameters.TRUTH_EPSILON);
         }
         return false;
     }
@@ -219,15 +217,14 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
      */
     @Override
     public int hashCode() {
-        return ((int)(0xFFFF * this.frequency) << 16) | (int)(0xFFFF * this.confidence);
+        return ((int) (0xFFFF * this.frequency) << 16) | (int) (0xFFFF * this.confidence);
     }
 
     @Override
     public TruthValue clone() {
         return new TruthValue(frequency, confidence, getAnalytic(), this.narParameters);
     }
-    
-    
+
     public TruthValue setAnalytic(final boolean a) {
         analytic = a;
         return this;
@@ -236,28 +233,30 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
     /**
      * A simplified String representation of a TruthValue
      */
-    public StringBuilder appendString(final StringBuilder sb, final boolean external) {        
+    public StringBuilder appendString(final StringBuilder sb, final boolean external) {
         sb.ensureCapacity(11);
         return sb
-            .append(DELIMITER)
-            .append(Texts.n2(frequency))
-            .append(SEPARATOR)
-            .append(Texts.n2(confidence))
-            .append(DELIMITER);        
+                .append(DELIMITER)
+                .append(Texts.n2(frequency))
+                .append(SEPARATOR)
+                .append(Texts.n2(confidence))
+                .append(DELIMITER);
     }
 
     public CharSequence name() {
-        final StringBuilder sb =  new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         return appendString(sb, false);
     }
 
     /** output representation */
     public CharSequence toStringExternal() {
-        final StringBuilder sb =  new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         return appendString(sb, true);
     }
+
     /**
-     * Returns a String representation of a TruthValue, as used internally by the system
+     * Returns a String representation of a TruthValue, as used internally by the
+     * system
      *
      * @return String representation
      */
@@ -265,7 +264,7 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
     public String toString() {
         return name().toString();
     }
-    
+
     public Term toWordTerm() {
         final float e = getExpectation();
         final float t = this.narParameters.DEFAULT_CREATION_EXPECTATION;
@@ -277,13 +276,13 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
         }
         return Truth_UNSURE;
     }
-    
+
     public static TruthValue fromWordTerm(Parameters narParameters, Term term) {
-        if(term.equals(Truth_TRUE)) {
+        if (term.equals(Truth_TRUE)) {
             return new TruthValue(1.0f, narParameters.DEFAULT_JUDGMENT_CONFIDENCE, narParameters);
-        } else if(term.equals(Truth_FALSE)) {
+        } else if (term.equals(Truth_FALSE)) {
             return new TruthValue(0.0f, narParameters.DEFAULT_JUDGMENT_CONFIDENCE, narParameters);
-        } else if(term.equals(Truth_UNSURE)) {
+        } else if (term.equals(Truth_UNSURE)) {
             return new TruthValue(0.5f, narParameters.DEFAULT_JUDGMENT_CONFIDENCE / 2.0, narParameters);
         } else {
             return null;

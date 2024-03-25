@@ -29,10 +29,12 @@ package org.opennars.interfaces;
  * @author Robert Wünsche
  */
 public interface NarseseConsumer {
-    // TODO< split this and refactor to interface which can be used by the parser too >
+    // TODO< split this and refactor to interface which can be used by the parser
+    // too >
 
     /**
      * feeds narsese input to the consumer
+     * 
      * @param narsese the narsese text
      */
     void addInput(String narsese);

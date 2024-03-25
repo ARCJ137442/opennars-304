@@ -50,13 +50,16 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
      */
     public final Task targetTask;
     private final int recordLength;
-    
+
     /* Hash of the object */
     public int hash;
-    
-    /* Remember the TermLinks, and when they has been used recently with this TaskLink */
+
+    /*
+     * Remember the TermLinks, and when they has been used recently with this
+     * TaskLink
+     */
     public final static class Recording implements Serializable {
-    
+
         public final TermLink link;
         long time;
 
@@ -72,50 +75,46 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
         public void setTime(final long t) {
             this.time = t;
         }
-        
+
     }
-    
+
     /** The usage record **/
     public final Deque<Recording> records;
-    
-    /** The type of link, one of the above */    
+
+    /** The type of link, one of the above */
     public final short type;
 
-    /** The index of the component in the component list of the compound, may have up to 4 levels */
+    /**
+     * The index of the component in the component list of the compound, may have up
+     * to 4 levels
+     */
     public final short[] index;
-    
+
     /**
      * Constructor
      * <p>
      * only called in Memory.continuedProcess
      *
-     * @param t The target Task
+     * @param t        The target Task
      * @param template The TermLink template
-     * @param v The budget
+     * @param v        The budget
      */
     public TaskLink(final Task t, final TermLink template, final BudgetValue v, final int recordLength) {
         super(v);
-        this.type =
-                template == null ? 
-                        TermLink.SELF : 
-                        template.type;
+        this.type = template == null ? TermLink.SELF : template.type;
         this.index =
-                
-                template == null ?
-                        null : 
-                        template.index
-        ;
-        
+
+                template == null ? null : template.index;
+
         this.targetTask = t;
         this.recordLength = recordLength;
         this.records = new ArrayDeque(recordLength);
-        this.hash = (((targetTask.hashCode() * 31) + type) * 31) + (index!=null ? Arrays.hashCode(index) : 0);
+        this.hash = (((targetTask.hashCode() * 31) + type) * 31) + (index != null ? Arrays.hashCode(index) : 0);
     }
-
 
     @Override
     public int hashCode() {
-        return hash;       
+        return hash;
     }
 
     @Override
@@ -123,19 +122,20 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
         return targetTask;
     }
 
-    
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) return true;
+        if (obj == this)
+            return true;
         if (obj instanceof TaskLink) {
-            final TaskLink t = (TaskLink)obj;
-            return hash==t.hash && type==t.type && Arrays.equals(index, t.index) && targetTask.equals(t.targetTask);
+            final TaskLink t = (TaskLink) obj;
+            return hash == t.hash && type == t.type && Arrays.equals(index, t.index) && targetTask.equals(t.targetTask);
         }
         return false;
-    }    
-    
+    }
+
     /**
      * Get one index by level
+     * 
      * @param i The index level
      * @return The index value
      */
@@ -146,7 +146,7 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
         } else {
             return -1;
         }
-    }             
+    }
 
     /**
      * To check whether a TaskLink should use a TermLink, return false if they
@@ -154,7 +154,7 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
      * <p>
      * called in TermLinkBag only
      *
-     * @param termLink The TermLink to be checked
+     * @param termLink    The TermLink to be checked
      * @param currentTime The current time
      * @return Whether they are novel to each other
      */
@@ -162,23 +162,25 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
         return novel(termLink, currentTime, narParameters, false);
     }
 
-    public boolean novel(final TermLink termLink, final long currentTime, final Parameters narParameters, final boolean transformTask) {
+    public boolean novel(final TermLink termLink, final long currentTime, final Parameters narParameters,
+            final boolean transformTask) {
         final Term bTerm = termLink.target;
-        if (!transformTask && bTerm.equals(targetTask.sentence.term)) {            
+        if (!transformTask && bTerm.equals(targetTask.sentence.term)) {
             return false;
         }
         final TermLink linkKey = termLink.name();
-                
-        //iterating the FIFO deque from oldest (first) to newest (last)
+
+        // iterating the FIFO deque from oldest (first) to newest (last)
         final Iterator<Recording> ir = records.iterator();
         while (ir.hasNext()) {
             final Recording r = ir.next();
             if (linkKey.equals(r.link)) {
                 if (currentTime < r.getTime() + narParameters.NOVELTY_HORIZON) {
-                    //too recent, not novel
+                    // too recent, not novel
                     return false;
                 } else {
-                    //happened long enough ago that we have forgotten it somewhat, making it seem more novel
+                    // happened long enough ago that we have forgotten it somewhat, making it seem
+                    // more novel
                     r.setTime(currentTime);
                     ir.remove();
                     records.addLast(r);
@@ -186,8 +188,9 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
                 }
             }
         }
-        //keep recordedLinks queue a maximum finite size
-        while (records.size() + 1 >= recordLength) records.removeFirst();
+        // keep recordedLinks queue a maximum finite size
+        while (records.size() + 1 >= recordLength)
+            records.removeFirst();
         // add knowledge reference to recordedLinks
         records.addLast(new Recording(linkKey, currentTime));
         return true;
@@ -197,20 +200,21 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
     public String toString() {
         return super.toString() + " " + getTarget().sentence.stamp;
     }
-    
+
     public String toStringBrief() {
         return super.toString();
     }
 
     /**
-    * Get the target Task
-    *
-    * @return The linked Task
-    */
-    @Override public Task getTarget() {
+     * Get the target Task
+     *
+     * @return The linked Task
+     */
+    @Override
+    public Task getTarget() {
         return targetTask;
     }
-    
+
     public Term getTerm() {
         return getTarget().getTerm();
     }

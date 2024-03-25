@@ -41,14 +41,14 @@ public class Symbols {
     public static final char GOAL_MARK = '!';
     public static final char QUEST_MARK = '@';
     public static final char TERM_NORMALIZING_WORKAROUND_MARK = 'T';
-    
+
     /* Tense markers */
     public static final String TENSE_MARK = ":";
     public static final String TENSE_PAST = ":\\:";
     public static final String TENSE_PRESENT = ":|:";
     public static final String TENSE_FUTURE = ":/:";
-    
-    /* variable type  ------------------ */
+
+    /* variable type ------------------ */
     public static final char VAR_INDEPENDENT = '$';
     public static final char VAR_DEPENDENT = '#';
     public static final char VAR_QUERY = '?';
@@ -61,14 +61,12 @@ public class Symbols {
     /* special characters in argument list */
     public static final char ARGUMENT_SEPARATOR = ',';
     public static final char IMAGE_PLACE_HOLDER = '_';
-    
+
     /* prefix of special Term name */
     public static final char INTERVAL_PREFIX = '+';
     public static final char OPERATOR_PREFIX = '^';
     public static final char TERM_PREFIX = 'T';
     public static final char QUOTE = '\"';
-
-
 
     /* experience line prefix */
     public static final String INPUT_LINE_PREFIX = IN.class.getSimpleName();
@@ -77,9 +75,9 @@ public class Symbols {
 
     public static final char PREFIX_MARK = ':';
     public static final char COMMENT_MARK = '/';
-    //public static final char URL_INCLUDE_MARK = '`';
+    // public static final char URL_INCLUDE_MARK = '`';
     public static final char ECHO_MARK = '\'';
-    //public static final char NATURAL_LANGUAGE_MARK = '\"';
+    // public static final char NATURAL_LANGUAGE_MARK = '\"';
 
     /* control commands */
     public static final String RESET_COMMAND = "*reset";
@@ -103,16 +101,13 @@ public class Symbols {
 
     public static String SELF = "SELF";
 
+    protected static final Map<String, NativeOperator> stringToOperator = new LinkedHashMap(
+            NativeOperator.values().length * 2);
+    protected static final Map<Character, NativeOperator> charToOperator = new LinkedHashMap(
+            NativeOperator.values().length * 2);
 
-
-
-    protected static final Map<String,NativeOperator> stringToOperator
-        = new LinkedHashMap(NativeOperator.values().length * 2);
-    protected static final Map<Character,NativeOperator> charToOperator
-        = new LinkedHashMap(NativeOperator.values().length * 2);
-    
     public enum NativeOperator {
-        
+
         /* CompountTerm operators, length = 1 */
         INTERSECTION_EXT("&", false, true),
         INTERSECTION_INT("|", false, true),
@@ -122,34 +117,34 @@ public class Symbols {
         IMAGE_EXT("/", false, true),
         IMAGE_INT("\\", false, true),
 
-        /* CompoundStatement operators, length = 2 */        
+        /* CompoundStatement operators, length = 2 */
         NEGATION("--", false, true),
         DISJUNCTION("||", false, true),
-        CONJUNCTION("&&", false, true),    
-        SEQUENCE("&/", false, true),    
-        PARALLEL("&|", false, true), 
-        SPATIAL("#", false, true),   
-            
+        CONJUNCTION("&&", false, true),
+        SEQUENCE("&/", false, true),
+        PARALLEL("&|", false, true),
+        SPATIAL("#", false, true),
+
         /* CompountTerm delimitors, must use 4 different pairs */
         SET_INT_OPENER("[", false, true),
         SET_INT_CLOSER("]", false, false),
         SET_EXT_OPENER("{", false, true),
-        SET_EXT_CLOSER("}", false, false),    
-        
+        SET_EXT_CLOSER("}", false, false),
+
         /* Syntactical, so is neither relation or isNative */
         COMPOUND_TERM_OPENER("(", false, false),
         COMPOUND_TERM_CLOSER(")", false, false),
         STATEMENT_OPENER("<", false, false),
         STATEMENT_CLOSER(">", false, false),
-        
+
         /* Relations */
         INHERITANCE("-->", true),
         SIMILARITY("<->", true),
         INSTANCE("{--", true),
         PROPERTY("--]", true),
-        INSTANCE_PROPERTY("{-]", true),        
+        INSTANCE_PROPERTY("{-]", true),
         IMPLICATION("==>", true),
-        
+
         /* Temporal Relations */
         IMPLICATION_AFTER("=/>", true),
         IMPLICATION_WHEN("=|>", true),
@@ -160,32 +155,34 @@ public class Symbols {
 
         /** an atomic term; this value is set if not a compound term */
         ATOM(".", false);
-        
-        //-----------------------------------------------------
-        
-        
+
+        // -----------------------------------------------------
+
         /** symbol representation of this getOperator */
-        public final String symbol; 
-        
-        /** character representation of this getOperator if symbol has length 1; else ch = 0 */
+        public final String symbol;
+
+        /**
+         * character representation of this getOperator if symbol has length 1; else ch
+         * = 0
+         */
         public final char ch;
-        
+
         /** is relation? */
         public final boolean relation;
-        
+
         /** is native */
         public final boolean isNative;
-        
+
         /** opener? */
         public final boolean opener;
-        
+
         /** closer? */
         public final boolean closer;
 
         NativeOperator(final String string) {
             this(string, false);
         }
-        
+
         NativeOperator(final String string, final boolean relation) {
             this(string, relation, !relation);
         }
@@ -195,40 +192,42 @@ public class Symbols {
             this.relation = relation;
             this.isNative = innate;
             this.ch = string.length() == 1 ? string.charAt(0) : 0;
-            
+
             this.opener = name().endsWith("_OPENER");
             this.closer = name().endsWith("_CLOSER");
         }
 
         @Override
-        public String toString() { return symbol; }
-    }    
+        public String toString() {
+            return symbol;
+        }
+    }
 
-            
     static {
-        //Setup NativeOperator String index hashtable 
+        // Setup NativeOperator String index hashtable
         for (final NativeOperator r : NativeOperator.values())
             stringToOperator.put(r.toString(), r);
-        
-        //Setup NativeOperator Character index hashtable 
+
+        // Setup NativeOperator Character index hashtable
         for (final NativeOperator r : NativeOperator.values()) {
             final char c = r.ch;
-            if (c!=0)
+            if (c != 0)
                 charToOperator.put(c, r);
         }
-    }    
+    }
 
     public static NativeOperator getOperator(final char c) {
         return charToOperator.get(c);
     }
-    
+
     public static NativeOperator getOperator(final String s) {
         return stringToOperator.get(s);
     }
-    
+
     public static NativeOperator getRelation(final String s) {
         final NativeOperator o = getOperator(s);
-        if (o == null) return null;
+        if (o == null)
+            return null;
         if (o.relation)
             return o;
         return null;
@@ -236,20 +235,22 @@ public class Symbols {
 
     public static NativeOperator getOpener(final char c) {
         final NativeOperator o = getOperator(c);
-        if (o == null) return null;
+        if (o == null)
+            return null;
         if (o.opener)
             return o;
         return null;
     }
-    
+
     public static NativeOperator getCloser(final char c) {
         final NativeOperator o = getOperator(c);
-        if (o == null) return null;
+        if (o == null)
+            return null;
         if (o.closer)
             return o;
         return null;
     }
-    
+
     /**
      * Check Statement getRelation symbol, called in StringPaser
      *
@@ -257,6 +258,6 @@ public class Symbols {
      * @return if the given String is a getRelation symbol
      */
     public static boolean isRelation(final String s) {
-        return getRelation(s)!=null;
+        return getRelation(s) != null;
     }
 }

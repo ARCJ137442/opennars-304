@@ -42,10 +42,13 @@ import org.xml.sax.SAXException;
  */
 public class NarNodeTest {
     static Integer a = 0;
+
     @Test
-    public void testNarToNar() throws UnknownHostException, IOException, SocketException, InstantiationException, InvocationTargetException, 
-            NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException, InterruptedException {
-        a = 0; //just in case of a re-test
+    public void testNarToNar() throws UnknownHostException, IOException, SocketException, InstantiationException,
+            InvocationTargetException,
+            NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException,
+            ClassNotFoundException, ParseException, InterruptedException {
+        a = 0; // just in case of a re-test
         int nar1port = 64001;
         int nar2port = 64002;
         String localIP = "127.0.0.1";
@@ -56,10 +59,10 @@ public class NarNodeTest {
         nar2.nar.event(new EventEmitter.EventObserver() {
             @Override
             public void event(Class event, Object[] args) {
-                if(event == NarNode.EventReceivedTask.class || event == IN.class) {
+                if (event == NarNode.EventReceivedTask.class || event == IN.class) {
                     Task task = (Task) args[0];
                     System.out.println("received task event triggered in nar2: " + task);
-                    synchronized(a) {
+                    synchronized (a) {
                         a++;
                     }
                 }
@@ -68,15 +71,15 @@ public class NarNodeTest {
         System.out.println("High priority task occurred in nar1");
         NarNode.sendNarsese("<{task1} --> [great]>.", nar2_connection);
         nar1.nar.addInput("<{task1} --> [great]>.");
-        while(true) {
-            synchronized(a) {
-                if(a >= 2) {
+        while (true) {
+            synchronized (a) {
+                if (a >= 2) {
                     System.out.println("success");
                     break;
                 }
             }
         }
-        assert(true);
+        assert (true);
         nar1.nar.stop();
         nar2.nar.stop();
     }

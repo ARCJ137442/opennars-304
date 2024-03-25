@@ -44,15 +44,17 @@ public class Register extends Operator {
 
     /**
      * To register a new operator
-     * @param args Arguments, a Statement followed by an optional tense
+     * 
+     * @param args   Arguments, a Statement followed by an optional tense
      * @param memory The memory in which the operation is executed
      * @return Immediate results as Tasks
      */
     @Override
-    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory, final Timable time) {
-        final Operator op=new NullOperator(args[1].toString());
-        memory.addOperator(op);  // add error checking
+    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory,
+            final Timable time) {
+        final Operator op = new NullOperator(args[1].toString());
+        memory.addOperator(op); // add error checking
         return null;
     }
-    
+
 }

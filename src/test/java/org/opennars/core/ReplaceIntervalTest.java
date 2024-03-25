@@ -41,13 +41,18 @@ import java.text.ParseException;
  * @author Patrick Hammer
  */
 public class ReplaceIntervalTest {
-   //<(*,{SELF},<{(*,fragmentC,fragmentD)} --> compare>,TRUE) =\> (*,{SELF},(&/,<{fragmentC} --> mutate>,+12),TRUE)>. %1.00;0.25% 
+    // <(*,{SELF},<{(*,fragmentC,fragmentD)} --> compare>,TRUE) =\>
+    // (*,{SELF},(&/,<{fragmentC} --> mutate>,+12),TRUE)>. %1.00;0.25%
     @Test
-    public void replaceIvalTest() throws Narsese.InvalidInputException, IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    public void replaceIvalTest() throws Narsese.InvalidInputException, IOException, InstantiationException,
+            InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException,
+            SAXException, ClassNotFoundException, ParseException {
         Nar nar = new Nar();
         Narsese parser = new Narsese(nar);
-        Term ret = parser.parseTerm("<(*,{SELF},<{(*,fragmentC,fragmentD)} --> compare>,TRUE) =\\> (*,{SELF},(&/,<{fragmentC} --> mutate>,+12),TRUE)>");
+        Term ret = parser.parseTerm(
+                "<(*,{SELF},<{(*,fragmentC,fragmentD)} --> compare>,TRUE) =\\> (*,{SELF},(&/,<{fragmentC} --> mutate>,+12),TRUE)>");
         CompoundTerm ct = (CompoundTerm) CompoundTerm.replaceIntervals(ret);
-        assert(ct.toString().equals("<(*,{SELF},<{(*,fragmentC,fragmentD)} --> compare>,TRUE) =\\> (*,{SELF},(&/,<{fragmentC} --> mutate>,+1),TRUE)>"));
+        assert (ct.toString().equals(
+                "<(*,{SELF},<{(*,fragmentC,fragmentD)} --> compare>,TRUE) =\\> (*,{SELF},(&/,<{fragmentC} --> mutate>,+1),TRUE)>"));
     }
 }

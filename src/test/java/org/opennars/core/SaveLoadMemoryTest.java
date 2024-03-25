@@ -40,8 +40,10 @@ import org.xml.sax.SAXException;
  */
 public class SaveLoadMemoryTest {
     @Test
-    public void testloadSaveMem() throws IOException, InstantiationException, NoSuchMethodException, SAXException, ParseException, 
-            IllegalAccessException, InvocationTargetException, ParserConfigurationException, ClassNotFoundException, Narsese.InvalidInputException, Exception {
+    public void testloadSaveMem()
+            throws IOException, InstantiationException, NoSuchMethodException, SAXException, ParseException,
+            IllegalAccessException, InvocationTargetException, ParserConfigurationException, ClassNotFoundException,
+            Narsese.InvalidInputException, Exception {
         Nar nar = new Nar();
         nar.addInput("<a --> b>.");
         nar.cycles(1);
@@ -49,6 +51,6 @@ public class SaveLoadMemoryTest {
         nar.SaveToFile(fname);
         Nar nar2 = Nar.LoadFromFile(fname);
         Concept c2 = nar2.concept("<a --> b>");
-        assert(c2 != null);
+        assert (c2 != null);
     }
 }

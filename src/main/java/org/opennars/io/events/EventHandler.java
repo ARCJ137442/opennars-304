@@ -35,7 +35,7 @@ public abstract class EventHandler implements EventEmitter.EventObserver {
     public EventHandler(final Nar n, final boolean active, final Class... events) {
         this(n.memory.event, active, events);
     }
-    
+
     public EventHandler(final EventEmitter source, final boolean active, final Class... events) {
         this.source = source;
         this.events = events;
@@ -43,8 +43,9 @@ public abstract class EventHandler implements EventEmitter.EventObserver {
     }
 
     public void setActive(final boolean b) {
-        if (this.active == b) return;
-        
+        if (this.active == b)
+            return;
+
         this.active = b;
         source.set(this, b, events);
     }

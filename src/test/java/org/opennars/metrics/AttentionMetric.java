@@ -48,36 +48,35 @@ import java.util.*;
 // TODO< run more tests >
 
 public class AttentionMetric {
-    public static String[] directories = new String[] {"/nal/multi_step/", "/nal/application/"};
+    public static String[] directories = new String[] { "/nal/multi_step/", "/nal/application/" };
 
     public static boolean showOutput = true;
 
     public static int numberOfSamples = 8;
 
-    public static Random rng = new Random(23+42);
+    public static Random rng = new Random(23 + 42);
 
     public static void main(String[] args) {
-
 
         final Map<String, Object> et = ExampleFileInput.getUnitTests(directories);
 
         final Collection t = et.values();
 
-        for(Map.Entry<String, Object> iTest : et.entrySet()) {
+        for (Map.Entry<String, Object> iTest : et.entrySet()) {
             boolean enTest = false;
             if (iTest.getKey().equals("toothbrush2.nal")) {
                 enTest = true;
             }
 
             if (enTest) {
-                Object[] paths = (Object[])iTest.getValue();
+                Object[] paths = (Object[]) iTest.getValue();
 
                 double scoreSum = 0.0;
-                for(int iSample = 0; iSample < numberOfSamples; iSample++) {
-                    scoreSum += runMetricTest((String)paths[0]);
+                for (int iSample = 0; iSample < numberOfSamples; iSample++) {
+                    scoreSum += runMetricTest((String) paths[0]);
                 }
                 double averageScore = scoreSum / numberOfSamples;
-                System.out.println(iTest.getKey() + "  avg score = "+averageScore);
+                System.out.println(iTest.getKey() + "  avg score = " + averageScore);
 
             }
         }
@@ -93,19 +92,47 @@ public class AttentionMetric {
         double weightOfbestSolution = 1.0;
         double weightOfFirstSolution = 3.0;
 
-        // we sum up the solutions, faster solutions with a better time get a better score
-        for(Map.Entry<String, ExecOrAnswerByTime> iEntry : execOrQaAnswersByTime.entrySet()) {
+        // we sum up the solutions, faster solutions with a better time get a better
+        // score
+        for (Map.Entry<String, ExecOrAnswerByTime> iEntry : execOrQaAnswersByTime.entrySet()) {
             ExecOrAnswerByTime iEntryVal = iEntry.getValue();
 
-            double bestWeight = TruthFunctions.c2w(iEntryVal.bestTruth.getConfidence(), narParams); // we care about weight because it doesn't converge to 1.0 like conf, so we can compute a more meaningful score
-            double bestTimeWeight = Math.exp(-iEntry.getValue().bestTime * exponentialDecayTimeWeightFactor); // weight faster answers with a better ranking
+            double bestWeight = TruthFunctions.c2w(iEntryVal.bestTruth.getConfidence(), narParams); // we care about
+                                                                                                    // weight because it
+                                                                                                    // doesn't converge
+                                                                                                    // to 1.0 like conf,
+                                                                                                    // so we can compute
+                                                                                                    // a more meaningful
+                                                                                                    // score
+            double bestTimeWeight = Math.exp(-iEntry.getValue().bestTime * exponentialDecayTimeWeightFactor); // weight
+                                                                                                              // faster
+                                                                                                              // answers
+                                                                                                              // with a
+                                                                                                              // better
+                                                                                                              // ranking
 
-            double firstWeight = TruthFunctions.c2w(iEntryVal.firstTruth.getConfidence(), narParams); // we care about weight because it doesn't converge to 1.0 like conf, so we can compute a more meaningful score
-            double firstTimeWeight = Math.exp(-iEntry.getValue().firstTime * exponentialDecayTimeWeightFactor); // weight faster answers with a better ranking
+            double firstWeight = TruthFunctions.c2w(iEntryVal.firstTruth.getConfidence(), narParams); // we care about
+                                                                                                      // weight because
+                                                                                                      // it doesn't
+                                                                                                      // converge to 1.0
+                                                                                                      // like conf, so
+                                                                                                      // we can compute
+                                                                                                      // a more
+                                                                                                      // meaningful
+                                                                                                      // score
+            double firstTimeWeight = Math.exp(-iEntry.getValue().firstTime * exponentialDecayTimeWeightFactor); // weight
+                                                                                                                // faster
+                                                                                                                // answers
+                                                                                                                // with
+                                                                                                                // a
+                                                                                                                // better
+                                                                                                                // ranking
 
-            double scoreOfThisEntry = (bestWeight*bestTimeWeight)*weightOfbestSolution + (firstWeight*firstTimeWeight)*weightOfFirstSolution;
+            double scoreOfThisEntry = (bestWeight * bestTimeWeight) * weightOfbestSolution
+                    + (firstWeight * firstTimeWeight) * weightOfFirstSolution;
 
-            if(true) System.out.println("score of solution " + iEntry.getKey() + " = " + scoreOfThisEntry);
+            if (true)
+                System.out.println("score of solution " + iEntry.getKey() + " = " + scoreOfThisEntry);
 
             score += scoreOfThisEntry;
         }
@@ -139,12 +166,12 @@ public class AttentionMetric {
             e.printStackTrace();
         }
 
-        ((Nar)n).memory.randomNumber.setSeed(rng.nextInt(10000)); // start it with another seed
+        ((Nar) n).memory.randomNumber.setSeed(rng.nextInt(10000)); // start it with another seed
 
         if (showOutput) {
-            //new TextOutputHandler((Nar)n, System.out);
+            // new TextOutputHandler((Nar)n, System.out);
 
-            n.on(OutputHandler.EXE.class, new OutputHandler2((Nar)n, execOrQaAnswersByTime));
+            n.on(OutputHandler.EXE.class, new OutputHandler2((Nar) n, execOrQaAnswersByTime));
         }
 
         try {
@@ -154,10 +181,9 @@ public class AttentionMetric {
                 boolean isCommented = iLine.startsWith("'");
                 boolean isQuestion = !isCommented && iLine.endsWith("?");
                 if (isQuestion) {
-                    String question = iLine.substring(0, iLine.length()-1);
+                    String question = iLine.substring(0, iLine.length() - 1);
                     n.ask(question, new AnswerHandler(n, execOrQaAnswersByTime));
-                }
-                else {
+                } else {
                     n.addInput(iLine);
                 }
             }
@@ -168,9 +194,9 @@ public class AttentionMetric {
         int minCycles = 1000;
         n.cycles(minCycles);
 
-        double scoreOfThisTest = calcScore(execOrQaAnswersByTime, ((Nar)n).narParameters);
+        double scoreOfThisTest = calcScore(execOrQaAnswersByTime, ((Nar) n).narParameters);
 
-        System.out.println("score of "+name+" = "+scoreOfThisTest);
+        System.out.println("score of " + name + " = " + scoreOfThisTest);
 
         int here = 5;
 
@@ -201,7 +227,7 @@ public class AttentionMetric {
 
         @Override
         public void event(Class event, Object[] args) {
-            Operator.ExecutionResult exeResult = (Operator.ExecutionResult)args[0];
+            Operator.ExecutionResult exeResult = (Operator.ExecutionResult) args[0];
             Task task = exeResult.getTask();
             update(execOrQaAnswersByTime, task.sentence, nar);
         }
@@ -233,14 +259,12 @@ public class AttentionMetric {
             // was executed before
 
             exec = execOrQaAnswersByTime.get(s.term.toString());
-        }
-        else {
+        } else {
             // is first time execution
 
             exec = new ExecOrAnswerByTime("exec", s.term.toString());
             exec.firstTime = nar.time();
             exec.firstTruth = s.truth.clone();
-
 
             execOrQaAnswersByTime.put(s.term.toString(), exec);
         }
@@ -248,13 +272,12 @@ public class AttentionMetric {
         if (exec.bestTruth == null) { // is it the first time?
             exec.bestTime = nar.time(); // the first is the best
             exec.bestTruth = s.truth.clone();
-        }
-        else if (s.truth.clone().getConfidence() > exec.bestTruth.getConfidence() ) { // is the TV this time better than the recorded one?
+        } else if (s.truth.clone().getConfidence() > exec.bestTruth.getConfidence()) { // is the TV this time better
+                                                                                       // than the recorded one?
             exec.bestTime = nar.time();
             exec.bestTruth = s.truth.clone();
         }
     }
-
 
     // used to record the first and best answer or exec of op by time
     private static class ExecOrAnswerByTime {

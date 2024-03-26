@@ -134,7 +134,7 @@ public class ProcessJudgment {
 
     /**
      * Check whether the task is an executable hypothesis of the form
-     * &lt;(&amp;/,a,op()) =/&gt; b&gt;.
+     * <(&/,a,op()) =/> b>.
      * 
      * @param task The judgement task be checked
      * @param nal  The derivation context
@@ -166,7 +166,7 @@ public class ProcessJudgment {
     }
 
     /**
-     * Add &lt;(&amp;/,a,op()) =/&gt; b&gt; beliefs to preconditions in concept b
+     * Add <(&/,a,op()) =/> b> beliefs to preconditions in concept b
      * 
      * @param task The potential implication task
      * @param nal  The derivation context

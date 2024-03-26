@@ -570,7 +570,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
 
     /**
      * Check whether the compound contains a certain component
-     * Also matches variables, ex: (&amp;&amp;,&lt;a --&gt; b&gt;,&lt;b --&gt; c&gt;) also contains &lt;a --&gt; #1&gt;
+     * Also matches variables, ex: (&&,<a --> b>,<b --> c>) also contains <a --> #1>
      *
      * @param t The component to be checked
      * @return Whether the component is in the compound
@@ -579,7 +579,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
      * extra comment because it is a Implementation detail - question:
      *
      * Check whether the compound contains a certain component
-     * Also matches variables, ex: (&amp;&amp;,&lt;a --&gt; b&gt;,&lt;b --&gt; c&gt;) also contains &lt;a --&gt; #1&gt;
+     * Also matches variables, ex: (&&,<a --> b>,<b --> c>) also contains <a --> #1>
      *  ^^^ is this right? if so then try containsVariablesAsWildcard
      */
     @Override

@@ -31,7 +31,7 @@ import java.util.Arrays;
  * An intension image as defined in the NARS-theory
  *
  * <p>
- * (\,P,A,_)) --&gt; B iff P --&gt; (*,A,B)
+ * (\,P,A,_)) --> B iff P --> (*,A,B)
  * <p>
  * Internally, it is actually (\,A,P)_1, with an index.
  *

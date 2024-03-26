@@ -56,9 +56,9 @@ public final class CompositionalRules {
 
     /* -------------------- intersections and differences -------------------- */
     /**
-     * {&lt;S ==&gt; M&gt;, &lt;P ==&gt; M&gt;} |- <br>
-     * {&lt;(S|P) ==&gt; M&gt;, &lt;(S&amp;P) ==&gt; M&gt;, &lt;(S-P) ==&gt; M&gt;,
-     * &lt;(P-S) ==&gt; M&gt;}
+     * {<S ==> M>, <P ==> M>} |- <br>
+     * {<(S|P) ==> M>, <(S&P) ==> M>, <(S-P) ==> M>,
+     * <(P-S) ==> M>}
      *
      * @param taskContent   The first premise
      * @param beliefContent The second premise
@@ -168,7 +168,7 @@ public final class CompositionalRules {
     }
 
     /**
-     * {&lt;(S|P) ==&gt; M&gt;, &lt;P ==&gt; M&gt;} |- &lt;S ==&gt; M&gt;
+     * {<(S|P) ==> M>, <P ==> M>} |- <S ==> M>
      *
      * @param term1        The other term in the contentInd
      * @param index        The location of the shared term: 0 for subject, 1 for
@@ -267,7 +267,7 @@ public final class CompositionalRules {
     }
 
     /**
-     * {(||, S, P), P} |- S {(&amp;&amp;, S, P), P} |- S
+     * {(||, S, P), P} |- S {(&&, S, P), P} |- S
      *
      * @param compoundTask Whether the implication comes from the task
      * @param nal          Reference to the memory
@@ -355,11 +355,11 @@ public final class CompositionalRules {
     /**
      * Introduce a dependent variable in an outer-layer conjunction
      * <br>
-     * {&lt;S --&gt; P1&gt;, &lt;S --&gt; P2&gt;} |- (&amp;&amp;, &lt;#x --&gt;
-     * P1&gt;, &lt;#x --&gt; P2&gt;)
+     * {<S --> P1>, <S --> P2>} |- (&&, <#x -->
+     * P1>, <#x --> P2>)
      *
-     * @param taskContent   The first premise &lt;M --&gt; S&gt;
-     * @param beliefContent The second premise &lt;M --&gt; P&gt;
+     * @param taskContent   The first premise <M --> S>
+     * @param beliefContent The second premise <M --> P>
      * @param index         The location of the shared term: 0 for subject, 1 for
      *                      predicate
      * @param nal           Reference to the memory
@@ -425,11 +425,11 @@ public final class CompositionalRules {
     }
 
     /**
-     * {&lt;M --&gt; S&gt;, &lt;C ==&gt; &lt;M --&gt; P&gt;&gt;} |- &lt;(&amp;&amp;,
-     * &lt;#x --&gt; S&gt;, C) ==&gt; &lt;#x --&gt; P&gt;&gt;
+     * {<M --> S>, <C ==> <M --> P>>} |- <(&&,
+     * <#x --> S>, C) ==> <#x --> P>>
      * <br>
-     * {&lt;M --&gt; S&gt;, (&amp;&amp;, C, &lt;M --&gt; P&gt;)} |- (&amp;&amp;, C,
-     * &lt;&lt;#x --&gt; S&gt; ==&gt; &lt;#x --&gt; P&gt;&gt;)
+     * {<M --> S>, (&&, C, <M --> P>)} |- (&&, C,
+     * <<#x --> S> ==> <#x --> P>>)
      *
      * @param oldCompound The whole contentInd of the first premise, Implication
      *                    or Conjunction

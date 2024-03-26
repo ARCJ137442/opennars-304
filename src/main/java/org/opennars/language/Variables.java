@@ -76,7 +76,7 @@ public class Variables {
     }
 
     /**
-     * map is a 2-element array of Map&lt;Term,Term&gt;. it may be null, in which
+     * map is a 2-element array of Map<Term,Term>. it may be null, in which
      * case
      * the maps will be instantiated as necessary.
      * this is to delay the instantiation of the 2 Map until necessary to avoid

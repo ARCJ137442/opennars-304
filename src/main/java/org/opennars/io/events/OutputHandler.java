@@ -42,7 +42,7 @@ public abstract class OutputHandler extends EventHandler {
     public interface OUT {
     }
 
-    /** warnings, errors &amp; exceptions */
+    /** warnings, errors & exceptions */
     public interface ERR {
     }
 

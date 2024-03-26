@@ -208,7 +208,7 @@ public class Conjunction extends CompoundTerm {
     /**
      * @param components The components
      * @return The components sequence with summed intervals
-     *         for transforming (&amp;/,a,+1,+1) to (&amp;/,a,+2)
+     *         for transforming (&/,a,+1,+1) to (&/,a,+2)
      */
     public static Term[] simplifyIntervals(Term[] components) {
         List<Term> ret = new ArrayList<Term>();

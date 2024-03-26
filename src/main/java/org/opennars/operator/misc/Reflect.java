@@ -56,7 +56,7 @@ public class Reflect extends FunctionOperator {
     }
 
     /**
-     * &lt;(*,subject,object) --&gt; predicate&gt;
+     * <(*,subject,object) --> predicate>
      * 
      * @param subject   the subject of the relation
      * @param object    the object for the relation

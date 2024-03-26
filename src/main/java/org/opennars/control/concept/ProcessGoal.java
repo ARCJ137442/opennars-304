@@ -215,7 +215,7 @@ public class ProcessGoal {
     }
 
     /**
-     * Generate &lt;?how =/&gt; g&gt;? question for g! goal.
+     * Generate <?how =/> g>? question for g! goal.
      * only called by processGoal
      *
      * @param task the task for which the question should be processed

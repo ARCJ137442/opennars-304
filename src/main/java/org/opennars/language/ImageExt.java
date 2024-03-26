@@ -31,7 +31,7 @@ import java.util.Arrays;
  * An extension image as defined in the NARS-theory
  *
  * <p>
- * B --&gt; (/,P,A,_)) iff (*,A,B) --$gt; P
+ * B --> (/,P,A,_)) iff (*,A,B) --$gt; P
  * <p>
  * Internally, it is actually (/,A,P)_1, with an index.
  *

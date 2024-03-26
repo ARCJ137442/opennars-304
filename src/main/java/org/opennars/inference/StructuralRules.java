@@ -48,9 +48,9 @@ public final class StructuralRules {
      * --------------------
      */
     /**
-     * {&lt;S --&gt; P&gt;, S@(S&amp;T)} |- &lt;(S&amp;T) --&gt; (P&amp;T)&gt;
+     * {<S --> P>, S@(S&T)} |- <(S&T) --> (P&T)>
      * <br>
-     * {&lt;S --&gt; P&gt;, S@(M-S)} |- &lt;(M-P) --&gt; (M-S)&gt;
+     * {<S --> P>, S@(M-S)} |- <(M-P) --> (M-S)>
      *
      * @param compound  The compound term
      * @param index     The location of the indicated term in the compound
@@ -109,7 +109,7 @@ public final class StructuralRules {
     }
 
     /**
-     * {&lt;(S*T) --&gt; (P*T)&gt;, S@(S*T)} |- &lt;S --&gt; P&gt;
+     * {<(S*T) --> (P*T)>, S@(S*T)} |- <S --> P>
      *
      * @param statement The premise
      * @param nal       Reference to the memory
@@ -169,7 +169,7 @@ public final class StructuralRules {
     }
 
     /**
-     * {&lt;S --&gt; P&gt;, P@(P|Q)} |- &lt;S --&gt; (P|Q)&gt;
+     * {<S --> P>, P@(P|Q)} |- <S --> (P|Q)>
      *
      * @param compound  The compound term
      * @param index     The location of the indicated term in the compound
@@ -223,9 +223,9 @@ public final class StructuralRules {
     }
 
     /**
-     * {&lt;(S|T) --&gt; P&gt;, S@(S|T)} |- &lt;S --&gt; P&gt;
+     * {<(S|T) --> P>, S@(S|T)} |- <S --> P>
      * <br>
-     * {&lt;S --&gt; (P&amp;T)&gt;, P@(P&amp;T)} |- &lt;S --&gt; P&gt;
+     * {<S --> (P&T)>, P@(P&T)} |- <S --> P>
      *
      * @param compound  The compound term
      * @param index     The location of the indicated term in the compound
@@ -305,7 +305,7 @@ public final class StructuralRules {
 
     /* -------------------- set transform -------------------- */
     /**
-     * {&lt;S --&gt; {P}&gt;} |- &lt;S &lt;-&gt; {P}&gt;
+     * {<S --> {P}>} |- <S <-> {P}>
      *
      * @param compound  The set compound
      * @param statement The premise
@@ -354,12 +354,12 @@ public final class StructuralRules {
     /**
      * Equivalent transformation between products and images
      *
-     * {&lt;(*, S, M) --&gt; P&gt;, S@(*, S, M)} |- &lt;S --&gt; (/, P, _, M)&gt;
+     * {<(*, S, M) --> P>, S@(*, S, M)} |- <S --> (/, P, _, M)>
      * <br>
-     * {&lt;S --&gt; (/, P, _, M)&gt;, P@(/, P, _, M)} |- &lt;(*, S, M) --&gt; P&gt;
+     * {<S --> (/, P, _, M)>, P@(/, P, _, M)} |- <(*, S, M) --> P>
      * <br>
-     * {&lt;S --&gt; (/, P, _, M)&gt;, M@(/, P, _, M)} |- &lt;M --&gt; (/, P, S,
-     * _)&gt;
+     * {<S --> (/, P, _, M)>, M@(/, P, _, M)} |- <M --> (/, P, S,
+     * _)>
      *
      * @param inh        An Inheritance statement
      * @param oldContent The whole content
@@ -489,12 +489,12 @@ public final class StructuralRules {
      * Equivalent transformation between products and images when the subject is
      * a compound
      *
-     * {&lt;(*, S, M) --&gt; P&gt;, S@(*, S, M)} |- &lt;S --&gt; (/, P, _, M)&gt;
+     * {<(*, S, M) --> P>, S@(*, S, M)} |- <S --> (/, P, _, M)>
      * <br>
-     * {&lt;S --&gt; (/, P, _, M)&gt;, P@(/, P, _, M)} |- &lt;(*, S, M) --&gt; P&gt;
+     * {<S --> (/, P, _, M)>, P@(/, P, _, M)} |- <(*, S, M) --> P>
      * <br>
-     * {&lt;S --&gt; (/, P, _, M)&gt;, M@(/, P, _, M)} |- &lt;M --&gt; (/, P, S,
-     * _)&gt;
+     * {<S --> (/, P, _, M)>, M@(/, P, _, M)} |- <M --> (/, P, S,
+     * _)>
      *
      * @param subject   The subject term
      * @param predicate The predicate term
@@ -553,12 +553,12 @@ public final class StructuralRules {
      * Equivalent transformation between products and images when the predicate
      * is a compound
      *
-     * {&lt;(*, S, M) --&gt; P&gt;, S@(*, S, M)} |- &lt;S --&gt; (/, P, _, M)&gt;
+     * {<(*, S, M) --> P>, S@(*, S, M)} |- <S --> (/, P, _, M)>
      * <br>
-     * {&lt;S --&gt; (/, P, _, M)&gt;, P@(/, P, _, M)} |- &lt;(*, S, M) --&gt; P&gt;
+     * {<S --> (/, P, _, M)>, P@(/, P, _, M)} |- <(*, S, M) --> P>
      * <br>
-     * {&lt;S --&gt; (/, P, _, M)&gt;, M@(/, P, _, M)} |- &lt;M --&gt; (/, P, S,
-     * _)&gt;
+     * {<S --> (/, P, _, M)>, M@(/, P, _, M)} |- <M --> (/, P, S,
+     * _)>
      *
      * @param subject   The subject term
      * @param predicate The predicate term
@@ -628,7 +628,7 @@ public final class StructuralRules {
     /* --------------- Flatten sequence transform --------------- */
     /**
      * {(#,(#,A,B),C), (#,A,B)@(#,(#,A,B), C)} |- (#,A,B,C)
-     * (same for &amp;/)
+     * (same for &/)
      *
      * @param compound     The premise
      * @param component    The recognized component in the premise
@@ -660,7 +660,7 @@ public final class StructuralRules {
 
     /* --------------- Take out from conjunction --------------- */
     /**
-     * {(&amp;&amp;,A,B,C), B@(&amp;&amp;,A,B,C)} |- (&amp;&amp;,A,C)
+     * {(&&,A,B,C), B@(&&,A,B,C)} |- (&&,A,C)
      *
      * Works for all conjunctions
      *
@@ -876,9 +876,9 @@ public final class StructuralRules {
 
     /* --------------- Disjunction and Conjunction transform --------------- */
     /**
-     * {(&amp;&amp;, A, B), A@(&amp;&amp;, A, B)} |- A,
+     * {(&&, A, B), A@(&&, A, B)} |- A,
      * <br>
-     * or answer (&amp;&amp;, A, B)? using A {(||, A, B), A@(||, A, B)} |- A,
+     * or answer (&&, A, B)? using A {(||, A, B), A@(||, A, B)} |- A,
      * <br>
      * or answer (||, A, B)? using A
      *
@@ -975,7 +975,7 @@ public final class StructuralRules {
     }
 
     /**
-     * {&lt;A ==&gt; B&gt;, A@(--, A)} |- &lt;(--, B) ==&gt; (--, A)&gt;
+     * {<A ==> B>, A@(--, A)} |- <(--, B) ==> (--, A)>
      *
      * @param statement The premise
      * @param nal       Reference to the memory

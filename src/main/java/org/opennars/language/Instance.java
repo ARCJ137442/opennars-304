@@ -36,7 +36,7 @@ public abstract class Instance /* extends Statement */ {
      * Try to make a new compound from two components. Called by the inference
      * rules.
      * <p>
-     * A {-- B becomes {A} --&gt; B
+     * A {-- B becomes {A} --> B
      * 
      * @param subject   The first component
      * @param predicate The second component

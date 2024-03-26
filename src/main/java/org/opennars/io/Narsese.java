@@ -256,7 +256,7 @@ public class Narsese implements Serializable, Parser {
      * <p>
      * There are 5 valid cases: 1. (Op, A1, ..., An) is a CompoundTerm if Op is
      * a built-in getOperator 2. {A1, ..., An} is an SetExt; 3. [A1, ..., An] is an
-     * SetInt; 4. &lt;T1 Re T2&gt; is a Statement (including higher-order
+     * SetInt; 4. <T1 Re T2> is a Statement (including higher-order
      * Statement);
      * 5. otherwise it is a simple term.
      *

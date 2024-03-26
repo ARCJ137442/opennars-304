@@ -36,7 +36,7 @@ public class Distributor implements Serializable {
     private int capacity;
 
     /**
-     * For any number N &lt; range, there is N+1 copies of it in the array,
+     * For any number N < range, there is N+1 copies of it in the array,
      * distributed as evenly as possible
      * 
      * @param range Range of valid numbers

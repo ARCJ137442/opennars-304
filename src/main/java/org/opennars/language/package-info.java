@@ -27,44 +27,44 @@
  * Open-NARS implements the following formal language, Narsese.
  * 
  * <pre>
- *            &lt;sentence&gt; ::= &lt;judgment&gt;
- *                         | &lt;question&gt;
- *            &lt;judgment&gt; ::= &lt;statement&gt; &lt;truth-value&gt;
- *            &lt;question&gt; ::= &lt;statement&gt;
- *           &lt;statement&gt; ::= &lt;&lt;term&gt; &lt;relation&gt; &lt;term&gt;&gt;
- *                         | &lt;compound-statement&gt;
- *                         | &lt;term&gt;
- *                &lt;term&gt; ::= &lt;word&gt;
- *                         | &lt;variable&gt;
- *                         | &lt;compound-term&gt;
- *                         | &lt;statement&gt;
- *            &lt;relation&gt; ::= --&gt;    // Inheritance
- *                         | &lt;-&gt;    // Similarity
+ *            <sentence> ::= <judgment>
+ *                         | <question>
+ *            <judgment> ::= <statement> <truth-value>
+ *            <question> ::= <statement>
+ *           <statement> ::= <<term> <relation> <term>>
+ *                         | <compound-statement>
+ *                         | <term>
+ *                <term> ::= <word>
+ *                         | <variable>
+ *                         | <compound-term>
+ *                         | <statement>
+ *            <relation> ::= -->    // Inheritance
+ *                         | <->    // Similarity
  *                         | {--    // Instance
  *                         | --]    // Property
  *                         | {-]    // InstanceProperty
- *                         | ==&gt;    // Implication
- *                         | &lt;=&gt;    // Equivalence
- *  &lt;compound-statement&gt; ::= (-- &lt;statement&gt;)                 // Negation
- *                         | (|| &lt;statement&gt; &lt;statement&gt;+)    // Disjunction
- *                         | (&amp;&amp; &lt;statement&gt; &lt;statement&gt;+)    // Conjunction
- *       &lt;compound-term&gt; ::= {&lt;term&gt;+}    // SetExt
- *                         | [&lt;term&gt;+]    // SetInt
- *                         | (&amp; &lt;term&gt; &lt;term&gt;+)    // IntersectionExt
- *                         | (| &lt;term&gt; &lt;term&gt;+)    // IntersectionInt
- *                         | (- &lt;term&gt; &lt;term&gt;)     // DifferenceExt
- *                         | (~ &lt;term&gt; &lt;term&gt;)     // DifferenceInt
- *                         | (* &lt;term&gt; &lt;term&gt;+)    // Product
- *                         | (/ &lt;term&gt;+ _ &lt;term&gt;*)    // ImageExt
- *                         | (\ &lt;term&gt;+ _ &lt;term&gt;*)    // ImageInt
- *            &lt;variable&gt; ::= &lt;independent-var&gt;
- *                         | &lt;dependent-var&gt;
- *                         | &lt;query-var&gt;
- *     &lt;independent-var&gt; ::= $[&lt;word&gt;]
- *       &lt;dependent-var&gt; ::= #&lt;word&gt;
- *           &lt;query-var&gt; ::= ?[&lt;word&gt;]
- *                &lt;word&gt; : string in an alphabet
- *         &lt;truth-value&gt; : a pair of real numbers in [0, 1] x (0, 1)
+ *                         | ==>    // Implication
+ *                         | <=>    // Equivalence
+ *  <compound-statement> ::= (-- <statement>)                 // Negation
+ *                         | (|| <statement> <statement>+)    // Disjunction
+ *                         | (&& <statement> <statement>+)    // Conjunction
+ *       <compound-term> ::= {<term>+}    // SetExt
+ *                         | [<term>+]    // SetInt
+ *                         | (& <term> <term>+)    // IntersectionExt
+ *                         | (| <term> <term>+)    // IntersectionInt
+ *                         | (- <term> <term>)     // DifferenceExt
+ *                         | (~ <term> <term>)     // DifferenceInt
+ *                         | (* <term> <term>+)    // Product
+ *                         | (/ <term>+ _ <term>*)    // ImageExt
+ *                         | (\ <term>+ _ <term>*)    // ImageInt
+ *            <variable> ::= <independent-var>
+ *                         | <dependent-var>
+ *                         | <query-var>
+ *     <independent-var> ::= $[<word>]
+ *       <dependent-var> ::= #<word>
+ *           <query-var> ::= ?[<word>]
+ *                <word> : string in an alphabet
+ *         <truth-value> : a pair of real numbers in [0, 1] x (0, 1)
  * </pre>
  *
  * <p>

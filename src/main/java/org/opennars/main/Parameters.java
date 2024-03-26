@@ -64,7 +64,7 @@ public class Parameters implements Serializable {
     /* ---------- logical parameters ---------- */
     /**
      * Evidential Horizon, the amount of future evidence to be considered.
-     * Must be &gt;=1.0, usually 1 .. 2, not changeable at runtime as evidence
+     * Must be >=1.0, usually 1 .. 2, not changeable at runtime as evidence
      * measurement would change
      */
     public float HORIZON = 1;
@@ -237,7 +237,7 @@ public class Parameters implements Serializable {
     public volatile float CURIOSITY_DESIRE_DURABILITY_MUL = 0.3f;
 
     public volatile boolean CURIOSITY_FOR_OPERATOR_ONLY = false; // for Peis concern that it may be overkill to allow it
-                                                                 // for all &lt;a =/&gt; b&gt; statement, so that a has
+                                                                 // for all <a =/> b> statement, so that a has
                                                                  // to be an operator
 
     public volatile boolean BREAK_NAL_HOL_BOUNDARY = false;
@@ -246,7 +246,7 @@ public class Parameters implements Serializable {
 
     public volatile boolean HOW_QUESTION_GENERATION_ON_DECISION_MAKING = false;
 
-    /** eternalized induction confidence to revise A =/&gt; B beliefs */
+    /** eternalized induction confidence to revise A =/> B beliefs */
     public volatile float ANTICIPATION_CONFIDENCE = 0.1f;
 
     public volatile float ANTICIPATION_TOLERANCE = 100.0f;

@@ -393,7 +393,7 @@ public class LocalRules {
      * Produce Similarity/Equivalence from a pair of reversed
      * Inheritance/Implication
      * <br>
-     * {&lt;S --&gt; P&gt;, &lt;P --&gt; S} |- &lt;S &lt;-&gt; p&gt;
+     * {<S --> P>, <P --> S} |- <S <-> p>
      *
      * @param judgment1 The first premise
      * @param judgment2 The second premise
@@ -421,7 +421,7 @@ public class LocalRules {
      * Produce an Inheritance/Implication from a Similarity/Equivalence and a
      * reversed Inheritance/Implication
      * <br>
-     * {&lt;S &lt;-&gt; P&gt;, &lt;P --&gt; S&gt;} |- &lt;S --&gt; P&gt;
+     * {<S <-> P>, <P --> S>} |- <S --> P>
      *
      * @param asym The asymmetric premise
      * @param sym  The symmetric premise
@@ -445,7 +445,7 @@ public class LocalRules {
     /**
      * Produce an Inheritance/Implication from a reversed Inheritance/Implication
      * <br>
-     * {&lt;P --&gt; S&gt;} |- &lt;S --&gt; P&gt;
+     * {<P --> S>} |- <S --> P>
      *
      * @param nal Reference to the memory
      */
@@ -458,8 +458,8 @@ public class LocalRules {
     /**
      * Switch between Inheritance/Implication and Similarity/Equivalence
      * <br>
-     * {&lt;S --&gt; P&gt;} |- &lt;S &lt;-&gt; P&gt; {&lt;S &lt;-&gt; P&gt;} |-
-     * &lt;S --&gt; P&gt;
+     * {<S --> P>} |- <S <-> P> {<S <-> P>} |-
+     * <S --> P>
      *
      * @param nal Reference to the memory
      */

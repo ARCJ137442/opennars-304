@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 
 /**
- * Utilities for process Text &amp; String input/output, ex: encoding/escaping
+ * Utilities for process Text & String input/output, ex: encoding/escaping
  * and decoding/unescaping Terms
  *
  *
@@ -41,9 +41,9 @@ public class Texts {
      * If a component is null, it is ignored.
      * if total non-null components is 0, returns null
      * if total non-null components is 1, returns that component.
-     * if the combined length &lt;= maxLen, creates a StringBuilder appending them
+     * if the combined length <= maxLen, creates a StringBuilder appending them
      * all.
-     * if the combined length &gt; maxLen, creates a Rope appending them all.
+     * if the combined length > maxLen, creates a Rope appending them all.
      * 
      * TODO do not allow a StringBuilder to appear in output, instead wrap in
      * CharArrayRope

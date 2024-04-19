@@ -151,20 +151,20 @@ public class Shell {
                             nar.addInput(line);
                         } catch (Exception ex) {
                             if (Debug.DETAILED) {
-                                throw new IllegalStateException("error parsing:" + line, ex);
+                                throw new IllegalStateException("ERROR: error parsing:" + line, ex);
                             }
-                            System.out.println("parsing error");
+                            System.out.println("ERROR: parsing error");
                         }
                     }
 
                 } catch (final IOException e) {
-                    throw new IllegalStateException("Could not read line.", e);
+                    throw new IllegalStateException("ERROR: Could not read line.", e);
                 }
 
                 try {
                     Thread.sleep(1);
                 } catch (final InterruptedException e) {
-                    throw new IllegalStateException("Unexpectadly interrupted while sleeping.", e);
+                    throw new IllegalStateException("ERROR: Unexpectedly interrupted while sleeping.", e);
                 }
             }
         }
@@ -195,7 +195,7 @@ public class Shell {
             nar.cycles(numberOfSteps);
             System.exit(0);
         } else {
-            nar.start();
+            nar.start(-1); // 现在使用「-1」默认关闭「自动步进」功能
         }
     }
 

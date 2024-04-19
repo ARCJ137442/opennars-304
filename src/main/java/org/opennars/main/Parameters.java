@@ -315,7 +315,7 @@ public class Parameters implements Serializable {
     /** Default volume at startup */
     public volatile int VOLUME = 0;
 
-    /** Default miliseconds per step at startup */
+    /** Default milliseconds per step at startup */
     public volatile int MILLISECONDS_PER_STEP = 0;
 
     /** Timing mode, steps or real time */

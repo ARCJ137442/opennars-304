@@ -213,7 +213,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
         List<Plugin> pluginsToAdd = ConfigReader.loadParamsFromFileAndReturnPlugins(relativeConfigFilePath, this,
                 this.narParameters);
         final Memory m = new Memory(this.narParameters,
-                new Bag(narParameters.CONCEPT_BAG_LEVELS, narParameters.CONCEPT_BAG_SIZE, this.narParameters),
+                new Bag<>(narParameters.CONCEPT_BAG_LEVELS, narParameters.CONCEPT_BAG_SIZE, this.narParameters),
                 new Bag<>(narParameters.NOVEL_TASK_BAG_LEVELS, narParameters.NOVEL_TASK_BAG_SIZE, this.narParameters),
                 new Bag<>(narParameters.SEQUENCE_BAG_LEVELS, narParameters.SEQUENCE_BAG_SIZE, this.narParameters),
                 new Bag<>(narParameters.OPERATION_BAG_LEVELS, narParameters.OPERATION_BAG_SIZE, this.narParameters));
@@ -240,7 +240,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
                 this.narParameters);
         overrideParameters(narParameters, parameterOverrides);
         final Memory m = new Memory(this.narParameters,
-                new Bag(narParameters.CONCEPT_BAG_LEVELS, narParameters.CONCEPT_BAG_SIZE, this.narParameters),
+                new Bag<>(narParameters.CONCEPT_BAG_LEVELS, narParameters.CONCEPT_BAG_SIZE, this.narParameters),
                 new Bag<>(narParameters.NOVEL_TASK_BAG_LEVELS, narParameters.NOVEL_TASK_BAG_SIZE, this.narParameters),
                 new Bag<>(narParameters.SEQUENCE_BAG_LEVELS, narParameters.SEQUENCE_BAG_SIZE, this.narParameters),
                 new Bag<>(narParameters.OPERATION_BAG_LEVELS, narParameters.OPERATION_BAG_SIZE, this.narParameters));
@@ -326,23 +326,28 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
     }
 
     private boolean addCommand(final String text) throws IOException {
-        if (text.startsWith("**")) {
+        // 重置
+        if (text.startsWith("**") || text.startsWith("*reset")) {
             this.reset();
             return true;
-        } else if (text.startsWith("*decisionthreshold=")) { // TODO use reflection for narParameters, allow to set
-                                                             // others too
+        } // 决策阈值
+        else if (text.startsWith("*decisionthreshold=")) { // TODO use reflection for narParameters, allow to set
+                                                           // others too
             final Double value = Double.valueOf(text.split("decisionthreshold=")[1]);
             narParameters.DECISION_THRESHOLD = value.floatValue();
             return true;
-        } else if (text.startsWith("*volume=")) {
+        } // 音量
+        else if (text.startsWith("*volume=")) {
             final Integer value = Integer.valueOf(text.split("volume=")[1]);
             narParameters.VOLUME = value;
             return true;
-        } else if (text.startsWith("*threads=")) {
+        } // 线程数
+        else if (text.startsWith("*threads=")) {
             final Integer value = Integer.valueOf(text.split("threads=")[1]);
             narParameters.THREADS_AMOUNT = value;
             return true;
-        } else if (text.startsWith("*save=")) {
+        } // 保存
+        else if (text.startsWith("*save=")) {
             final String filename = text.split("save=")[1];
             boolean wasRunning = this.isRunning();
             if (wasRunning) {
@@ -353,17 +358,43 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
                 this.start(this.minCyclePeriodMS);
             }
             return true;
-        } else if (text.startsWith("*speed=")) {
+        }
+        // 设置运行速度（负数为关闭）
+        else if (text.startsWith("*speed")) {
+            final String[] split = text.split("speed");
+            final String stripped = split.length > 1 ? split[1] : "";
+            // 若带等号⇒修改
+            if (stripped.startsWith("=")) {
+                final Long value = Long.valueOf(stripped.split("=")[1]);
+                this.minCyclePeriodMS = value;
+            }
+            // 总是打印信息
+            if (this.minCyclePeriodMS > 0)
+                System.out.println("INFO: Running at " + this.minCyclePeriodMS + "ms per cycle.");
+            else if (this.minCyclePeriodMS == 0)
+                System.out.println("INFO: Running at full speed.");
+            else
+                System.out.println("INFO: Auto-cycling off.");
+            return true;
+        }
+        // 设置运行速度（负数为关闭）
+        else if (text.startsWith("*speed=")) {
             final Integer value = Integer.valueOf(text.split("speed=")[1]);
             this.minCyclePeriodMS = value;
             return true;
-        } else if (StringUtils.isNumeric(text)) {
+        }
+        // 推理循环
+        else if (StringUtils.isNumeric(text)) {
             final Integer retVal = Integer.parseInt(text);
-            if (!running) {
-                for (int i = 0; i < retVal; i++) {
-                    this.cycle();
-                }
+            // * 🚩【2024-04-19 21:08:03】现在无论如何都要运行推理周期
+            // if (!running) {
+            System.out.println("INFO: Running " + retVal + " cycles.");
+            emit(CyclesStart.class);
+            for (int i = 0; i < retVal; i++) {
+                cycle();
             }
+            emit(CyclesEnd.class);
+            // }
             return true;
         } else {
             return false;
@@ -607,7 +638,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
     }
 
     public void start() {
-        start(narParameters.MILLISECONDS_PER_STEP);
+        this.start(narParameters.MILLISECONDS_PER_STEP);
     }
 
     /**
@@ -644,9 +675,12 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
         stopped = false;
 
         while (running && !stopped) {
-            emit(CyclesStart.class);
-            cycle();
-            emit(CyclesEnd.class);
+            // * 🚩【2024-04-19 21:26:19】现在在「循环周期小于0」的时候跳过（但不停止循环）
+            if (this.minCyclePeriodMS < 0)
+                continue;
+            this.emit(CyclesStart.class);
+            this.cycle();
+            this.emit(CyclesEnd.class);
 
             if (minCyclePeriodMS > 0) {
                 try {

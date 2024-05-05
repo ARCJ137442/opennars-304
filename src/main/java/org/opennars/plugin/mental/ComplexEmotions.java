@@ -56,7 +56,7 @@ public class ComplexEmotions implements Plugin {
                         return;
                     final Task future_task = (Task) a[0];
 
-                    if (future_task.sentence.getOccurenceTime() > n.time()) {
+                    if (future_task.sentence.getOccurrenceTime() > n.time()) {
                         final Concept c = n.memory.concept(future_task.getTerm());
                         final float true_expectation = 0.5f;
                         final float false_expectation = 0.5f;

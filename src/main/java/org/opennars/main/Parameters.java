@@ -33,7 +33,7 @@ import java.io.Serializable;
 // TODO< rename this after MVP0 to "ReasonerArguments" >
 public class Parameters implements Serializable {
     /**
-     * what this value represents was originally equal to the termlink record length
+     * what this value represents was originally equal to the termLink record length
      * (10), but we may want to adjust it or make it scaled according to duration
      * since it has more to do with time than # of records. it can probably be
      * increased several times larger since each item should remain in the recording
@@ -257,7 +257,7 @@ public class Parameters implements Serializable {
      */
     public boolean RETROSPECTIVE_ANTICIPATIONS = false;
 
-    public volatile float SATISFACTION_TRESHOLD = 0.0f; // decision threshold is enough for now
+    public volatile float SATISFACTION_THRESHOLD = 0.0f; // decision threshold is enough for now
 
     public volatile float COMPLEXITY_UNIT = 1.0f; // 1.0 - oo
 

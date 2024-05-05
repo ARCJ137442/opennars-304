@@ -44,7 +44,7 @@ public class ProcessTask {
      * in the budget value of the task:
      * de-priorize already fullfilled questions and goals
      * increase quality of beliefs if they turned out to be useful.
-     * After the re-priorization is done, a tasklink is finally constructed.
+     * After the re-priorization is done, a taskLink is finally constructed.
      * For input events the concept is set observable too.
      *
      * @param concept The concept of the task

@@ -191,14 +191,14 @@ public final class SyllogisticRules {
             return true;
         }
 
-        long occurrence_time2 = nal.getCurrentTask().sentence.getOccurenceTime();
+        long occurrence_time2 = nal.getCurrentTask().sentence.getOccurrenceTime();
         while (occurrence_time2 != Stamp.ETERNAL && (term2 instanceof Conjunction)
                 && (((CompoundTerm) term2).term[0] instanceof Interval)) {
             final Interval interval = (Interval) ((CompoundTerm) term2).term[0];
             occurrence_time2 += interval.time;
             term2 = ((CompoundTerm) term2).setComponent(0, null, nal.mem());
         }
-        long occurrence_time1 = nal.getCurrentTask().sentence.getOccurenceTime();
+        long occurrence_time1 = nal.getCurrentTask().sentence.getOccurrenceTime();
         while (occurrence_time1 != Stamp.ETERNAL && (term1 instanceof Conjunction)
                 && (((CompoundTerm) term1).term[0] instanceof Interval)) {
             final Interval interval = (Interval) ((CompoundTerm) term1).term[0];
@@ -492,9 +492,9 @@ public final class SyllogisticRules {
             return;
 
         final int order = statement.getTemporalOrder();
-        long occurrence_time = nal.getCurrentTask().sentence.getOccurenceTime();
+        long occurrence_time = nal.getCurrentTask().sentence.getOccurrenceTime();
         if ((order != ORDER_NONE) && (order != ORDER_INVALID)) {
-            final long baseTime = subSentence.getOccurenceTime();
+            final long baseTime = subSentence.getOccurrenceTime();
             if (baseTime != Stamp.ETERNAL) {
                 final long inc = order * nal.narParameters.DURATION;
                 occurrence_time = (side == 0) ? baseTime + inc : baseTime - inc;
@@ -658,22 +658,22 @@ public final class SyllogisticRules {
         final Term content;
 
         long delta = 0;
-        long mintime = 0;
-        long maxtime = 0;
+        long minTime = 0;
+        long maxTime = 0;
         boolean predictedEvent = false;
 
         if (newCondition != null) {
             if (newCondition instanceof Interval) {
                 content = premise1.getPredicate();
                 delta = ((Interval) newCondition).time;
-                if (taskSentence.getOccurenceTime() != Stamp.ETERNAL) {
+                if (taskSentence.getOccurrenceTime() != Stamp.ETERNAL) {
                     float timeOffset = ((Interval) newCondition).time;
                     float timeWindowHalf = timeOffset * nal.narParameters.ANTICIPATION_TOLERANCE;
-                    mintime = (long) Math.max(taskSentence.getOccurenceTime(),
-                            (taskSentence.getOccurenceTime() + timeOffset - timeWindowHalf));
-                    maxtime = (long) (taskSentence.getOccurenceTime() + timeOffset + timeWindowHalf);
+                    minTime = (long) Math.max(taskSentence.getOccurrenceTime(),
+                            (taskSentence.getOccurrenceTime() + timeOffset - timeWindowHalf));
+                    maxTime = (long) (taskSentence.getOccurrenceTime() + timeOffset + timeWindowHalf);
                     predictedEvent = nal.narParameters.RETROSPECTIVE_ANTICIPATIONS
-                            || (taskSentence.getOccurenceTime() >= nal.time.time());
+                            || (taskSentence.getOccurrenceTime() >= nal.time.time());
                 }
             } else {
                 while ((newCondition instanceof Conjunction)
@@ -692,9 +692,9 @@ public final class SyllogisticRules {
         if (content == null)
             return;
 
-        long occurrence_time = nal.getCurrentTask().sentence.getOccurenceTime();
+        long occurrence_time = nal.getCurrentTask().sentence.getOccurrenceTime();
         if (delta != 0) {
-            long baseTime = taskSentence.getOccurenceTime();
+            long baseTime = taskSentence.getOccurrenceTime();
             if (baseTime != Stamp.ETERNAL) {
                 baseTime += delta;
                 occurrence_time = baseTime;
@@ -740,7 +740,7 @@ public final class SyllogisticRules {
                 truth.getExpectation() > nal.narParameters.DEFAULT_CONFIRMATION_EXPECTATION
                 && !premise1Sentence.stamp.alreadyAnticipatedNegConfirmation) {
             premise1Sentence.stamp.alreadyAnticipatedNegConfirmation = true;
-            ProcessAnticipation.anticipate(nal, premise1Sentence, budget, mintime, maxtime, 1,
+            ProcessAnticipation.anticipate(nal, premise1Sentence, budget, minTime, maxTime, 1,
                     new LinkedHashMap<Term, Term>());
         }
     }

@@ -73,7 +73,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
     /**
      * Whether the sentence can be revised
      */
-    private boolean revisible;
+    private boolean revisable;
 
     /**
      * caches the 'getKey()' result
@@ -196,7 +196,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
 
         this.truth = truth;
         this.stamp = stamp;
-        this.revisible = _content instanceof Implication || _content instanceof Equivalence || !(_content.hasVarDep());
+        this.revisable = _content instanceof Implication || _content instanceof Equivalence || !(_content.hasVarDep());
 
         T newTerm = null;
         if (_content instanceof CompoundTerm)
@@ -430,19 +430,19 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
     /**
      * @return property of the ability to revise the sentence
      */
-    public boolean getRevisible() {
-        return revisible;
+    public boolean getRevisable() {
+        return revisable;
     }
 
-    public void setRevisible(final boolean b) {
-        revisible = b;
+    public void setRevisable(final boolean b) {
+        revisable = b;
     }
 
     public int getTemporalOrder() {
         return term.getTemporalOrder();
     }
 
-    public long getOccurenceTime() {
+    public long getOccurrenceTime() {
         return stamp.getOccurrenceTime();
     }
 

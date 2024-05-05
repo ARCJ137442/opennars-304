@@ -162,8 +162,8 @@ public class TemporalRules {
             return Collections.emptyList();
 
         final int durationCycles = nal.narParameters.DURATION;
-        final long time1 = s1.getOccurenceTime();
-        final long time2 = s2.getOccurenceTime();
+        final long time1 = s1.getOccurrenceTime();
+        final long time2 = s2.getOccurrenceTime();
         final long timeDiff = time2 - time1;
         Interval interval = null;
 
@@ -180,7 +180,7 @@ public class TemporalRules {
         TruthValue givenTruth2 = s2.truth;
 
         // This code adds a penalty for large time distance (TODO probably revise)
-        final Sentence s3 = s2.projection(s1.getOccurenceTime(), nal.time.time(), nal.memory);
+        final Sentence s3 = s2.projection(s1.getOccurrenceTime(), nal.time.time(), nal.memory);
         givenTruth2 = s3.truth;
 
         // Truth and priority calculations

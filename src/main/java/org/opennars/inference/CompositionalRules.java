@@ -256,7 +256,7 @@ public final class CompositionalRules {
         if (truth != null) {
             final BudgetValue budget = BudgetFunctions.compoundForward(truth, content, nal);
             if (delta != 0) {
-                long baseTime = task.sentence.getOccurenceTime();
+                long baseTime = task.sentence.getOccurrenceTime();
                 if (baseTime != Stamp.ETERNAL) {
                     baseTime += delta;
                     nal.getTheNewStamp().setOccurrenceTime(baseTime);
@@ -278,11 +278,11 @@ public final class CompositionalRules {
         if (isTemporalConjunction && (compound.getTemporalOrder() == TemporalRules.ORDER_FORWARD) && (index != 0)) {
             return;
         }
-        long occurrence_time = nal.getCurrentTask().sentence.getOccurenceTime();
+        long occurrence_time = nal.getCurrentTask().sentence.getOccurrenceTime();
         if (isTemporalConjunction && (compound.getTemporalOrder() == TemporalRules.ORDER_FORWARD)) {
             if (!nal.getCurrentTask().sentence.isEternal() && compound.term[index + 1] instanceof Interval) {
                 final long shift_occurrence = ((Interval) compound.term[index + 1]).time;
-                occurrence_time = nal.getCurrentTask().sentence.getOccurenceTime() + shift_occurrence;
+                occurrence_time = nal.getCurrentTask().sentence.getOccurrenceTime() + shift_occurrence;
             }
         }
 

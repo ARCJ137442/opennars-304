@@ -38,7 +38,7 @@ import org.opennars.entity.Stamp.BaseEntry;
 import org.opennars.entity.Task;
 import org.opennars.entity.TruthValue;
 import org.opennars.inference.LocalRules;
-import static org.opennars.inference.LocalRules.revisible;
+import static org.opennars.inference.LocalRules.revisable;
 import static org.opennars.inference.LocalRules.revision;
 import static org.opennars.inference.LocalRules.trySolution;
 import org.opennars.inference.TemporalRules;
@@ -103,10 +103,10 @@ public class ProcessGoal {
             }
         }
 
-        if (oldGoalT != null && revisible(goal, oldGoal, nal.narParameters)) {
+        if (oldGoalT != null && revisable(goal, oldGoal, nal.narParameters)) {
             final Stamp oldStamp = oldGoal.stamp;
             nal.setTheNewStamp(newStamp, oldStamp, nal.time.time());
-            final Sentence projectedGoal = oldGoal.projection(task.sentence.getOccurenceTime(),
+            final Sentence projectedGoal = oldGoal.projection(task.sentence.getOccurrenceTime(),
                     newStamp.getOccurrenceTime(), concept.memory);
             if (projectedGoal != null) {
                 nal.setCurrentBelief(projectedGoal);
@@ -143,10 +143,10 @@ public class ProcessGoal {
             return;
         }
 
-        double AntiSatisfaction = 0.5f; // we dont know anything about that goal yet
+        double AntiSatisfaction = 0.5f; // we don't know anything about that goal yet
         if (beliefT != null) {
             final Sentence belief = beliefT.sentence;
-            final Sentence projectedBelief = belief.projection(task.sentence.getOccurenceTime(),
+            final Sentence projectedBelief = belief.projection(task.sentence.getOccurrenceTime(),
                     nal.narParameters.DURATION, nal.memory);
             AntiSatisfaction = task.sentence.truth.getExpDifAbs(projectedBelief.truth);
         }
@@ -156,13 +156,13 @@ public class ProcessGoal {
             return;
         }
 
-        final boolean isFullfilled = AntiSatisfaction < nal.narParameters.SATISFACTION_TRESHOLD;
+        final boolean isFulfilled = AntiSatisfaction < nal.narParameters.SATISFACTION_THRESHOLD;
         final Sentence projectedGoal = goal.projection(nal.time.time(), nal.time.time(), nal.memory);
-        if (!(projectedGoal != null && task.aboveThreshold() && !isFullfilled)) {
+        if (!(projectedGoal != null && task.aboveThreshold() && !isFulfilled)) {
             return;
         }
-        final boolean inhitedBabblingGoal = task.isInput() && !concept.allowBabbling;
-        if (inhitedBabblingGoal) {
+        final boolean inheritedBabblingGoal = task.isInput() && !concept.allowBabbling;
+        if (inheritedBabblingGoal) {
             return;
         }
         bestReactionForGoal(concept, nal, projectedGoal, task);
@@ -224,7 +224,7 @@ public class ProcessGoal {
     public static void questionFromGoal(final Task task, final DerivationContext nal) {
         if (nal.narParameters.QUESTION_GENERATION_ON_DECISION_MAKING
                 || nal.narParameters.HOW_QUESTION_GENERATION_ON_DECISION_MAKING) {
-            // ok, how can we achieve it? add a question of whether it is fullfilled
+            // ok, how can we achieve it? add a question of whether it is fulfilled
             final List<Term> qu = new ArrayList<>();
             if (nal.narParameters.HOW_QUESTION_GENERATION_ON_DECISION_MAKING) {
                 if (!(task.sentence.term instanceof Equivalence) && !(task.sentence.term instanceof Implication)) {
@@ -244,7 +244,7 @@ public class ProcessGoal {
             for (final Term q : qu) {
                 if (q != null) {
                     final Stamp st = new Stamp(task.sentence.stamp, nal.time.time());
-                    st.setOccurrenceTime(task.sentence.getOccurenceTime()); // set tense of question to goal tense
+                    st.setOccurrenceTime(task.sentence.getOccurrenceTime()); // set tense of question to goal tense
                     final Sentence s = new Sentence(
                             q,
                             Symbols.QUESTION_MARK,
@@ -264,12 +264,12 @@ public class ProcessGoal {
     }
 
     private static class ExecutablePrecondition {
-        public Operation bestop = null;
-        public float bestop_truthexp = 0.0f;
-        public TruthValue bestop_truth = null;
-        public Task executable_precond = null;
-        public long mintime = -1;
-        public long maxtime = -1;
+        public Operation bestOp = null;
+        public float bestOp_truthExp = 0.0f;
+        public TruthValue bestOp_truth = null;
+        public Task executable_precondition = null;
+        public long minTime = -1;
+        public long maxTime = -1;
         public float timeOffset;
         public Map<Term, Term> substitution;
     }
@@ -308,8 +308,8 @@ public class ProcessGoal {
                     if (Variables.findSubstitute(nal.memory.randomNumber, Symbols.VAR_INDEPENDENT,
                             ((Implication) precon.sentence.term).getPredicate(), projectedGoal.term,
                             new LinkedHashMap<>(), new LinkedHashMap<>())) {
-                        for (Task prec : get_concept.general_executable_preconditions) {
-                            generalPreconditions.add(prec);
+                        for (Task precondition : get_concept.general_executable_preconditions) {
+                            generalPreconditions.add(precondition);
                             useful_component = true;
                         }
                     }
@@ -331,20 +331,20 @@ public class ProcessGoal {
                     anticipationsToMake);
             // 5. And executing it, also forming an expectation about the result
             if (executePrecondition(nal, bestOpWithMeta, concept, projectedGoal, task)) {
-                Concept op = nal.memory.concept(bestOpWithMeta.bestop);
-                if (op != null && bestOpWithMeta.executable_precond.sentence.truth
+                Concept op = nal.memory.concept(bestOpWithMeta.bestOp);
+                if (op != null && bestOpWithMeta.executable_precondition.sentence.truth
                         .getConfidence() > nal.narParameters.MOTOR_BABBLING_CONFIDENCE_THRESHOLD) {
                     synchronized (op) {
                         op.allowBabbling = false;
                     }
                 }
-                System.out.println("Executed based on: " + bestOpWithMeta.executable_precond);
-                for (ExecutablePrecondition precon : anticipationsToMake.get(bestOpWithMeta.bestop)) {
+                System.out.println("Executed based on: " + bestOpWithMeta.executable_precondition);
+                for (ExecutablePrecondition precon : anticipationsToMake.get(bestOpWithMeta.bestOp)) {
                     float distance = precon.timeOffset - nal.time.time();
                     float urgency = 2.0f + 1.0f / distance;
 
-                    ProcessAnticipation.anticipate(nal, precon.executable_precond.sentence,
-                            precon.executable_precond.budget, precon.mintime, precon.maxtime, urgency,
+                    ProcessAnticipation.anticipate(nal, precon.executable_precondition.sentence,
+                            precon.executable_precondition.budget, precon.minTime, precon.maxTime, urgency,
                             precon.substitution);
                 }
                 return; // don't try the other table as a specific solution was already used
@@ -391,8 +391,9 @@ public class ProcessGoal {
             Map<Term, Term> subsBest = new LinkedHashMap<>();
             synchronized (concept.memory.seq_current) {
                 for (final Task p : concept.memory.seq_current) {
-                    if (p.sentence.isJudgment() && !p.sentence.isEternal() && p.sentence.getOccurenceTime() > newesttime
-                            && p.sentence.getOccurenceTime() <= nal.time.time()) {
+                    if (p.sentence.isJudgment() && !p.sentence.isEternal()
+                            && p.sentence.getOccurrenceTime() > newesttime
+                            && p.sentence.getOccurrenceTime() <= nal.time.time()) {
                         Map<Term, Term> subs = new LinkedHashMap<>(subsconc);
                         boolean preconditionMatches = Variables.findSubstitute(nal.memory.randomNumber,
                                 Symbols.VAR_INDEPENDENT,
@@ -401,7 +402,7 @@ public class ProcessGoal {
                         if (preconditionMatches && conclusionMatches) {
                             Task pNew = new Task(p.sentence.clone(), p.budget.clone(),
                                     p.isInput() ? Task.EnumType.INPUT : Task.EnumType.DERIVED);
-                            newesttime = p.sentence.getOccurenceTime();
+                            newesttime = p.sentence.getOccurrenceTime();
                             // Apply interval penalty for interval differences in the precondition
                             LocalRules.intervalProjection(nal, pNew.sentence.term, precondition, prec_intervals,
                                     pNew.sentence.truth);
@@ -437,22 +438,22 @@ public class ProcessGoal {
             // in order to derive the operator desire value:
             final TruthValue opdesire = TruthFunctions.desireDed(precon, leftside, concept.memory.narParameters);
             final float expecdesire = opdesire.getExpectation();
-            Operation bestop = (Operation) ((CompoundTerm) op).applySubstitute(subsBest);
-            long mintime = (long) (nal.time.time() + timeOffset - timeWindowHalf);
-            long maxtime = (long) (nal.time.time() + timeOffset + timeWindowHalf);
-            if (expecdesire > result.bestop_truthexp) {
-                result.bestop = bestop;
-                result.bestop_truthexp = expecdesire;
-                result.bestop_truth = opdesire;
-                result.executable_precond = t;
+            Operation bestOp = (Operation) ((CompoundTerm) op).applySubstitute(subsBest);
+            long minTime = (long) (nal.time.time() + timeOffset - timeWindowHalf);
+            long maxTime = (long) (nal.time.time() + timeOffset + timeWindowHalf);
+            if (expecdesire > result.bestOp_truthExp) {
+                result.bestOp = bestOp;
+                result.bestOp_truthExp = expecdesire;
+                result.bestOp_truth = opdesire;
+                result.executable_precondition = t;
                 result.substitution = subsBest;
-                result.mintime = mintime;
-                result.maxtime = maxtime;
+                result.minTime = minTime;
+                result.maxTime = maxTime;
                 result.timeOffset = timeOffset;
-                if (anticipationsToMake.get(result.bestop) == null) {
-                    anticipationsToMake.put(result.bestop, new ArrayList<ExecutablePrecondition>());
+                if (anticipationsToMake.get(result.bestOp) == null) {
+                    anticipationsToMake.put(result.bestOp, new ArrayList<ExecutablePrecondition>());
                 }
-                anticipationsToMake.get(result.bestop).add(result);
+                anticipationsToMake.get(result.bestOp).add(result);
             }
         }
         return result;
@@ -469,14 +470,14 @@ public class ProcessGoal {
      */
     private static boolean executePrecondition(final DerivationContext nal, ExecutablePrecondition precon,
             final Concept concept, final Sentence projectedGoal, final Task task) {
-        if (precon.bestop != null && precon.bestop_truthexp > nal.narParameters.DECISION_THRESHOLD /*
+        if (precon.bestOp != null && precon.bestOp_truthExp > nal.narParameters.DECISION_THRESHOLD /*
                                                                                                     * && Math.random() <
-                                                                                                    * bestop_truthexp
+                                                                                                    * bestOp_truthexp
                                                                                                     */) {
             final Sentence createdSentence = new Sentence(
-                    precon.bestop,
+                    precon.bestOp,
                     Symbols.GOAL_MARK,
-                    precon.bestop_truth,
+                    precon.bestOp_truth,
                     projectedGoal.stamp);
             final Task t = new Task(createdSentence,
                     new BudgetValue(1.0f, 1.0f, 1.0f, nal.narParameters),

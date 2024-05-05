@@ -36,7 +36,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import static org.opennars.inference.LocalRules.revisible;
+import static org.opennars.inference.LocalRules.revisable;
 import static org.opennars.inference.LocalRules.revision;
 import static org.opennars.inference.LocalRules.trySolution;
 
@@ -83,7 +83,7 @@ public class ProcessJudgment {
             if (newStamp.equals(oldStamp, false, false, true)) {
                 concept.memory.removeTask(task, "Duplicated");
                 return;
-            } else if (revisible(judg, oldBelief, nal.narParameters)) {
+            } else if (revisable(judg, oldBelief, nal.narParameters)) {
                 nal.setTheNewStamp(newStamp, oldStamp, nal.time.time());
                 final Sentence projectedBelief = oldBelief.projection(nal.time.time(), newStamp.getOccurrenceTime(),
                         concept.memory);

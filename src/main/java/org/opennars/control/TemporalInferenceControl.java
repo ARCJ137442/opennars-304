@@ -149,8 +149,8 @@ public class TemporalInferenceControl {
                             continue;
                         }
                         already_attempted.add(takeout);
-                        final long x = Toperation.sentence.getOccurenceTime();
-                        final long y = takeout.sentence.getOccurenceTime();
+                        final long x = Toperation.sentence.getOccurrenceTime();
+                        final long y = takeout.sentence.getOccurrenceTime();
                         if (y > x) { // something wrong here?
                             System.out.println("analyze case in TemporalInferenceControl!");
                             continue;
@@ -258,7 +258,7 @@ public class TemporalInferenceControl {
                             mem.narParameters);
                 }
                 for (final Task t : mem.seq_current) {
-                    if (task.sentence.getOccurenceTime() > t.sentence.getOccurenceTime()) {
+                    if (task.sentence.getOccurrenceTime() > t.sentence.getOccurrenceTime()) {
                         c.seq_before.putIn(t);
                     }
                 }

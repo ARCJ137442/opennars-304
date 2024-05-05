@@ -68,7 +68,7 @@ public class LocalRules {
         final Sentence sentence = task.sentence;
 
         if (sentence.isJudgment()) {
-            if (revisible(sentence, belief, nal.narParameters)) {
+            if (revisable(sentence, belief, nal.narParameters)) {
                 return revision(sentence, belief, beliefConcept, true, nal);
             }
         } else {
@@ -89,9 +89,10 @@ public class LocalRules {
      * @param s2 The second sentence
      * @return If revision is possible between the two sentences
      */
-    public static boolean revisible(final Sentence s1, final Sentence s2, Parameters narParameters) {
+    public static boolean revisable(final Sentence s1, final Sentence s2, Parameters narParameters) {
         if (!s1.isEternal() && !s2.isEternal() && Math
-                .abs(s1.getOccurenceTime() - s2.getOccurenceTime()) > narParameters.REVISION_MAX_OCCURRENCE_DISTANCE) {
+                .abs(s1.getOccurrenceTime()
+                        - s2.getOccurrenceTime()) > narParameters.REVISION_MAX_OCCURRENCE_DISTANCE) {
             return false;
         }
         if (s1.term.term_indices != null && s2.term.term_indices != null) {
@@ -101,7 +102,7 @@ public class LocalRules {
                 }
             }
         }
-        return (s1.getRevisible() &&
+        return (s1.getRevisable() &&
                 matchingOrder(s1.getTemporalOrder(), s2.getTemporalOrder()) &&
                 CompoundTerm.replaceIntervals(s1.term).equals(CompoundTerm.replaceIntervals(s2.term)) &&
                 !Stamp.baseOverlap(s1.stamp, s2.stamp));
@@ -279,8 +280,8 @@ public class LocalRules {
         }
 
         TruthValue truth = solution.truth;
-        if (problem.getOccurenceTime() != solution.getOccurenceTime()) {
-            truth = solution.projectionTruth(problem.getOccurenceTime(), time.time(), memory);
+        if (problem.getOccurrenceTime() != solution.getOccurrenceTime()) {
+            truth = solution.projectionTruth(problem.getOccurrenceTime(), time.time(), memory);
         }
 
         // when the solutions are comparable, we have to use confidence!! else truth

@@ -60,12 +60,12 @@ public class GeneralInferenceControl {
         float forgetCycles = 0.0f;
         synchronized (currentConcept) { // use current concept (current concept is the resource)
             ProcessAnticipation.maintainDisappointedAnticipations(narParameters, currentConcept, nar);
-            if (currentConcept.taskLinks.size() == 0) { // remove concepts without tasklinks and without termlinks
+            if (currentConcept.taskLinks.size() == 0) { // remove concepts without taskLinks and without termLinks
                 mem.concepts.pickOut(currentConcept.getTerm());
                 mem.conceptRemoved(currentConcept);
                 return;
             }
-            if (currentConcept.termLinks.size() == 0) { // remove concepts without tasklinks and without termlinks
+            if (currentConcept.termLinks.size() == 0) { // remove concepts without taskLinks and without termLinks
                 mem.concepts.pickOut(currentConcept.getTerm());
                 mem.conceptRemoved(currentConcept);
                 return;
@@ -117,9 +117,9 @@ public class GeneralInferenceControl {
         }
         if (nal.currentTaskLink.type == TermLink.TRANSFORM) {
             nal.setCurrentBelief(null);
-            // TermLink tasklink_as_termlink = new TermLink(nal.currentTaskLink.getTerm(),
+            // TermLink taskLink_as_termLink = new TermLink(nal.currentTaskLink.getTerm(),
             // TermLink.TRANSFORM, nal.getCurrentTaskLink().index);
-            // if(nal.currentTaskLink.novel(tasklink_as_termlink, nal.memory.time(), true))
+            // if(nal.currentTaskLink.novel(taskLink_as_termLink, nal.memory.time(), true))
             // { //then record yourself, but also here novelty counts
             RuleTables.transformTask(nal.currentTaskLink, nal); // to turn this into structural inference as below?
             // }

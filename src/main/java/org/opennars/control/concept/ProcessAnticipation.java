@@ -55,7 +55,7 @@ import static org.opennars.inference.UtilityFunctions.w2c;
 public class ProcessAnticipation {
 
     public static void anticipate(final DerivationContext nal, final Sentence mainSentence, final BudgetValue budget,
-            final long mintime, final long maxtime, final float urgency, Map<Term, Term> substitution) {
+            final long minTime, final long maxTime, final float urgency, Map<Term, Term> substitution) {
         // derivation was successful and it was a judgment event
         final Stamp stamp = new Stamp(nal.time, nal.memory);
         stamp.setOccurrenceTime(Stamp.ETERNAL);
@@ -72,11 +72,11 @@ public class ProcessAnticipation {
         Term specificAnticipationTerm = ((CompoundTerm) ((Statement) mainSentence.term).getPredicate())
                 .applySubstitute(substitution);
         final Concept c = nal.memory.concept(specificAnticipationTerm); // put into consequence concept
-        if (c != null /* && mintime > nal.memory.time() */ && c.observable
+        if (c != null /* && minTime > nal.memory.time() */ && c.observable
                 && (mainSentence.getTerm() instanceof Implication || mainSentence.getTerm() instanceof Equivalence) &&
                 mainSentence.getTerm().getTemporalOrder() == TemporalRules.ORDER_FORWARD) {
             Concept.AnticipationEntry toDelete = null;
-            Concept.AnticipationEntry toInsert = new Concept.AnticipationEntry(urgency, t, mintime, maxtime);
+            Concept.AnticipationEntry toInsert = new Concept.AnticipationEntry(urgency, t, minTime, maxTime);
             boolean fullCapacity = c.anticipations.size() >= nal.narParameters.ANTICIPATIONS_PER_CONCEPT_MAX;
             // choose an element to replace with the new, in case that we are already at
             // full capacity
@@ -87,7 +87,7 @@ public class ProcessAnticipation {
                                                                  */) {
                         // prefer to replace one that is more far in the future, takes longer to be
                         // disappointed about
-                        if (toDelete == null || entry.negConfirm_abort_maxtime > toDelete.negConfirm_abort_maxtime) {
+                        if (toDelete == null || entry.negConfirm_abort_maxTime > toDelete.negConfirm_abort_maxTime) {
                             toDelete = entry;
                         }
                     }
@@ -103,8 +103,8 @@ public class ProcessAnticipation {
             }
             c.anticipations.add(toInsert);
             final Statement impOrEqu = (Statement) toInsert.negConfirmation.sentence.term;
-            final Concept ctarget = nal.memory.concept(impOrEqu.getPredicate());
-            if (ctarget != null) {
+            final Concept cTarget = nal.memory.concept(impOrEqu.getPredicate());
+            if (cTarget != null) {
                 Operator anticipate_op = ((Anticipate) c.memory.getOperator("^anticipate"));
                 if (anticipate_op != null && anticipate_op instanceof Anticipate) {
                     ((Anticipate) anticipate_op).anticipationFeedback(impOrEqu.getPredicate(), null, c.memory,
@@ -132,13 +132,13 @@ public class ProcessAnticipation {
         List<Concept.AnticipationEntry> confirmed = new ArrayList<>();
         List<Concept.AnticipationEntry> disappointed = new ArrayList<>();
         for (Concept.AnticipationEntry entry : concept.anticipations) {
-            if (entry.negConfirmation == null || nar.time() <= entry.negConfirm_abort_maxtime) {
+            if (entry.negConfirmation == null || nar.time() <= entry.negConfirm_abort_maxTime) {
                 continue;
             }
             // at first search beliefs for input tasks:
             boolean gotConfirmed = false;
             if (narParameters.RETROSPECTIVE_ANTICIPATIONS) {
-                for (final TaskLink tl : concept.taskLinks) { // search for input in tasklinks (beliefs alone can not
+                for (final TaskLink tl : concept.taskLinks) { // search for input in taskLinks (beliefs alone can not
                                                               // take temporality into account as the eternals will win)
                     final Task t = tl.targetTask;
                     if (t != null && t.sentence.isJudgment() && /* t.isInput() && */ !t.sentence.isEternal()
@@ -147,8 +147,8 @@ public class ProcessAnticipation {
                             &&
                             CompoundTerm.replaceIntervals(t.sentence.term)
                                     .equals(CompoundTerm.replaceIntervals(concept.getTerm()))) {
-                        if (t.sentence.getOccurenceTime() >= entry.negConfirm_abort_mintime
-                                && t.sentence.getOccurenceTime() <= entry.negConfirm_abort_maxtime) {
+                        if (t.sentence.getOccurrenceTime() >= entry.negConfirm_abort_minTime
+                                && t.sentence.getOccurrenceTime() <= entry.negConfirm_abort_maxTime) {
                             confirmed.add(entry);
                             gotConfirmed = true;
                             break;
@@ -171,12 +171,12 @@ public class ProcessAnticipation {
         }
         for (Concept.AnticipationEntry entry : disappointed) {
             final Term term = entry.negConfirmation.getTerm();
-            final Term termWithRplacedIntervals = CompoundTerm.replaceIntervals(term);
+            final Term termWithReplacedIntervals = CompoundTerm.replaceIntervals(term);
 
             { // revise with negative evidence
                 TruthValue truthOfBeliefWithTerm = null;
                 {
-                    final Concept targetConcept = nar.memory.concept(termWithRplacedIntervals);
+                    final Concept targetConcept = nar.memory.concept(termWithReplacedIntervals);
                     if (targetConcept == null) { // target concept does not exist
                         continue;
                     }
@@ -239,8 +239,8 @@ public class ProcessAnticipation {
         List<Concept.AnticipationEntry> confirmed = new ArrayList<>();
         for (Concept.AnticipationEntry entry : concept.anticipations) {
             if (satisfiesAnticipation && isExpectationAboveThreshold
-                    && task.sentence.getOccurenceTime() >= entry.negConfirm_abort_mintime
-                    && task.sentence.getOccurenceTime() <= entry.negConfirm_abort_maxtime) {
+                    && task.sentence.getOccurrenceTime() >= entry.negConfirm_abort_minTime
+                    && task.sentence.getOccurrenceTime() <= entry.negConfirm_abort_maxTime) {
                 confirmed.add(entry);
             }
         }
@@ -251,17 +251,17 @@ public class ProcessAnticipation {
     }
 
     /**
-     * Fire predictictive inference based on beliefs that are known to the concept's
-     * neighbours
+     * Fire predictive inference based on beliefs that are known to the concept's
+     * neighbors
      * 
      * @param judgementTask judgement task
      * @param concept       concept that is processed
      * @param nal           derivation context
      * @param time          used to retrieve current time
-     * @param tasklink      coresponding tasklink
+     * @param taskLink      corresponding taskLink
      */
     public static void firePredictions(final Task judgementTask, final Concept concept, final DerivationContext nal,
-            Timable time, TaskLink tasklink) {
+            Timable time, TaskLink taskLink) {
         if (!judgementTask.sentence.isEternal() && judgementTask.isInput() && judgementTask.sentence.isJudgment()) {
             for (TermLink tl : concept.termLinks) {
                 Term term = tl.getTarget();
@@ -269,9 +269,9 @@ public class ProcessAnticipation {
                 if (tc != null && !tc.beliefs.isEmpty() && term instanceof Implication) {
                     Implication imp = (Implication) term;
                     if (imp.getTemporalOrder() == TemporalRules.ORDER_FORWARD) {
-                        Term precon = imp.getSubject();
-                        Term component = precon;
-                        if (precon instanceof Conjunction) {
+                        Term preCon = imp.getSubject();
+                        Term component = preCon;
+                        if (preCon instanceof Conjunction) {
                             Conjunction conj = (Conjunction) imp.getSubject();
                             if (conj.getTemporalOrder() == TemporalRules.ORDER_FORWARD && conj.term.length == 2
                                     && conj.term[1] instanceof Interval) {
@@ -284,10 +284,10 @@ public class ProcessAnticipation {
                             DerivationContext cont = new DerivationContext(nal.memory, nal.narParameters, time);
                             cont.setCurrentTask(judgementTask); // a
                             cont.setCurrentBeliefLink(tl); // a =/> b
-                            cont.setCurrentTaskLink(tasklink); // a
+                            cont.setCurrentTaskLink(taskLink); // a
                             cont.setCurrentConcept(concept); // a
                             cont.setCurrentTerm(concept.getTerm()); // a
-                            RuleTables.reason(tasklink, tl, cont); // generate b
+                            RuleTables.reason(taskLink, tl, cont); // generate b
                         }
                     }
                 }

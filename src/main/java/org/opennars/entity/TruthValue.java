@@ -289,6 +289,7 @@ public class TruthValue implements Cloneable, Serializable { // implements Clone
         }
     }
 
+    // * 📝【2024-05-08 20:49:46】这个函数并无所用之处
     public TruthValue set(final float frequency, final double confidence) {
         setFrequency(frequency);
         setConfidence(confidence);

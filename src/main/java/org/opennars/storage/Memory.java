@@ -92,7 +92,7 @@ public class Memory implements Serializable, Iterable<Concept>, Resettable {
     /* InnateOperator registry. Containing all registered operators of the system */
     public final Map<CharSequence, Operator> operators;
 
-    /* a mutex for novel and new taskks */
+    /* a mutex for novel and new tasks */
     private final Boolean tasksMutex = Boolean.TRUE;
 
     /* New tasks with novel composed terms, for delayed and selective processing */

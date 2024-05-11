@@ -42,7 +42,7 @@ import java.util.List;
  * @author Patrick Hammer
  */
 public class DerivationContext {
-    public boolean evidentalOverlap = false;
+    public boolean evidentialOverlap = false;
     public final Memory memory;
     protected Term currentTerm;
     protected Concept currentConcept;
@@ -109,7 +109,7 @@ public class DerivationContext {
             }
         }
         if (task.sentence.term.cloneDeep() == null) {
-            // sorted subterm version leaded to a invalid term that remained undetected
+            // sorted sub-term version leaded to a invalid term that remained undetected
             // while the term was constructed optimistically
             // example: (&,a,b) --> (&,b,a) which gets normalized to (&,a,b) --> (&,a,b)
             // which is invalid.
@@ -119,12 +119,12 @@ public class DerivationContext {
 
         final Stamp stamp = task.sentence.stamp;
 
-        // its revision, of course its cyclic, apply evidental base policy
+        // its revision, of course its cyclic, apply evidential base policy
         if (!overlapAllowed) { // todo reconsider
             // !single since the derivation shouldn't depend on whether there is a current
             // belief or not!!
-            final boolean doublePremiseEvidentalBaseOverlap = !single && this.evidentalOverlap;
-            if (doublePremiseEvidentalBaseOverlap) {
+            final boolean doublePremiseEvidentialBaseOverlap = !single && this.evidentialOverlap;
+            if (doublePremiseEvidentialBaseOverlap) {
                 memory.removeTask(task, "overlapping evidential base");
                 return false;
             }
@@ -177,7 +177,7 @@ public class DerivationContext {
     public boolean doublePremiseTaskRevised(final Term newContent, final TruthValue newTruth,
             final BudgetValue newBudget, final long counter) {
         final Stamp derived_stamp = getTheNewStamp().clone();
-        this.resetOccurrenceTime(); // stamp was already obsorbed
+        this.resetOccurrenceTime(); // stamp was already absorbed
 
         final boolean isCounterValid = counter != -1;
         Term conclusionTerm = newContent;
@@ -231,7 +231,7 @@ public class DerivationContext {
                 return null;
             }
             final Stamp derive_stamp = getTheNewStamp().clone(); // because occurrence time will be reset:
-            this.resetOccurrenceTime(); // stamp was already obsorbed into task
+            this.resetOccurrenceTime(); // stamp was already absorbed into task
 
             Sentence newSentence = new Sentence(
                     newContent,
@@ -250,8 +250,8 @@ public class DerivationContext {
             }
 
             // "Since in principle it is always valid to eternalize a tensed belief"
-            if (temporalInduction && narParameters.IMMEDIATE_ETERNALIZATION) { // temporal induction generated ones get
-                                                                               // eternalized directly
+            if (temporalInduction && narParameters.IMMEDIATE_ETERNALIZATION) {
+                // temporal induction generated ones get eternalized directly
                 final TruthValue truthEt = TruthFunctions.eternalize(newTruth, this.narParameters);
                 final Stamp st = derive_stamp.clone();
                 st.setEternal();
@@ -318,7 +318,7 @@ public class DerivationContext {
         }
 
         final Stamp derive_stamp = this.getTheNewStamp().clone();
-        this.resetOccurrenceTime(); // stamp was already obsorbed into task
+        this.resetOccurrenceTime(); // stamp was already absorbed into task
 
         final Sentence newSentence = new Sentence(
                 newContent,

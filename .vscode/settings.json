@@ -2,8 +2,10 @@
     "java.compile.nullAnalysis.mode": "automatic",
     "browse-lite.chromeExecutable": "H:/A137442/Develop/Java/apache-maven-3.9.6/bin/mvn.cmd",
     "cSpell.words": [
+        "ETERNALIZATION",
         "javadoc",
         "roundtrips",
+        "Tasklink",
         "Timable",
         "Unexecutable"
     ]

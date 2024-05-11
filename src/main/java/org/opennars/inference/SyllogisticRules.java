@@ -735,7 +735,7 @@ public final class SyllogisticRules {
         nal.getTheNewStamp().setOccurrenceTime(occurrence_time);
         final List<Task> ret = nal.doublePremiseTask(content, truth, budget, false,
                 taskSentence.isJudgment() && deduction); // (allow overlap) when deduction on judgment
-        if (!nal.evidentalOverlap && ret != null && ret.size() > 0 && predictedEvent && taskSentence.isJudgment()
+        if (!nal.evidentialOverlap && ret != null && ret.size() > 0 && predictedEvent && taskSentence.isJudgment()
                 && truth != null &&
                 truth.getExpectation() > nal.narParameters.DEFAULT_CONFIRMATION_EXPECTATION
                 && !premise1Sentence.stamp.alreadyAnticipatedNegConfirmation) {

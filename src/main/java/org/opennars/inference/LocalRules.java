@@ -136,11 +136,8 @@ public class LocalRules {
         if (budget.aboveThreshold()) {
             long counter = -1; // -1 is invalid
             if (newBelief.term instanceof Implication && oldBelief.term instanceof Implication) {
-                counter = ((Implication) newBelief.term).counter + ((Implication) oldBelief.term).counter; // add
-                                                                                                           // because
-                                                                                                           // the
-                                                                                                           // evidence
-                                                                                                           // adds up
+                // add because the evidence adds up
+                counter = ((Implication) newBelief.term).counter + ((Implication) oldBelief.term).counter;
             }
             return nal.doublePremiseTaskRevised(useNewBeliefTerm ? newBelief.term : oldBelief.term, truth, budget,
                     counter);
@@ -179,14 +176,12 @@ public class LocalRules {
                     }
                 }
                 for (int i = 0; i < ivalNew.size(); i++) {
-                    final float Inbetween = (recent_ivals.get(i) + ivalNew.get(i)) / 2.0f; // vote as one new entry,
-                                                                                           // turtle style
+                    final float inBetween = (recent_ivals.get(i) + ivalNew.get(i)) / 2.0f;
+                    // vote as one new entry, turtle style
                     final float speed = 1.0f
-                            / (nal.narParameters.INTERVAL_ADAPT_SPEED * (1.0f - newTruth.getExpectation())); // less
-                                                                                                             // truth
-                                                                                                             // expectation,
-                                                                                                             // slower
-                    recent_ivals.set(i, recent_ivals.get(i) + speed * (Inbetween - recent_ivals.get(i)));
+                            / (nal.narParameters.INTERVAL_ADAPT_SPEED * (1.0f - newTruth.getExpectation()));
+                    // less truth expectation, slower
+                    recent_ivals.set(i, recent_ivals.get(i) + speed * (inBetween - recent_ivals.get(i)));
                 }
                 for (int i = 0; i < ivalNew.size(); i++) {
                     AbsDiffSumNew += Math.abs(ivalNew.get(i) - recent_ivals.get(i));
@@ -199,8 +194,8 @@ public class LocalRules {
             for (int i = 0; i < ivalNew.size(); i++) {
                 AbsDiffSum += Math.abs(ivalNew.get(i) - ivalOld.get(i));
             }
-            final float a = temporalProjection(0, AbsDiffSum, 0, nal.memory.narParameters); // re-project, and it's
-                                                                                            // safe:
+            final float a = temporalProjection(0, AbsDiffSum, 0, nal.memory.narParameters);
+            // re-project, and it's safe:
             // we won't count more confidence than
             // when the second premise would have been shifted
             // to the necessary time in the first place

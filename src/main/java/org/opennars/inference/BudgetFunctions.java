@@ -26,6 +26,7 @@ package org.opennars.inference;
 import org.opennars.entity.*;
 import org.opennars.language.Term;
 import org.opennars.storage.Memory;
+import org.opennars.control.DerivationContext;
 
 import static java.lang.Math.*;
 import org.opennars.main.Parameters;
@@ -77,7 +78,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @return The budget for the new task
      */
     static BudgetValue revise(final TruthValue tTruth, final TruthValue bTruth, final TruthValue truth,
-            final boolean feedbackToLinks, final org.opennars.control.DerivationContext nal) {
+            final boolean feedbackToLinks, final DerivationContext nal) {
         final float difT = truth.getExpDifAbs(tTruth);
         final Task task = nal.getCurrentTask();
         task.decPriority(1 - difT);
@@ -222,7 +223,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @param truth The truth value of the conclusion
      * @return The budget value of the conclusion
      */
-    public static BudgetValue forward(final TruthValue truth, final org.opennars.control.DerivationContext nal) {
+    public static BudgetValue forward(final TruthValue truth, final DerivationContext nal) {
         return budgetInference(truthToQuality(truth), 1, nal);
     }
 
@@ -233,7 +234,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @param nal   Reference to the memory
      * @return The budget value of the conclusion
      */
-    public static BudgetValue backward(final TruthValue truth, final org.opennars.control.DerivationContext nal) {
+    public static BudgetValue backward(final TruthValue truth, final DerivationContext nal) {
         return budgetInference(truthToQuality(truth), 1, nal);
     }
 
@@ -244,7 +245,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @param nal   Reference to the memory
      * @return The budget value of the conclusion
      */
-    public static BudgetValue backwardWeak(final TruthValue truth, final org.opennars.control.DerivationContext nal) {
+    public static BudgetValue backwardWeak(final TruthValue truth, final DerivationContext nal) {
         return budgetInference((float) w2c(1, nal.narParameters) * truthToQuality(truth), 1, nal);
     }
 
@@ -258,7 +259,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @return The budget of the conclusion
      */
     public static BudgetValue compoundForward(final TruthValue truth, final Term content,
-            final org.opennars.control.DerivationContext nal) {
+            final DerivationContext nal) {
         final float complexity = (content == null) ? nal.narParameters.COMPLEXITY_UNIT
                 : nal.narParameters.COMPLEXITY_UNIT * content.getComplexity();
         return budgetInference(truthToQuality(truth), complexity, nal);
@@ -271,7 +272,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @param nal     Reference to the memory
      * @return The budget of the conclusion
      */
-    public static BudgetValue compoundBackward(final Term content, final org.opennars.control.DerivationContext nal) {
+    public static BudgetValue compoundBackward(final Term content, final DerivationContext nal) {
         return budgetInference(1, content.getComplexity() * nal.narParameters.COMPLEXITY_UNIT, nal);
     }
 
@@ -283,7 +284,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @return The budget of the conclusion
      */
     public static BudgetValue compoundBackwardWeak(final Term content,
-            final org.opennars.control.DerivationContext nal) {
+            final DerivationContext nal) {
         return budgetInference((float) w2c(1, nal.narParameters),
                 content.getComplexity() * nal.narParameters.COMPLEXITY_UNIT, nal);
     }
@@ -308,7 +309,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      * @return Budget of the conclusion task
      */
     private static BudgetValue budgetInference(final float qual, final float complexity,
-            final org.opennars.control.DerivationContext nal) {
+            final DerivationContext nal) {
         Item t = nal.getCurrentTaskLink();
         if (t == null) {
             t = nal.getCurrentTask();

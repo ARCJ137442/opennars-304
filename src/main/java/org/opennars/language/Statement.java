@@ -34,14 +34,15 @@ import static org.opennars.io.Symbols.NativeOperator.STATEMENT_CLOSER;
 import static org.opennars.io.Symbols.NativeOperator.STATEMENT_OPENER;
 
 /**
- * A statement is a compound term as defined in the NARS-theory, consisting of a subject, a predicate, and a
+ * A statement is a compound term as defined in the NARS-theory, consisting of a
+ * subject, a predicate, and a
  * relation symbol in between. It can be of either first-order or higher-order.
  *
  * @author Pei Wang
  * @author Patrick Hammer
  */
 public abstract class Statement extends CompoundTerm {
-    
+
     /**
      * Constructor with partial values, called by make
      * Subclass constructors should call init after any initialization
@@ -51,35 +52,35 @@ public abstract class Statement extends CompoundTerm {
     protected Statement(final Term[] arg) {
         super(arg);
     }
-    
 
     @Override
     protected void init(final Term[] t) {
-        if (t.length!=2)
+        if (t.length != 2)
             throw new IllegalStateException("Requires 2 terms: " + Arrays.toString(t));
-        if (t[0]==null)
+        if (t[0] == null)
             throw new IllegalStateException("Null subject: " + this);
-        if (t[1]==null)
+        if (t[1] == null)
             throw new IllegalStateException("Null predicate: " + this);
-        if (Debug.DETAILED) {                
+        if (Debug.DETAILED) {
             if (isCommutative()) {
-                if (t[0].compareTo(t[1])==1) {
-                    throw new IllegalStateException("Commutative term requires natural order of subject,predicate: " + Arrays.toString(t));
+                if (t[0].compareTo(t[1]) == 1) {
+                    throw new IllegalStateException(
+                            "Commutative term requires natural order of subject,predicate: " + Arrays.toString(t));
                 }
             }
         }
         super.init(t);
     }
-    
-   
+
     /**
      * Make a Statement from given components, called by the rules
+     * 
      * @return The Statement built
-     * @param subj The first component
-     * @param pred The second component
+     * @param subj      The first component
+     * @param pred      The second component
      * @param statement A sample statement providing the class type
      */
-    public static Statement make(final Statement statement, final Term subj, final Term pred) {        
+    public static Statement make(final Statement statement, final Term subj, final Term pred) {
         if (statement instanceof Inheritance) {
             return Inheritance.make(subj, pred);
         }
@@ -94,21 +95,22 @@ public abstract class Statement extends CompoundTerm {
         }
         return null;
     }
-    
+
     /**
      * Make a Statement from String, called by StringParser
      *
-     * @param o The relation String
-     * @param subject The first component
+     * @param o         The relation String
+     * @param subject   The first component
      * @param predicate The second component
      * @return The Statement built
      */
-    final public static Statement make(final NativeOperator o, final Term subject, final Term predicate, final boolean customOrder, final int order) {
-        
-        if(Terms.equalSubTermsInRespectToImageAndProduct(subject, predicate)) {
+    final public static Statement make(final NativeOperator o, final Term subject, final Term predicate,
+            final boolean customOrder, final int order) {
+
+        if (Terms.equalSubTermsInRespectToImageAndProduct(subject, predicate)) {
             return null;
         }
-        
+
         switch (o) {
             case INHERITANCE:
                 return Inheritance.make(subject, predicate);
@@ -133,9 +135,9 @@ public abstract class Statement extends CompoundTerm {
             case EQUIVALENCE_AFTER:
                 return Equivalence.make(subject, predicate, customOrder ? order : TemporalRules.ORDER_FORWARD);
             case EQUIVALENCE_WHEN:
-                return Equivalence.make(subject, predicate, customOrder ? order : TemporalRules.ORDER_CONCURRENT);            
+                return Equivalence.make(subject, predicate, customOrder ? order : TemporalRules.ORDER_CONCURRENT);
         }
-        
+
         return null;
     }
 
@@ -151,7 +153,7 @@ public abstract class Statement extends CompoundTerm {
 
         return make(op, subj, pred, true, order);
     }
-    
+
     final public static Statement make(final Statement statement, final Term subj, final Term pred, final int order) {
 
         return make(statement.operator(), subj, pred, true, order);
@@ -159,15 +161,16 @@ public abstract class Statement extends CompoundTerm {
 
     /**
      * Make a symmetric Statement from given term and temporal
- information, called by the rules
+     * information, called by the rules
      *
      * @param statement A sample asymmetric statement providing the class type
-     * @param subj The first component
-     * @param pred The second component
-     * @param order The temporal order
+     * @param subj      The first component
+     * @param pred      The second component
+     * @param order     The temporal order
      * @return The Statement built
      */
-    final public static Statement makeSym(final Statement statement, final Term subj, final Term pred, final int order) {
+    final public static Statement makeSym(final Statement statement, final Term subj, final Term pred,
+            final int order) {
         if (statement instanceof Inheritance) {
             return Similarity.make(subj, pred);
         }
@@ -176,8 +179,6 @@ public abstract class Statement extends CompoundTerm {
         }
         return null;
     }
-
-
 
     /**
      * Override the default in making the nameStr of the current term from
@@ -189,42 +190,46 @@ public abstract class Statement extends CompoundTerm {
     protected CharSequence makeName() {
         return makeStatementName(getSubject(), operator(), getPredicate());
     }
-    
-    final protected static CharSequence makeStatementName(final Term subject, final NativeOperator relation, final Term predicate) {
+
+    final protected static CharSequence makeStatementName(final Term subject, final NativeOperator relation,
+            final Term predicate) {
         final CharSequence subjectName = subject.name();
         final CharSequence predicateName = predicate.name();
         final int length = subjectName.length() + predicateName.length() + relation.toString().length() + 4;
-        
+
         final CharBuffer cb = CharBuffer.allocate(length);
-        
+
         cb.append(STATEMENT_OPENER.ch);
-        
-        //Texts.append(cb, subjectName);
+
+        // Texts.append(cb, subjectName);
         cb.append(subjectName);
-                
+
         cb.append(' ').append(relation.toString()).append(' ');
-        
-        //Texts.append(cb, predicateName);
+
+        // Texts.append(cb, predicateName);
         cb.append(predicateName);
-                
+
         cb.append(STATEMENT_CLOSER.ch);
-                        
+
         return cb.compact().toString();
-    }    
+    }
+
     /**
      * Check the validity of a potential Statement. [To be refined]
      * <p>
-     * @param subject The first component
+     * 
+     * @param subject   The first component
      * @param predicate The second component
      * @return Whether The Statement is invalid
      */
-    final public static boolean invalidStatement(final Term subject, final Term predicate, final boolean checkSameTermInPredicateAndSubject) {
-        if (subject==null || predicate==null)
+    final public static boolean invalidStatement(final Term subject, final Term predicate,
+            final boolean checkSameTermInPredicateAndSubject) {
+        if (subject == null || predicate == null)
             return true;
-        
+
         if (checkSameTermInPredicateAndSubject && subject.equals(predicate)) {
             return true;
-        }        
+        }
         if (checkSameTermInPredicateAndSubject && invalidReflexive(subject, predicate)) {
             return true;
         }
@@ -242,7 +247,7 @@ public abstract class Statement extends CompoundTerm {
         }
         return false;
     }
-    
+
     final public static boolean invalidStatement(final Term subject, final Term predicate) {
         return invalidStatement(subject, predicate, true);
     }
@@ -251,6 +256,7 @@ public abstract class Statement extends CompoundTerm {
      * Check if one term is identical to or included in another one, except in a
      * reflexive relation
      * <p>
+     * 
      * @param t1 The first term
      * @param t2 The second term
      * @return Whether they cannot be related in a statement
@@ -266,15 +272,14 @@ public abstract class Statement extends CompoundTerm {
         return ct1.containsTerm(t2);
     }
 
-   
     public static boolean invalidPair(final Term s1, final Term s2) {
         final boolean s1Indep = s1.hasVarIndep();
         final boolean s2Indep = s2.hasVarIndep();
         if (s1Indep && !s2Indep) {
             return true;
-        } else return !s1Indep && s2Indep;
+        } else
+            return !s1Indep && s2Indep;
     }
-    
 
     /**
      * Check the validity of a potential Statement. [To be refined]
@@ -287,8 +292,7 @@ public abstract class Statement extends CompoundTerm {
     public boolean invalid() {
         return invalidStatement(getSubject(), getPredicate());
     }
-    
- 
+
     /**
      * Return the first component of the statement
      *
@@ -309,6 +313,7 @@ public abstract class Statement extends CompoundTerm {
 
     /**
      * returns the subject (0) or predicate(1)
+     * 
      * @param side subject(0) or predicate(1)
      * @return the term of the side
      */
@@ -325,5 +330,6 @@ public abstract class Statement extends CompoundTerm {
         PREDICATE,
     }
 
-    @Override public abstract Statement clone();
+    @Override
+    public abstract Statement clone();
 }

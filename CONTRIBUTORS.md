@@ -8,4 +8,3 @@
 * Robert Wünsche <robertw89@googlemail.com>
 * Tony Lofthouse <tony.lofthouse@gmilab.com>
 * trever shick <http://trevershick.github.io>
- 

@@ -75,81 +75,79 @@ public class BagOperationsTest {
     }
 
     static Concept makeConcept(final String name, final float priority) {
-        final BudgetValue budg = new BudgetValue(priority,priority,priority,narParameters);
-        final Concept s = new Concept(budg,new Term(name),nar.memory);
+        final BudgetValue budg = new BudgetValue(priority, priority, priority, narParameters);
+        final Concept s = new Concept(budg, new Term(name), nar.memory);
         return s;
-    }  
-    
+    }
+
     @Test
     public void testConcept() throws Exception {
         Nar nar = new Nar();
         this.narParameters = nar.narParameters;
-        testBagSequence(new Bag(2, 2, nar.narParameters));    
+        testBagSequence(new Bag(2, 2, nar.narParameters));
     }
 
-    public static float getMinPriority(Bag<Concept,Term> bag) {
+    public static float getMinPriority(Bag<Concept, Term> bag) {
         float min = 1.0f;
         for (final Item e : bag) {
             final float p = e.getPriority();
-            if (p < min) min = p;
+            if (p < min)
+                min = p;
         }
-        return min;            
+        return min;
     }
-    public static float getMaxPriority(Bag<Concept,Term> bag) {
+
+    public static float getMaxPriority(Bag<Concept, Term> bag) {
         float max = 0.0f;
         for (final Item e : bag) {
             final float p = e.getPriority();
-            if (p > max) max = p;
+            if (p > max)
+                max = p;
         }
         return max;
     }
-    
+
     public static void testBagSequence(final Bag b) {
 
-        //different id, different priority
+        // different id, different priority
         b.putIn(makeConcept("a", 0.1f));
         b.putIn(makeConcept("b", 0.15f));
         assertEquals(2, b.size());
         b.clear();
-        
-        //same priority, different id
+
+        // same priority, different id
         b.putIn(makeConcept("a", 0.1f));
         b.putIn(makeConcept("b", 0.1f));
         assertEquals(2, b.size());
-        
+
         b.putIn(makeConcept("c", 0.2f));
         assertEquals(2, b.size());
-        assertEquals(0.1f, getMinPriority(b),0.001f);
-        assertEquals(0.2f, getMaxPriority(b),0.001f);
-        
-        //if (b instanceof GearBag()) return;
-        
-        
+        assertEquals(0.1f, getMinPriority(b), 0.001f);
+        assertEquals(0.2f, getMaxPriority(b), 0.001f);
+
+        // if (b instanceof GearBag()) return;
+
         b.putIn(makeConcept("b", 0.4f));
-        
-        
+
         assertEquals(2, b.size());
-        assertEquals(0.2f, getMinPriority(b),0.001f);
-        assertEquals(0.4f, getMaxPriority(b),0.001f);
-        
-        
+        assertEquals(0.2f, getMinPriority(b), 0.001f);
+        assertEquals(0.4f, getMaxPriority(b), 0.001f);
+
         final Item tb = b.pickOut(new Term("b"));
-        assertTrue(tb!=null);
+        assertTrue(tb != null);
         assertEquals(1, b.size());
         assertEquals(0.4f, tb.getPriority(), 0.001f);
-        
+
         final Item tc = b.takeOut();
         assertEquals(0, b.size());
         assertEquals(0.2f, tc.getPriority(), 0.001f);
-        
-        
-        
+
         assertEquals(null, b.putIn(makeConcept("a", 0.2f)));
         assertEquals(null, b.putIn(makeConcept("b", 0.3f)));
-        
+
         if (b instanceof Bag) {
-            assertEquals("a", b.putIn(makeConcept("c", 0.1f)).name().toString()); //replaces item on level
+            assertEquals("a", b.putIn(makeConcept("c", 0.1f)).name().toString()); // replaces item on level
         }
-        
+
     }
 }

@@ -7,38 +7,39 @@
 
 How to build OpenNARS
 ---------------------
+
 Using mvn:
 
-for each of the projects: 
+for each of the projects:
 
-	https://github.com/opennars/opennars-parent.git     
-	https://github.com/opennars/opennars.git     
-	https://github.com/opennars/opennars-lab.git     
-	https://github.com/opennars/opennars-applications.git     
-	https://github.com/opennars/opennars-gui.git
+ <https://github.com/opennars/opennars-parent.git>
+ <https://github.com/opennars/opennars.git>
+ <https://github.com/opennars/opennars-lab.git>
+ <https://github.com/opennars/opennars-applications.git>
+ <https://github.com/opennars/opennars-gui.git>
 
-	git clone 'project'
-	cd 'project_dir'
-	mvn clean install 
+ git clone 'project'
+ cd 'project_dir'
+ mvn clean install
 
 optionally append -Dmaven.javadoc.skip=true to skip documentation generation
 
-	cd 'project_dir'
-	mvn exec:java
+ cd 'project_dir'
+ mvn exec:java
 
 Alternatively, using IntelliJ IDE:
 
-Install git https://git-scm.com/downloads
+Install git <https://git-scm.com/downloads>
 
-Install OpenJDK 11 https://jdk.java.net/11/
+Install OpenJDK 11 <https://jdk.java.net/11/>
 
-Install community edition IntelliJ https://www.jetbrains.com/idea/download/
+Install community edition IntelliJ <https://www.jetbrains.com/idea/download/>
 
-Checkout https://github.com/opennars/opennars.git
+Checkout <https://github.com/opennars/opennars.git>
 
-Checkout https://github.com/opennars/opennars-lab.git
+Checkout <https://github.com/opennars/opennars-lab.git>
 
-Checkout https://github.com/opennars/opennars-applications.git
+Checkout <https://github.com/opennars/opennars-applications.git>
 
 You can either checkout within Intellij or use the Github desktop (available from the github clone button in the repo)
 
@@ -57,15 +58,16 @@ Select org.opennars.applications.Launcher
 
 Application Launchers
 ---------------------
+
 The launchers are the easiest way to run the various apps
 
-opennars-lab 
+opennars-lab
 
     Main GUI - Main user interface for NARS
 
     Test Chamber - Simulation environment for testing behaviours
 
-    Micro world	- Behaviour learning by simple insect like creature
+    Micro world - Behaviour learning by simple insect like creature
 
     NAR Pong - The classic pong game
 
@@ -85,29 +87,29 @@ opennars-applications
 
     Identity mapping - An experimental setup for testing aspects of Relations Frame Theory (RFT)
 
-
 Opennars Core is run directly by the Lab and Applications Launchers.
 
 Example Narsese files
 --------------------
+
 Here is a link to some Narses examples including:
 
     Toothbrush example - how to use a toothbrush to undo a screw?
     
     Detective example - who is the criminal?
-    
-https://github.com/opennars/opennars/tree/master/src/main/resources/nal/application    
+
+<https://github.com/opennars/opennars/tree/master/src/main/resources/nal/application>
 
 Theory Overview
 ---------------
 
-Non-Axiomatic Reasoning System ([NARS](https://sites.google.com/site/narswang/home)) processes tasks imposed by its environment, which may include human users or other computer systems. Tasks can arrive at any time, and there is no restriction on their contents as far as they can be expressed in __Narsese__, the I/O language of NARS.
+Non-Axiomatic Reasoning System ([NARS](https://sites.google.com/site/narswang/home)) processes tasks imposed by its environment, which may include human users or other computer systems. Tasks can arrive at any time, and there is no restriction on their contents as far as they can be expressed in **Narsese**, the I/O language of NARS.
 
-There are several types of __tasks__:
+There are several types of **tasks**:
 
- * **Judgment** - To process it means to accept it as the system's belief, as well as to derive new beliefs and to revise old beliefs accordingly.
- * **Question** -  To process it means to find the best answer to it according to current beliefs.
- * **Goal** - To process it means to carry out some system operations to realize it.
+* **Judgment** - To process it means to accept it as the system's belief, as well as to derive new beliefs and to revise old beliefs accordingly.
+* **Question** -  To process it means to find the best answer to it according to current beliefs.
+* **Goal** - To process it means to carry out some system operations to realize it.
 
 As a reasoning system, the [architecture of NARS](http://www.cis.temple.edu/~pwang/Implementation/NARS/architecture.pdf) consists of a **memory**, an **inference engine**, and a **control mechanism**.
 
@@ -129,40 +131,42 @@ At the current time, the most comprehensive description of NARS are the books [R
 
 Beginners can start at the following online materials:
 
- * The basic ideas behind the project: [The Logic of Intelligence](http://www.cis.temple.edu/~pwang/Publication/logic_intelligence.pdf)
- * The high-level engineering plan: [From NARS to a Thinking Machine](http://www.cis.temple.edu/~pwang/Publication/roadmap.pdf)
- * The core logic: [From Inheritance Relation to Non-Axiomatic Logic](https://cis.temple.edu/~pwang/Publication/inheritance_nal.pdf)
- * The semantics: [Experience-Grounded Semantics: A theory for intelligent systems](https://cis.temple.edu/~pwang/Publication/semantics.pdf)
- * The memory and control: [Computation and Intelligence in Problem Solving](https://cis.temple.edu/~pwang/Writing/computation.pdf)
-
+* The basic ideas behind the project: [The Logic of Intelligence](http://www.cis.temple.edu/~pwang/Publication/logic_intelligence.pdf)
+* The high-level engineering plan: [From NARS to a Thinking Machine](http://www.cis.temple.edu/~pwang/Publication/roadmap.pdf)
+* The core logic: [From Inheritance Relation to Non-Axiomatic Logic](https://cis.temple.edu/~pwang/Publication/inheritance_nal.pdf)
+* The semantics: [Experience-Grounded Semantics: A theory for intelligent systems](https://cis.temple.edu/~pwang/Publication/semantics.pdf)
+* The memory and control: [Computation and Intelligence in Problem Solving](https://cis.temple.edu/~pwang/Writing/computation.pdf)
 
 Contents
 --------
- * **[core](https://github.com/opennars/opennars/tree/master/src/main/java/org/opennars)** - reasoning engine
- * **[nal](https://github.com/opennars/opennars/tree/master/src/main/resources/nal)** - examples/unit tests
+
+* **[core](https://github.com/opennars/opennars/tree/master/src/main/java/org/opennars)** - reasoning engine
+* **[nal](https://github.com/opennars/opennars/tree/master/src/main/resources/nal)** - examples/unit tests
 
 The core is derived from the code of Pei Wang.
 
-
 Run Requirements
 ----------------
- * Java 8+ (OpenJDK 10 recommended)
+
+* Java 8+ (OpenJDK 10 recommended)
 
 Example Files
 -------------
-For an overview of reasoning features, see working examples (tests) in the nal folder, also explained in [SingleStepTestingCases](https://github.com/opennars/opennars/tree/master/src/main/resources/nal/single_step) and [MultiStepExamples](https://github.com/opennars/opennars/tree/master/src/main/resources/nal/multi_step).
 
+For an overview of reasoning features, see working examples (tests) in the nal folder, also explained in [SingleStepTestingCases](https://github.com/opennars/opennars/tree/master/src/main/resources/nal/single_step) and [MultiStepExamples](https://github.com/opennars/opennars/tree/master/src/main/resources/nal/multi_step).
 
 Development Requirements
 ------------------------
- * Maven
+
+* Maven
 
 Links
 -----
- * [Website](http://opennars.github.io/opennars/)
- * [All downloads](https://drive.google.com/drive/folders/0B8Z4Yige07tBUk5LSUtxSGY0eVk?usp=sharing)
- * [An (outdated) HTML user manual](http://www.cis.temple.edu/~pwang/Implementation/NARS/NARS-GUI-Guide.html)
- * [The Project homepage](https://code.google.com/p/open-nars/)
- * [google groups - Discussion Group](https://groups.google.com/forum/?fromgroups#!forum/open-nars)
- * [IRC](http://webchat.freenode.net?channels=nars)
- * [Try online](http://91.203.212.130/NARS)
+
+* [Website](http://opennars.github.io/opennars/)
+* [All downloads](https://drive.google.com/drive/folders/0B8Z4Yige07tBUk5LSUtxSGY0eVk?usp=sharing)
+* [An (outdated) HTML user manual](http://www.cis.temple.edu/~pwang/Implementation/NARS/NARS-GUI-Guide.html)
+* [The Project homepage](https://code.google.com/p/open-nars/)
+* [google groups - Discussion Group](https://groups.google.com/forum/?fromgroups#!forum/open-nars)
+* [IRC](http://webchat.freenode.net?channels=nars)
+* [Try online](http://91.203.212.130/NARS)

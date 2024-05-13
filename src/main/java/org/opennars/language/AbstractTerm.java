@@ -23,9 +23,6 @@
  */
 package org.opennars.language;
 
-
-
-
 public interface AbstractTerm extends Cloneable, Comparable<AbstractTerm> {
 
     /**
@@ -50,5 +47,5 @@ public interface AbstractTerm extends Cloneable, Comparable<AbstractTerm> {
     default CharSequence name() {
         return toString();
     }
-    
+
 }

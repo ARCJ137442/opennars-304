@@ -23,7 +23,7 @@ public class TestSystemOperator {
 
             // check result of call
             MyAnswerHandler handler = new MyAnswerHandler();
-            nar.ask("<{?0}-->res>",handler);
+            nar.ask("<{?0}-->res>", handler);
             nar.cycles(100);
             assertTrue(handler.lastAnswerTerm.toString().equals("<{true} --> res>"));
         }
@@ -36,7 +36,7 @@ public class TestSystemOperator {
 
             // check result of call
             MyAnswerHandler handler = new MyAnswerHandler();
-            nar.ask("<{?0}-->res>",handler);
+            nar.ask("<{?0}-->res>", handler);
             nar.cycles(100);
             assertTrue(handler.lastAnswerTerm.toString().equals("<{true} --> res>"));
         }
@@ -49,7 +49,7 @@ public class TestSystemOperator {
 
             // check result of call
             MyAnswerHandler handler = new MyAnswerHandler();
-            nar.ask("<{?0}-->res>",handler);
+            nar.ask("<{?0}-->res>", handler);
             nar.cycles(100);
             assertTrue(handler.lastAnswerTerm.toString().equals("<{true} --> res>"));
         }
@@ -62,7 +62,7 @@ public class TestSystemOperator {
 
             // check result of call
             MyAnswerHandler handler = new MyAnswerHandler();
-            nar.ask("<{?0}-->res>",handler);
+            nar.ask("<{?0}-->res>", handler);
             nar.cycles(200);
             assertTrue(handler.lastAnswerTerm.toString().equals("<{true} --> res>"));
         }
@@ -74,26 +74,31 @@ public class TestSystemOperator {
      * @param expectedResultType datatype of the expected result
      */
     private static void test0Ret(NarseseConsumer consumer, String expectedResultType) {
-        //consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ls, $ret)) =/> <{$ret}-->res>>.");
-        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"+expectedResultType+".sh, $ret)) =/> <{$ret}-->res>>.");
+        // consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ls, $ret)) =/>
+        // <{$ret}-->res>>.");
+        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"
+                + expectedResultType + ".sh, $ret)) =/> <{$ret}-->res>>.");
         consumer.addInput("<cond0-->Cond0>. :|:");
         consumer.addInput("<{#0}-->res>!");
     }
 
     private static void test1Ret(NarseseConsumer consumer, String expectedResultType) {
-        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"+expectedResultType+".sh, Arg0, $ret)) =/> <{$ret}-->res>>.");
+        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"
+                + expectedResultType + ".sh, Arg0, $ret)) =/> <{$ret}-->res>>.");
         consumer.addInput("<cond0-->Cond0>. :|:");
         consumer.addInput("<{#0}-->res>!");
     }
 
     private static void test2Ret(NarseseConsumer consumer, String expectedResultType) {
-        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"+expectedResultType+".sh, Arg0, Arg1, $ret)) =/> <{$ret}-->res>>.");
+        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"
+                + expectedResultType + ".sh, Arg0, Arg1, $ret)) =/> <{$ret}-->res>>.");
         consumer.addInput("<cond0-->Cond0>. :|:");
         consumer.addInput("<{#0}-->res>!");
     }
 
     private static void test3Ret(NarseseConsumer consumer, String expectedResultType) {
-        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"+expectedResultType+".sh, Arg0, Arg1, Arg2, $ret)) =/> <{$ret}-->res>>.");
+        consumer.addInput("<(&/, <cond0-->Cond0>, (^system, {SELF}, ./src/main/resources/unittest/TestscriptRet"
+                + expectedResultType + ".sh, Arg0, Arg1, Arg2, $ret)) =/> <{$ret}-->res>>.");
         consumer.addInput("<cond0-->Cond0>. :|:");
         consumer.addInput("<{#0}-->res>!");
     }

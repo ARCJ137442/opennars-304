@@ -34,9 +34,10 @@ import org.opennars.main.Parameters;
  * @author Patrick Hammer
  */
 public class UtilityFunctions {
-    
+
     /**
      * A function where the output is conjunctively determined by the inputs
+     * 
      * @param arr The inputs, each in [0, 1]
      * @return The output that is no larger than each input
      */
@@ -47,9 +48,10 @@ public class UtilityFunctions {
         }
         return product;
     }
-    
+
     /**
      * A function where the output is disjunctively determined by the inputs
+     * 
      * @param arr The inputs, each in [0, 1]
      * @return The output that is no smaller than each input
      */
@@ -60,9 +62,10 @@ public class UtilityFunctions {
         }
         return 1 - product;
     }
-    
+
     /**
      * A function where the output is the arithmetic average the inputs
+     * 
      * @param arr The inputs, each in [0, 1]
      * @return The arithmetic average the inputs
      */
@@ -76,6 +79,7 @@ public class UtilityFunctions {
 
     /**
      * A function where the output is the geometric average the inputs
+     * 
      * @param arr The inputs, each in [0, 1]
      * @return The geometric average the inputs
      */
@@ -84,16 +88,17 @@ public class UtilityFunctions {
         for (final float f : arr) {
             product *= f;
         }
-        
+
         if (arr.length == 2) {
-            return (float)sqrt(arr[0]*arr[1]);
+            return (float) sqrt(arr[0] * arr[1]);
         }
         return (float) pow(product, 1.00 / arr.length);
     }
 
     /**
      * A function to convert weight to confidence
-     * @param w Weight of evidence, a non-negative real number
+     * 
+     * @param w             Weight of evidence, a non-negative real number
      * @param narParameters parameters of the reasoner
      * @return The corresponding confidence, in [0, 1)
      */
@@ -103,7 +108,8 @@ public class UtilityFunctions {
 
     /**
      * A function to convert confidence to weight
-     * @param c confidence, in [0, 1)
+     * 
+     * @param c             confidence, in [0, 1)
      * @param narParameters parameters of the reasoner
      * @return The corresponding weight of evidence, a non-negative real number
      */
@@ -111,4 +117,3 @@ public class UtilityFunctions {
         return narParameters.HORIZON * c / (1 - c);
     }
 }
-

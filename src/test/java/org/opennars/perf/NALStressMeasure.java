@@ -34,18 +34,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.util.Collection;
 
-
-/** tests performance of NAL, but can also uncover bugs when NAL runs with a heavy and long load
- *  useful for examining with a profiler.
+/**
+ * tests performance of NAL, but can also uncover bugs when NAL runs with a
+ * heavy and long load
+ * useful for examining with a profiler.
  */
-public class NALStressMeasure  {
-    public static double perfNAL(final Reasoner n, final String path, final int extraCycles, final int repeats, final int warmups, final boolean gc) {
-        
+public class NALStressMeasure {
+    public static double perfNAL(final Reasoner n, final String path, final int extraCycles, final int repeats,
+            final int warmups, final boolean gc) {
+
         final String example = NALTest.getExample(path);
-        
+
         final Performance p = new Performance(path, repeats, warmups, gc) {
             long totalCycles;
-            
+
             @Override
             public void init() {
                 System.out.print(name + ": ");
@@ -58,40 +60,43 @@ public class NALStressMeasure  {
                 n.addInput(example);
                 n.cycles(1);
                 n.cycles(extraCycles);
-                
+
                 totalCycles += n.time();
             }
-                        
 
             @Override
-            public Performance print() {                
+            public Performance print() {
                 super.print();
-                System.out.print(", " + df.format(getCycleTimeMS() / totalCycles * 1000.0) + " uS/cycle, " + (((float)totalCycles)/(warmups+repeats)) + " cycles/run");
+                System.out.print(", " + df.format(getCycleTimeMS() / totalCycles * 1000.0) + " uS/cycle, "
+                        + (((float) totalCycles) / (warmups + repeats)) + " cycles/run");
                 return this;
-                
+
             }
-            
+
             @Override
             public Performance printCSV(final boolean finalComma) {
                 super.printCSV(true);
-                System.out.print(df.format(getCycleTimeMS() / totalCycles * 1000.0) + ", " + (((float)totalCycles)/(warmups+repeats)));
+                System.out.print(df.format(getCycleTimeMS() / totalCycles * 1000.0) + ", "
+                        + (((float) totalCycles) / (warmups + repeats)));
                 if (finalComma)
                     System.out.print(", ");
                 return this;
-                
+
             }
 
         };
         p.print();
         System.out.println();
 
-        /*p.printCSV(false);
-        System.out.println();*/
-        
+        /*
+         * p.printCSV(false);
+         * System.out.println();
+         */
+
         return p.getCycleTimeMS();
-                   
+
     }
-    
+
     public static void test(final Reasoner n) {
         final int repeats = 1;
         final int warmups = 0;
@@ -100,13 +105,15 @@ public class NALStressMeasure  {
         final Collection c = NALTest.params();
         double totalTime = 0;
         for (final Object o : c) {
-            final String examplePath = (String)((Object[])o)[0];
-            totalTime += perfNAL(n,examplePath,extraCycles,repeats,warmups,true);
+            final String examplePath = (String) ((Object[]) o)[0];
+            totalTime += perfNAL(n, examplePath, extraCycles, repeats, warmups, true);
         }
-        System.out.println("\n\nTotal mean runtime (ms): " + totalTime);        
+        System.out.println("\n\nTotal mean runtime (ms): " + totalTime);
     }
-    
-    public static void main(final String[] args) throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+
+    public static void main(final String[] args)
+            throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
         final Reasoner nd = new Nar();
         test(nd);
     }

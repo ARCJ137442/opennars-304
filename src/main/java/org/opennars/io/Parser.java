@@ -10,13 +10,13 @@ import org.opennars.entity.Task;
 public interface Parser {
     Task parseTask(final String narsese) throws InvalidInputException;
 
-
     /**
      * All kinds of invalid addInput lines
      */
     class InvalidInputException extends Exception {
         /**
          * An invalid addInput line.
+         * 
          * @param s type of error
          */
         InvalidInputException(final String s) {

@@ -34,20 +34,20 @@ import org.opennars.io.events.AnswerHandler;
  * @author Robert Wünsche
  */
 public interface Reasoner extends
-    SensoryChannelConsumer,
-    Resettable,
-    NarseseConsumer,
-    InputFileConsumer,
-    TaskConsumer<Reasoner>,
-    Eventable,
-    Pluggable,
-    Multistepable,
-    Timable
-{
+        SensoryChannelConsumer,
+        Resettable,
+        NarseseConsumer,
+        InputFileConsumer,
+        TaskConsumer<Reasoner>,
+        Eventable,
+        Pluggable,
+        Multistepable,
+        Timable {
     /**
      * ask reasoner a eternal question
+     * 
      * @param termString narsese string with term of question
-     * @param answered handler which will be called when answered
+     * @param answered   handler which will be called when answered
      * @return reasoner which processes the question
      * @throws Narsese.InvalidInputException
      */
@@ -55,8 +55,9 @@ public interface Reasoner extends
 
     /**
      * ask reasoner a now question
+     * 
      * @param termString narsese string with term of question
-     * @param answered handler which will be called when answered
+     * @param answered   handler which will be called when answered
      * @return reasoner which processes the question
      * @throws Narsese.InvalidInputException
      */
@@ -64,6 +65,7 @@ public interface Reasoner extends
 
     /**
      * returns the concept by name/term or creates it if it doesn't exist
+     * 
      * @param concept the name/term of the concept
      * @return queried or created concept
      * @throws Narsese.InvalidInputException
@@ -71,7 +73,7 @@ public interface Reasoner extends
     Concept concept(final String concept) throws Narsese.InvalidInputException;
 
     /**
-     * Main loop executed by the Thread.  Should not be called directly.
+     * Main loop executed by the Thread. Should not be called directly.
      */
     void run();
 
@@ -84,19 +86,23 @@ public interface Reasoner extends
 
     /**
      * is the reasoner running?
+     * 
      * @return is it running
      */
     boolean isRunning();
 
     /**
      * returns the minimum delay of a cycle in milliseconds
+     * 
      * @return minimum cycle delay period
      */
     long getMinCyclePeriodMS();
 
     /**
-     * When b is true, Nar will call Thread.yield each run() iteration that minCyclePeriodMS==0 (no delay).
-     *  This is for improving program responsiveness when Nar is run with no delay.
+     * When b is true, Nar will call Thread.yield each run() iteration that
+     * minCyclePeriodMS==0 (no delay).
+     * This is for improving program responsiveness when Nar is run with no delay.
+     * 
      * @param b Nar will call Thread.yield each run()
      */
     void setThreadYield(final boolean b);

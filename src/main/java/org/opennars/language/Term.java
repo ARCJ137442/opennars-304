@@ -50,7 +50,7 @@ import java.util.*;
  */
 public class Term implements AbstractTerm, Serializable {
     public ImaginationSpace imagination;
-    private static final Map<CharSequence,Term> atoms = new LinkedHashMap();
+    private static final Map<CharSequence, Term> atoms = new LinkedHashMap();
 
     final public static Term SELF = SetExt.make(Term.get("SELF"));
     final public static Term SEQ_SPATIAL = Term.get("#");
@@ -66,32 +66,31 @@ public class Term implements AbstractTerm, Serializable {
     public NativeOperator operator() {
         return NativeOperator.ATOM;
     }
-    
-    public boolean isHigherOrderStatement() { //==> <=>
+
+    public boolean isHigherOrderStatement() { // ==> <=>
         return (this instanceof Equivalence) || (this instanceof Implication);
     }
-    
+
     public boolean isExecutable(final Memory mem) {
-        //don't allow ^want and ^believe to be active/have an effect, 
-        //which means its only used as monitor
-        final boolean isOp=this instanceof Operation;
-        if(isOp) {
-            final Operator op=((Operation)this).getOperator(); //the following part may be refactored after we
-            //know more about how the NAL9 concepts should really interact together:
-            /*if(op.equals(mem.getOperator("^want")) || op.equals(mem.getOperator("^believe"))) {
-                return false;
-            }*/
+        // don't allow ^want and ^believe to be active/have an effect,
+        // which means its only used as monitor
+        final boolean isOp = this instanceof Operation;
+        if (isOp) {
+            final Operator op = ((Operation) this).getOperator(); // the following part may be refactored after we
+            // know more about how the NAL9 concepts should really interact together:
+            /*
+             * if(op.equals(mem.getOperator("^want")) ||
+             * op.equals(mem.getOperator("^believe"))) {
+             * return false;
+             * }
+             */
         }
         return isOp;
     }
 
-
     public interface TermVisitor {
         void visit(Term t, Term superterm);
     }
-    
-    
-    
 
     /**
      * Default constructor that build an internal Term
@@ -107,29 +106,29 @@ public class Term implements AbstractTerm, Serializable {
     public Term(final CharSequence name) {
         setName(name);
     }
-    
+
     /** gets the atomic term given a name */
     public final static Term get(final CharSequence name) {
-        Term x = atoms.get(name); //only
-        if (x != null && !x.toString().endsWith("]")) { //return only if it isn't an index term
+        Term x = atoms.get(name); // only
+        if (x != null && !x.toString().endsWith("]")) { // return only if it isn't an index term
             return x;
         }
 
         final String namestr = name.toString();
-        //p[s,i,j]
+        // p[s,i,j]
         int[] term_indices = null;
         String before_indices_str = null;
-        if(namestr.endsWith("]") && namestr.contains("[")) { //simple check, failing for most terms
+        if (namestr.endsWith("]") && namestr.contains("[")) { // simple check, failing for most terms
             String indices_str = namestr.split("\\[")[1].split("\\]")[0];
             before_indices_str = namestr.split("\\[")[0];
             String[] inds = indices_str.split(",");
-            if(inds.length == 2) { //only position info given
-                indices_str="1,1,"+indices_str;
+            if (inds.length == 2) { // only position info given
+                indices_str = "1,1," + indices_str;
                 inds = indices_str.split(",");
             }
             term_indices = new int[inds.length];
-            for(int i=0;i<inds.length;i++) {
-                if(StringUtils.isNumeric(inds[i]))
+            for (int i = 0; i < inds.length; i++) {
+                if (StringUtils.isNumeric(inds[i]))
                     term_indices[i] = Integer.valueOf(inds[i]);
                 else {
                     term_indices = null;
@@ -137,24 +136,23 @@ public class Term implements AbstractTerm, Serializable {
                 }
             }
         }
-        
+
         CharSequence name2 = name;
-        if(term_indices != null) { //only on conceptual level not
+        if (term_indices != null) { // only on conceptual level not
             name2 = before_indices_str + "[i,j,k,l]";
         }
         x = new Term(name2);
         x.term_indices = term_indices;
         x.index_variable = before_indices_str;
         atoms.put(name2, x);
-        
+
         return x;
     }
-    
+
     /** gets the atomic term of an integer */
     public final static Term get(final int i) {
         return get(Integer.toString(i));
     }
-    
 
     /**
      * Reporting the name of the current Term.
@@ -169,7 +167,7 @@ public class Term implements AbstractTerm, Serializable {
     protected CharSequence nameInternal() {
         return name;
     }
-    
+
     public int[] term_indices = null;
     public String index_variable = "";
 
@@ -181,7 +179,7 @@ public class Term implements AbstractTerm, Serializable {
     @Override
     public Term clone() {
         final Term t = new Term();
-        if(term_indices != null) {
+        if (term_indices != null) {
             t.term_indices = term_indices.clone();
             t.index_variable = index_variable;
         }
@@ -189,7 +187,7 @@ public class Term implements AbstractTerm, Serializable {
         t.imagination = imagination;
         return t;
     }
-    
+
     public Term cloneDeep() {
         return clone();
     }
@@ -203,9 +201,11 @@ public class Term implements AbstractTerm, Serializable {
      */
     @Override
     public boolean equals(final Object that) {
-        if (that == this) return true;
-        if (getClass() != this.getClass()) return false; //optimization, if complexity is different they cant be equal
-        return this.getComplexity() == ((Term) that).getComplexity() && name().equals(((Term)that).name());
+        if (that == this)
+            return true;
+        if (getClass() != this.getClass())
+            return false; // optimization, if complexity is different they cant be equal
+        return this.getComplexity() == ((Term) that).getComplexity() && name().equals(((Term) that).name());
     }
 
     /**
@@ -222,49 +222,51 @@ public class Term implements AbstractTerm, Serializable {
      * Check whether the current Term can name a Concept.
      * isConstant means if the term contains free variable
      * True if:
-     *   has zero variables, or
-     *   uses several instances of the same variable
-     * False if it uses one instance of a variable ("free" like a "free radical" in chemistry).
+     * has zero variables, or
+     * uses several instances of the same variable
+     * False if it uses one instance of a variable ("free" like a "free radical" in
+     * chemistry).
      * Therefore it may be considered Constant, yet actually contain variables.
      * 
      * @return A Term is constant by default
      */
     @Override
-    public boolean isConstant() {        
+    public boolean isConstant() {
         return true;
     }
-    
+
     public int getTemporalOrder() {
         return TemporalRules.ORDER_NONE;
     }
-    
+
     public boolean getIsSpatial() {
         return false;
     }
 
     public void recurseTerms(final TermVisitor v, final Term parent) {
         v.visit(this, parent);
-        if (this instanceof CompoundTerm) {            
-            for (final Term t : ((CompoundTerm)this).term) {
+        if (this instanceof CompoundTerm) {
+            for (final Term t : ((CompoundTerm) this).term) {
                 t.recurseTerms(v, this);
             }
         }
     }
-    
+
     public void recurseSubtermsContainingVariables(final TermVisitor v) {
         recurseTerms(v, null);
     }
-    
+
     public void recurseSubtermsContainingVariables(final TermVisitor v, final Term parent) {
-        if (!hasVar()) return;
+        if (!hasVar())
+            return;
         v.visit(this, parent);
         if (this instanceof CompoundTerm) {
-            for (final Term t : ((CompoundTerm)this).term) {
+            for (final Term t : ((CompoundTerm) this).term) {
                 t.recurseSubtermsContainingVariables(v, this);
             }
         }
     }
-         
+
     /**
      * @return The complexity of the term, an integer
      */
@@ -273,38 +275,36 @@ public class Term implements AbstractTerm, Serializable {
         return 1;
     }
 
-    /** set the name
+    /**
+     * set the name
      */
     // only method that should modify Term.name
     protected void setName(final CharSequence newName) {
         this.name = newName;
     }
-    
+
     /**
      * @param that The Term to be compared with the current Term
      * @return The same as compareTo as defined on Strings
      */
     @Override
     public int compareTo(final AbstractTerm that) {
-        if (that==this) {
+        if (that == this) {
             return 0;
         }
-        //previously: Orders among terms: variable < atomic < compound
-        if ((that instanceof Variable) && (getClass()!=Variable.class)) {
+        // previously: Orders among terms: variable < atomic < compound
+        if ((that instanceof Variable) && (getClass() != Variable.class)) {
             return 1;
-        }
-        else if ((this instanceof Variable) && (that.getClass()!=Variable.class)) {
+        } else if ((this instanceof Variable) && (that.getClass() != Variable.class)) {
             return -1;
         }
-        return Texts.compareTo(name(), that.name());            
+        return Texts.compareTo(name(), that.name());
     }
 
-    
-    
     public int containedTemporalRelations() {
         return 0;
     }
-    
+
     /**
      * Recursively check if a compound contains a term
      *
@@ -312,20 +312,21 @@ public class Term implements AbstractTerm, Serializable {
      * @return Whether the two have the same content
      */
     public boolean containsTermRecursively(final Term target) {
-        if(target==null) {
+        if (target == null) {
             return false;
         }
         return equals(target);
     }
-    
+
     /**
      * Recursively count how often the terms are contained
      *
-     * @param map The count map that will be created to count how often each term occurs
+     * @param map The count map that will be created to count how often each term
+     *            occurs
      * @return The counts of the terms
      */
-    public Map<Term, Integer> countTermRecursively(Map<Term,Integer> map) { 
-        if(map == null) {
+    public Map<Term, Integer> countTermRecursively(Map<Term, Integer> map) {
+        if (map == null) {
             map = new LinkedHashMap<Term, Integer>();
         }
         map.put(this, map.getOrDefault(this, 0) + 1);
@@ -347,34 +348,40 @@ public class Term implements AbstractTerm, Serializable {
         return name().toString();
     }
 
-    /** Creates a quote-escaped term from a string. Useful for an atomic term that is meant to contain a message as its name */
+    /**
+     * Creates a quote-escaped term from a string. Useful for an atomic term that is
+     * meant to contain a message as its name
+     */
     public static Term text(final String t) {
         return Term.get("\"" + t + "\"");
     }
-
 
     /**
      * Whether this compound term contains any variable term
      *
      * @return Whether the name contains a variable
      */
-    @Override public boolean hasVar() {
+    @Override
+    public boolean hasVar() {
         return false;
     }
-    
+
     public boolean hasVar(final char type) {
         switch (type) {
-            case Symbols.VAR_DEPENDENT: return hasVarDep();
-            case Symbols.VAR_INDEPENDENT: return hasVarIndep();
-            case Symbols.VAR_QUERY: return hasVarQuery();
+            case Symbols.VAR_DEPENDENT:
+                return hasVarDep();
+            case Symbols.VAR_INDEPENDENT:
+                return hasVarIndep();
+            case Symbols.VAR_QUERY:
+                return hasVarQuery();
         }
         throw new IllegalStateException("Invalid variable type: " + type);
     }
-    
+
     public boolean hasVarIndep() {
         return false;
     }
-    
+
     public boolean hasInterval() {
         return false;
     }
@@ -388,66 +395,74 @@ public class Term implements AbstractTerm, Serializable {
     }
 
     public static NavigableSet<Term> toSortedSet(final Term... arg) {
-        //use toSortedSetArray where possible
+        // use toSortedSetArray where possible
         final NavigableSet<Term> t = new TreeSet();
         Collections.addAll(t, arg);
-        return t;        
+        return t;
     }
-    
+
     public final static Term[] EmptyTermArray = new Term[0];
-    
+
     public static Term[] toSortedSetArray(final Term... arg) {
         switch (arg.length) {
-            case 0: return EmptyTermArray;                
-            case 1: return new Term[] { arg[0] };
-            case 2: 
+            case 0:
+                return EmptyTermArray;
+            case 1:
+                return new Term[] { arg[0] };
+            case 2:
                 final Term a = arg[0];
                 final Term b = arg[1];
                 final int c = a.compareTo(b);
 
                 if (Debug.DETAILED) {
-                    //verify consistency of compareTo() and equals()
+                    // verify consistency of compareTo() and equals()
                     final boolean equal = a.equals(b);
-                    if ((equal && (c!=0)) || (!equal && (c==0))) {
+                    if ((equal && (c != 0)) || (!equal && (c == 0))) {
                         throw new IllegalStateException("invalid order: " + a + " = " + b);
                     }
                 }
 
-                if (c < 0) return new Term[] { a, b };
-                else if (c > 0) return new Term[] { b, a };
-                else if (c == 0) return new Term[] { a }; //equal
-                
-        }
-        
-        //TODO fast sorted array for arg.length == 3
+                if (c < 0)
+                    return new Term[] { a, b };
+                else if (c > 0)
+                    return new Term[] { b, a };
+                else if (c == 0)
+                    return new Term[] { a }; // equal
 
-        //terms > 2:        
+        }
+
+        // TODO fast sorted array for arg.length == 3
+
+        // terms > 2:
         final NavigableSet<Term> s = new TreeSet();
-        //SortedList<Term> s = new SortedList(arg.length);
-        //s.setAllowDuplicate(false);
+        // SortedList<Term> s = new SortedList(arg.length);
+        // s.setAllowDuplicate(false);
 
         Collections.addAll(s, arg);
-        
+
         return s.toArray(new Term[0]);
     }
 
-    /** performs a thorough check of the validity of a term (by cloneDeep it) to see if it's valid */
+    /**
+     * performs a thorough check of the validity of a term (by cloneDeep it) to see
+     * if it's valid
+     */
     public static boolean valid(final Term content) {
         final Term cloned = content.cloneDeep();
         return cloned != null;
     }
 
     public boolean subjectOrPredicateIsIndependentVar() {
-        if(this instanceof Statement) {
-            final Statement cont=(Statement)this;
-            if(cont.getSubject() instanceof Variable) {
-                final Variable v=(Variable) cont.getSubject();
-                if(v.hasVarIndep()) {
+        if (this instanceof Statement) {
+            final Statement cont = (Statement) this;
+            if (cont.getSubject() instanceof Variable) {
+                final Variable v = (Variable) cont.getSubject();
+                if (v.hasVarIndep()) {
                     return true;
                 }
             }
-            if(cont.getPredicate()instanceof Variable) {
-                final Variable v=(Variable) cont.getPredicate();
+            if (cont.getPredicate() instanceof Variable) {
+                final Variable v = (Variable) cont.getPredicate();
                 return v.hasVarIndep();
             }
         }

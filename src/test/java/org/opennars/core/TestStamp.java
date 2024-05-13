@@ -37,25 +37,23 @@ import static org.opennars.entity.Stamp.toSetArray;
  */
 public class TestStamp {
     private long narid = 0;
+
     BaseEntry entry(long inputId) {
         return new BaseEntry(narid, inputId);
     }
-    @Test 
+
+    @Test
     public void testStampToSetArray() {
-        
-        assertTrue(toSetArray(new BaseEntry[] { entry(1), entry(2), entry(3) }).length == 3);        
+
+        assertTrue(toSetArray(new BaseEntry[] { entry(1), entry(2), entry(3) }).length == 3);
         assertTrue(toSetArray(new BaseEntry[] { entry(1), entry(1), entry(3) }).length == 2);
         assertTrue(toSetArray(new BaseEntry[] { entry(1) }).length == 1);
-        assertTrue(toSetArray(new BaseEntry[] {  }).length == 0);
+        assertTrue(toSetArray(new BaseEntry[] {}).length == 0);
         assertTrue(
-                Arrays.hashCode(toSetArray(new BaseEntry[] { entry(3),entry(2),entry(1) }))
-                ==
-                Arrays.hashCode(toSetArray(new BaseEntry[] { entry(2),entry(3),entry(1) }))
-        );
+                Arrays.hashCode(toSetArray(new BaseEntry[] { entry(3), entry(2), entry(1) })) == Arrays
+                        .hashCode(toSetArray(new BaseEntry[] { entry(2), entry(3), entry(1) })));
         assertTrue(
-                Arrays.hashCode(toSetArray(new BaseEntry[] { entry(1),entry(2),entry(3) }))
-                !=
-                Arrays.hashCode(toSetArray(new BaseEntry[] { entry(1),entry(1),entry(3) }))
-        );    
+                Arrays.hashCode(toSetArray(new BaseEntry[] { entry(1), entry(2), entry(3) })) != Arrays
+                        .hashCode(toSetArray(new BaseEntry[] { entry(1), entry(1), entry(3) })));
     }
 }

@@ -17,14 +17,14 @@ import org.opennars.main.Nar;
  * @author Peter
  */
 public class Channel extends Buffer {
-    
+
     public Channel(int levels, int capacity) {
         super(null, levels, capacity, new Parameters());
     }
-    
+
     public Channel(Nar nar, int levels, int capacity) {
         super(nar, levels, capacity, nar.narParameters);
     }
-    
-    public HashMap<String,Operation> operations;   
+
+    public HashMap<String, Operation> operations;
 }

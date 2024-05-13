@@ -47,24 +47,27 @@ public class Believe extends Operator {
 
     /**
      * To create a judgment with a given statement
-     * @param args Arguments, a Statement followed by an optional tense
+     * 
+     * @param args   Arguments, a Statement followed by an optional tense
      * @param memory The memory in which the operation is executed
-+    * @return Immediate results as Tasks
+     *               + * @return Immediate results as Tasks
      */
     @Override
-    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory, final Timable time) {
+    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory,
+            final Timable time) {
 
         final Term content = args[1];
-        
+
         final TruthValue truth = TruthValue.fromWordTerm(memory.narParameters, args[2]);
         final Sentence sentence = new Sentence(
-            content,
-            Symbols.JUDGMENT_MARK,
-            truth,
-            new Stamp(time, memory));
+                content,
+                Symbols.JUDGMENT_MARK,
+                truth,
+                new Stamp(time, memory));
 
         final float quality = BudgetFunctions.truthToQuality(truth);
-        final BudgetValue budget = new BudgetValue(memory.narParameters.DEFAULT_JUDGMENT_PRIORITY, memory.narParameters.DEFAULT_JUDGMENT_DURABILITY, quality, memory.narParameters);
+        final BudgetValue budget = new BudgetValue(memory.narParameters.DEFAULT_JUDGMENT_PRIORITY,
+                memory.narParameters.DEFAULT_JUDGMENT_DURABILITY, quality, memory.narParameters);
 
         final Task newTask = new Task(sentence, budget, Task.EnumType.INPUT);
 

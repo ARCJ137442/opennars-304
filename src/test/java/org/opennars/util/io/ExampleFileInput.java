@@ -41,35 +41,35 @@ import java.util.TreeMap;
 public class ExampleFileInput {
 
     public static String load(final String path) throws IOException {
-        final StringBuilder  sb  = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         String line;
         final File fp = new File(path);
         final BufferedReader br = new BufferedReader(new FileReader(fp));
-        while ((line = br.readLine())!=null) {
+        while ((line = br.readLine()) != null) {
             sb.append(line).append("\n");
         }
         return sb.toString();
     }
-    
+
     /** narsese source code, one instruction per line */
     private final String source;
 
     protected ExampleFileInput(final String input) {
         this.source = input;
     }
-    
+
     public static ExampleFileInput get(final String id) throws Exception {
-        return new ExampleFileInput(load("./nal/" + id +".nal"));
+        return new ExampleFileInput(load("./nal/" + id + ".nal"));
     }
-    
+
     public List<OutputCondition> enableConditions(final Nar n, final int similarResultsToSave) {
         return OutputCondition.getConditions(n, source, similarResultsToSave);
     }
-    
-    public static Map<String,Object> getUnitTests(final String[] directories) {
-        final Map<String,Object> l = new TreeMap();
 
-        for (final String dir : directories ) {
+    public static Map<String, Object> getUnitTests(final String[] directories) {
+        final Map<String, Object> l = new TreeMap();
+
+        for (final String dir : directories) {
 
             File folder = null;
             try {
@@ -78,16 +78,16 @@ public class ExampleFileInput {
                 throw new IllegalStateException("Could not resolve path to nal tests in reosources.", e);
             }
 
-            if( folder.listFiles() != null ) {
+            if (folder.listFiles() != null) {
                 for (final File file : folder.listFiles()) {
                     if (file.getName().equals("README.txt") || file.getName().contains(".png"))
                         continue;
                     if (!("extra".equals(file.getName()))) {
-                        l.put(file.getName(), new Object[]{file.getAbsolutePath()});
+                        l.put(file.getName(), new Object[] { file.getAbsolutePath() });
                     }
                 }
             }
-            
+
         }
         return l;
     }
@@ -95,5 +95,5 @@ public class ExampleFileInput {
     public String getSource() {
         return source;
     }
-    
+
 }

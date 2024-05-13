@@ -39,9 +39,7 @@ import java.util.List;
  */
 public abstract class OutputCondition<O> extends OutputHandler {
     public boolean succeeded = false;
-    
-    
-    
+
     public final Nar nar;
     long successAt = -1;
 
@@ -82,67 +80,69 @@ public abstract class OutputCondition<O> extends OutputHandler {
     /** returns true if condition was satisfied */
     public abstract boolean condition(Class channel, Object signal);
 
-            
-    /** reads an example file line-by-line, before being processed, to extract expectations */
-    public static List<OutputCondition> getConditions(final Nar n, final String example, final int similarResultsToSave)  {
+    /**
+     * reads an example file line-by-line, before being processed, to extract
+     * expectations
+     */
+    public static List<OutputCondition> getConditions(final Nar n, final String example,
+            final int similarResultsToSave) {
         final List<OutputCondition> conditions = new ArrayList();
         final String[] lines = example.split("\n");
-        
+
         for (String s : lines) {
             s = s.trim();
-            
-            
+
             final String expectOutContains2 = "''outputMustContain('";
 
-            if (s.indexOf(expectOutContains2)==0) {
+            if (s.indexOf(expectOutContains2) == 0) {
 
-                //remove ') suffix:
-                final String e = s.substring(expectOutContains2.length(), s.length()-2);
-                
-                /*try {                    
-                    Task t = narsese.parseTask(e);                    
-                    expects.add(new ExpectContainsSentence(n, t.sentence));
-                } catch (Narsese.InvalidInputException ex) {
-                    expects.add(new ExpectContains(n, e, saveSimilar));
-                } */
-                
+                // remove ') suffix:
+                final String e = s.substring(expectOutContains2.length(), s.length() - 2);
+
+                /*
+                 * try {
+                 * Task t = narsese.parseTask(e);
+                 * expects.add(new ExpectContainsSentence(n, t.sentence));
+                 * } catch (Narsese.InvalidInputException ex) {
+                 * expects.add(new ExpectContains(n, e, saveSimilar));
+                 * }
+                 */
+
                 conditions.add(new OutputContainsCondition(n, e, similarResultsToSave));
 
-            }     
-            
+            }
+
             final String expectOutNotContains2 = "''outputMustNotContain('";
 
-            if (s.indexOf(expectOutNotContains2)==0) {
+            if (s.indexOf(expectOutNotContains2) == 0) {
 
-                //remove ') suffix:
-                final String e = s.substring(expectOutNotContains2.length(), s.length()-2);
+                // remove ') suffix:
+                final String e = s.substring(expectOutNotContains2.length(), s.length() - 2);
                 conditions.add(new OutputNotContainsCondition(n, e));
 
-            }   
-            
+            }
+
             final String expectOutEmpty = "''expect.outEmpty";
-            if (s.indexOf(expectOutEmpty)==0) {                                
+            if (s.indexOf(expectOutEmpty) == 0) {
                 conditions.add(new OutputEmptyCondition(n));
-            }                
-            
+            }
 
         }
-        
+
         return conditions;
     }
-    
 
-    
     @Override
     public String toString() {
         return getClass().getSimpleName() + " " + (succeeded ? "OK: " + getTrueReasons() : getFalseReason());
     }
 
     public List<O> getTrueReasons() {
-        if (!isTrue()) throw new IllegalStateException(this + " is not true so has no true reasons");
+        if (!isTrue())
+            throw new IllegalStateException(this + " is not true so has no true reasons");
         return Collections.emptyList();
     }
-    
+
     /** if false, a reported reason why this condition is false */
     public abstract String getFalseReason();
 
@@ -150,6 +150,5 @@ public abstract class OutputCondition<O> extends OutputHandler {
     public long getTrueTime() {
         return successAt;
     }
-    
-    
+
 }

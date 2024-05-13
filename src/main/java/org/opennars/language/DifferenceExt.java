@@ -31,7 +31,8 @@ import java.util.TreeSet;
 import static org.opennars.language.DifferenceInt.ensureValidDifferenceArguments;
 
 /**
- * A compound term whose extension is the difference of the extensions of its term as defined in the NARS-theory
+ * A compound term whose extension is the difference of the extensions of its
+ * term as defined in the NARS-theory
  *
  * @author Pei Wang
  * @author Patrick Hammer
@@ -40,19 +41,20 @@ public class DifferenceExt extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
+     * 
      * @param arg The component list of the term
      */
     private DifferenceExt(final Term[] arg) {
         super(arg);
-        
-        ensureValidDifferenceArguments(arg);        
-        
+
+        ensureValidDifferenceArguments(arg);
+
         init(arg);
     }
 
-
     /**
      * Clone an object
+     * 
      * @return A new object, to be casted into a DifferenceExt
      */
     @Override
@@ -60,16 +62,17 @@ public class DifferenceExt extends CompoundTerm {
         return new DifferenceExt(term);
     }
 
-    @Override public Term clone(final Term[] replaced) {
-        if(replaced == null) {
+    @Override
+    public Term clone(final Term[] replaced) {
+        if (replaced == null) {
             return null;
         }
         return make(replaced);
     }
 
-    
     /**
      * Try to make a new DifferenceExt. Called by StringParser.
+     * 
      * @return the Term generated from the arguments
      * @param arg The list of term
      */
@@ -77,25 +80,26 @@ public class DifferenceExt extends CompoundTerm {
         if (arg.length == 1) { // special case from CompoundTerm.reduceComponent
             return arg[0];
         }
-        if (arg.length  != 2) {
+        if (arg.length != 2) {
             return null;
         }
         if ((arg[0] instanceof SetExt) && (arg[1] instanceof SetExt)) {
-            //TODO maybe a faster way to do this operation:
+            // TODO maybe a faster way to do this operation:
             final NavigableSet<Term> set = new TreeSet<>(((CompoundTerm) arg[0]).asTermList());
-            set.removeAll(((CompoundTerm) arg[1]).asTermList());           // set difference
+            set.removeAll(((CompoundTerm) arg[1]).asTermList()); // set difference
             return SetExt.make(set);
-        }                
-        
+        }
+
         if (arg[0].equals(arg[1])) {
             return null;
         }
-        
+
         return new DifferenceExt(arg);
     }
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
+     * 
      * @param t1 The first component
      * @param t2 The second component
      * @return A compound generated or a term it reduced to
@@ -104,11 +108,12 @@ public class DifferenceExt extends CompoundTerm {
         if (t1.equals(t2))
             return null;
 
-        return make(new Term[]{t1,t2});
+        return make(new Term[] { t1, t2 });
     }
 
     /**
      * Get the operator of the term.
+     * 
      * @return the operator of the term
      */
     @Override

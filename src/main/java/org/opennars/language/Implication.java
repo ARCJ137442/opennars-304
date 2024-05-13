@@ -42,6 +42,7 @@ public class Implication extends Statement {
 
     /**
      * Constructor with partial values, called by make
+     * 
      * @param arg The component list of the term
      */
     public Implication(final Term[] arg, final int order) {
@@ -54,6 +55,7 @@ public class Implication extends Statement {
 
     /**
      * Constructor with partial values, called by make
+     * 
      * @param arg The component list of the term
      */
     public Implication(final Term[] arg, final int order, final long counter) {
@@ -69,32 +71,31 @@ public class Implication extends Statement {
         this(new Term[] { subject, predicate }, order);
     }
 
-
-    
-    
     /**
      * Clone an object
+     * 
      * @return A new object
      */
     @Override
     public Implication clone() {
         return new Implication(term, getTemporalOrder(), counter);
     }
-    
-    @Override public Implication clone(final Term[] t) {   
-        if(t == null) {
+
+    @Override
+    public Implication clone(final Term[] t) {
+        if (t == null) {
             return null;
         }
-        if (t.length!=2)
+        if (t.length != 2)
             throw new IllegalStateException("Implication requires 2 components: " + Arrays.toString(t));
-        
+
         return make(t[0], t[1], temporalOrder);
     }
-    
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
-     * @param subject The first component
+     * 
+     * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or a term it reduced to
      */
@@ -116,21 +117,23 @@ public class Implication extends Statement {
                 break;
             default:
                 copula = NativeOperator.IMPLICATION;
-        }                
+        }
         return makeStatementName(subject, copula, predicate);
     }
-    
+
     public static Implication make(final Term subject, final Term predicate, final int temporalOrder) {
-        if (invalidStatement(subject, predicate, temporalOrder != TemporalRules.ORDER_FORWARD && temporalOrder != TemporalRules.ORDER_CONCURRENT)) {
+        if (invalidStatement(subject, predicate,
+                temporalOrder != TemporalRules.ORDER_FORWARD && temporalOrder != TemporalRules.ORDER_CONCURRENT)) {
             return null;
         }
-        
-        if ((subject instanceof Implication) || (subject instanceof Equivalence) || (predicate instanceof Equivalence) ||
+
+        if ((subject instanceof Implication) || (subject instanceof Equivalence) || (predicate instanceof Equivalence)
+                ||
                 (subject instanceof Interval) || (predicate instanceof Interval)) {
             return null;
         }
-        
-        //final CharSequence name = makeName(subject, temporalOrder, predicate);         
+
+        // final CharSequence name = makeName(subject, temporalOrder, predicate);
         if (predicate instanceof Implication) {
             final Term oldCondition = ((Statement) predicate).getSubject();
             if ((oldCondition instanceof Conjunction) && oldCondition.containsTerm(subject)) {
@@ -138,7 +141,7 @@ public class Implication extends Statement {
             }
             int order = temporalOrder;
             boolean spatial = false;
-            if(subject instanceof Conjunction) {
+            if (subject instanceof Conjunction) {
                 final Conjunction conj = (Conjunction) subject;
                 order = conj.getTemporalOrder();
                 spatial = conj.getIsSpatial();
@@ -152,6 +155,7 @@ public class Implication extends Statement {
 
     /**
      * Get the operator of the term.
+     * 
      * @return the operator of the term
      */
     @Override
@@ -166,20 +170,22 @@ public class Implication extends Statement {
         }
         return NativeOperator.IMPLICATION;
     }
-    
+
     @Override
     public int getTemporalOrder() {
         return temporalOrder;
     }
 
     public boolean isForward() {
-        return getTemporalOrder()==TemporalRules.ORDER_FORWARD;
+        return getTemporalOrder() == TemporalRules.ORDER_FORWARD;
     }
+
     public boolean isBackward() {
-        return getTemporalOrder()==TemporalRules.ORDER_BACKWARD;
+        return getTemporalOrder() == TemporalRules.ORDER_BACKWARD;
     }
+
     public boolean isConcurrent() {
-        return getTemporalOrder()==TemporalRules.ORDER_CONCURRENT;
+        return getTemporalOrder() == TemporalRules.ORDER_CONCURRENT;
     }
-    
+
 }

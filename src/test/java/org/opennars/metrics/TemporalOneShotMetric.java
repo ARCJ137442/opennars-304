@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * temporal metric to test and quantify the capability of a NARS implementation to retain a temporal relationship it had learned a long time ago with events.
+ * temporal metric to test and quantify the capability of a NARS implementation
+ * to retain a temporal relationship it had learned a long time ago with events.
  */
 public class TemporalOneShotMetric extends AnswerHandler {
     public Reasoner reasonerUnderTest;
@@ -33,20 +34,21 @@ public class TemporalOneShotMetric extends AnswerHandler {
 
     private boolean wasAnswered = false;
 
-    public static void main(String[] args) throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException, Parser.InvalidInputException {
+    public static void main(String[] args) throws IOException, InstantiationException, InvocationTargetException,
+            NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException,
+            ClassNotFoundException, ParseException, Parser.InvalidInputException {
         TemporalOneShotMetric metric = new TemporalOneShotMetric();
         metric.reasonerUnderTest = new Nar();
 
-        int numberOfRandomEventsBeforeTest=5;
-        for (;numberOfRandomEventsBeforeTest<30; numberOfRandomEventsBeforeTest++) {
+        int numberOfRandomEventsBeforeTest = 5;
+        for (; numberOfRandomEventsBeforeTest < 30; numberOfRandomEventsBeforeTest++) {
             System.out.println("checking # of events=" + Integer.toString(numberOfRandomEventsBeforeTest));
-
 
             metric.numberOfRandomEventsBeforeTest = numberOfRandomEventsBeforeTest;
 
             boolean successes = false;
-            for (int try_=0; try_<8; try_++) {
-                if (metric.check() ) {
+            for (int try_ = 0; try_ < 8; try_++) {
+                if (metric.check()) {
                     successes = true;
                     break;
                 }
@@ -57,7 +59,7 @@ public class TemporalOneShotMetric extends AnswerHandler {
             }
         }
 
-        System.out.println("metric of passed # events = " + Integer.toString(numberOfRandomEventsBeforeTest-1));
+        System.out.println("metric of passed # events = " + Integer.toString(numberOfRandomEventsBeforeTest - 1));
 
         int debugMeHere = 5;
     }
@@ -67,15 +69,13 @@ public class TemporalOneShotMetric extends AnswerHandler {
 
         wasAnswered = false;
 
-
-
         // generate set of random term names
-        for (int i=0;i<numberOfTermNames;i++) {
+        for (int i = 0; i < numberOfTermNames; i++) {
             termNames.add(createRandomString(7, rng));
         }
 
         // one/many shot learned knowledge
-        for (int i=0;i<numberOfShots;i++) {
+        for (int i = 0; i < numberOfShots; i++) {
             reasonerUnderTest.addInput("<flash --> [seen]>. :|:");
             reasonerUnderTest.addInput("<b --> B>. :|:");
             reasonerUnderTest.addInput("<spam --> [observed]>. :|:");
@@ -84,13 +84,12 @@ public class TemporalOneShotMetric extends AnswerHandler {
 
         // feed the reasoner with random events
 
-        for (int i=0;i<numberOfRandomEventsBeforeTest;i++) {
+        for (int i = 0; i < numberOfRandomEventsBeforeTest; i++) {
             final String chosenTermName = termNames.get(rng.nextInt(termNames.size()));
 
             reasonerUnderTest.addInput(String.format("<%s-->[%s_]>. :|:", chosenTermName, chosenTermName));
             reasonerUnderTest.cycles(1);
         }
-
 
         // check if reasoner still knows the one shot knowledge
         reasonerUnderTest.ask("<(&/,<flash --> [seen]>,?1,<thunder --> [heard]>,?2) =/> ?3>", this);
@@ -105,8 +104,8 @@ public class TemporalOneShotMetric extends AnswerHandler {
     private static String createRandomString(final int length, Random rng) {
         String res = "";
 
-        for (int i=0;i<length;i++) {
-            res += (char)(0x41 + rng.nextInt(26));
+        for (int i = 0; i < length; i++) {
+            res += (char) (0x41 + rng.nextInt(26));
         }
 
         return res;

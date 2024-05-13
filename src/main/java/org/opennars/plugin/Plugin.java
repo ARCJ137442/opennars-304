@@ -32,9 +32,14 @@ import java.io.Serializable;
  */
 public interface Plugin extends Serializable {
 
-    /** called when plugin is activated (enabled = true) / deactivated (enabled=false) */
-    default boolean setEnabled(Nar n, boolean enabled) { return true; }
-    
+    /**
+     * called when plugin is activated (enabled = true) / deactivated
+     * (enabled=false)
+     */
+    default boolean setEnabled(Nar n, boolean enabled) {
+        return true;
+    }
+
     default CharSequence name() {
         return this.getClass().getSimpleName();
     }

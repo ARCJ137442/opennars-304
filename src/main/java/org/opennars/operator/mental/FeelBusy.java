@@ -42,15 +42,17 @@ public class FeelBusy extends Feel {
 
     /**
      * To get the current value of an internal sensor
-     * @param args Arguments, a set and a variable
+     * 
+     * @param args   Arguments, a set and a variable
      * @param memory The memory in which the operation is executed
      * @return Immediate results as Tasks
      */
     @Override
-    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory, final Timable time) {
-        if(memory.emotion == null) {
+    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory,
+            final Timable time) {
+        if (memory.emotion == null) {
             return null;
         }
         return feeling(memory.emotion.busy(), memory, time);
-    }    
+    }
 }

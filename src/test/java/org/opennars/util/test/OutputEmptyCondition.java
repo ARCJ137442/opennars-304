@@ -46,7 +46,7 @@ public class OutputEmptyCondition extends OutputCondition {
 
     @Override
     public boolean condition(final Class channel, final Object signal) {
-        //any OUT or ERR output is a failure
+        // any OUT or ERR output is a failure
         if ((channel == OUT.class) || (channel == ERR.class)) {
             output.add(channel.getSimpleName() + ": " + signal.toString());
             succeeded = false;
@@ -54,5 +54,5 @@ public class OutputEmptyCondition extends OutputCondition {
         }
         return false;
     }
-    
+
 }

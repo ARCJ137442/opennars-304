@@ -46,10 +46,9 @@ import org.opennars.operator.mental.Wonder;
  * @author Peter
  */
 
-public class InternalExperienceBuffer extends Buffer{
+public class InternalExperienceBuffer extends Buffer {
 
-    public InternalExperienceBuffer(Nar nar, int levels, int capacity, Parameters narParameters)
-    {
+    public InternalExperienceBuffer(Nar nar, int levels, int capacity, Parameters narParameters) {
         super(nar, levels, capacity, narParameters);
     }
 
@@ -58,28 +57,30 @@ public class InternalExperienceBuffer extends Buffer{
      * 
      **/
     private static void NewOperationFrame(final Memory mem, final Task task) {
-        final List<Task> toRemove = new LinkedList<>(); //can there be more than one? I don't think so..
+        final List<Task> toRemove = new LinkedList<>(); // can there be more than one? I don't think so..
         float priorityGain = 0.0f;
-        for(final Task t : mem.recent_operations) {   //when made sure, make single element and add break
-            if(t.getTerm().equals(task.getTerm())) {
+        for (final Task t : mem.recent_operations) { // when made sure, make single element and add break
+            if (t.getTerm().equals(task.getTerm())) {
                 priorityGain = BudgetFunctions.or(priorityGain, t.getPriority());
                 toRemove.add(t);
             }
         }
-        for(final Task t : toRemove) {
+        for (final Task t : toRemove) {
             mem.recent_operations.pickOut(t);
         }
-        task.setPriority(BudgetFunctions.or(task.getPriority(), priorityGain)); //this way operations priority of previous exections
-        mem.recent_operations.putIn(task);                 //contributes to the current (enhancement)
+        task.setPriority(BudgetFunctions.or(task.getPriority(), priorityGain)); // this way operations priority of
+                                                                                // previous exections
+        mem.recent_operations.putIn(task); // contributes to the current (enhancement)
         mem.lastDecision = task;
         final Concept c = mem.concept(task.getTerm());
-        synchronized(mem.globalBuffer.seq_current) {
-            if(c != null) {
-                if(c.seq_before == null) {
-                    c.seq_before = new Bag<>(mem.narParameters.SEQUENCE_BAG_LEVELS, mem.narParameters.SEQUENCE_BAG_SIZE, mem.narParameters);
+        synchronized (mem.globalBuffer.seq_current) {
+            if (c != null) {
+                if (c.seq_before == null) {
+                    c.seq_before = new Bag<>(mem.narParameters.SEQUENCE_BAG_LEVELS, mem.narParameters.SEQUENCE_BAG_SIZE,
+                            mem.narParameters);
                 }
-                for(final Task t : mem.globalBuffer.seq_current) {
-                    if(task.sentence.getOccurenceTime() > t.sentence.getOccurenceTime()) {
+                for (final Task t : mem.globalBuffer.seq_current) {
+                    if (task.sentence.getOccurenceTime() > t.sentence.getOccurenceTime()) {
                         c.seq_before.putIn(t);
                     }
                 }
@@ -91,18 +92,21 @@ public class InternalExperienceBuffer extends Buffer{
     /**
      * Handle the feedback of the operation that was processed as a judgment.
      * <br>
-     * The purpose is to start a new operation frame which makes the operation concept 
-     * interpret current events as preconditions and future events as post-conditions to the invoked operation.
+     * The purpose is to start a new operation frame which makes the operation
+     * concept
+     * interpret current events as preconditions and future events as
+     * post-conditions to the invoked operation.
      * 
      * @param task The judgement task be checked
-     * @param nal The derivation context
+     * @param nal  The derivation context
      */
     public static void handleOperationFeedback(Task task, DerivationContext nal) {
-        if(task.isInput() && !task.sentence.isEternal() && task.sentence.term instanceof Operation) {
+        if (task.isInput() && !task.sentence.isEternal() && task.sentence.term instanceof Operation) {
             final Operation op = (Operation) task.sentence.term;
             final Operator o = (Operator) op.getPredicate();
-            //only consider these mental ops an operation to track when executed not already when generated as internal event
-            if(!(o instanceof Believe) && !(o instanceof Want) && !(o instanceof Wonder)
+            // only consider these mental ops an operation to track when executed not
+            // already when generated as internal event
+            if (!(o instanceof Believe) && !(o instanceof Want) && !(o instanceof Wonder)
                     && !(o instanceof Evaluate) && !(o instanceof Anticipate)) {
                 NewOperationFrame(nal.memory, task);
             }

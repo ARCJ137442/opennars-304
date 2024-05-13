@@ -44,63 +44,70 @@ import static org.junit.Assert.assertTrue;
  *
  */
 public class VariableTest {
- 
+
     final Nar n = new Nar();
 
-    public VariableTest() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    public VariableTest() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
     }
 
-    @Before public void init() {
+    @Before
+    public void init() {
         n.addInput("<a --> 3>. :|:");
-        n.addInput("<a --> 4>. :/:");        
+        n.addInput("<a --> 4>. :/:");
     }
-    
-    @Test public void testDepQueryVariableDistinct() {
-                          
+
+    @Test
+    public void testDepQueryVariableDistinct() {
+
         n.addInput("<(&/,<a --> 3>,?what) =/> <a --> #wat>>?");
-        
+
         /*
-            A "Solved" solution of: <(&/,<a --> 3>,+3) =/> <a --> 4>>. %1.00;0.31%
-            shouldn't happen because it should not unify #wat with 4 because its not a query variable      
-        */        
-        new EventHandler(n, true, Answer.class) {            
-            @Override public void event(final Class event, final Object[] args) {
-                //nothing should arrive via Solved.class channel
+         * A "Solved" solution of: <(&/,<a --> 3>,+3) =/> <a --> 4>>. %1.00;0.31%
+         * shouldn't happen because it should not unify #wat with 4 because its not a
+         * query variable
+         */
+        new EventHandler(n, true, Answer.class) {
+            @Override
+            public void event(final Class event, final Object[] args) {
+                // nothing should arrive via Solved.class channel
                 assertTrue(false);
             }
         };
-        
+
         final OutputContainsCondition e = new OutputContainsCondition(n, "=/> <a --> 4>>.", 5);
-        
+
         n.cycles(32);
-  
+
         assertTrue(e.isTrue());
     }
-    
-    @Test public void testQueryVariableUnification() {
+
+    @Test
+    public void testQueryVariableUnification() {
         /*
-        <a --> 3>. :|:
-        <a --> 4>. :/:
-        <(&/,<a --> 3>,?what) =/> <a --> ?wat>>?
-
-        Solved <(&/,<a --> 3>,+3) =/> <a --> 4>>. %1.00;0.31%
-
-        because ?wat can be unified with 4 since ?wat is a query variable
-       */
+         * <a --> 3>. :|:
+         * <a --> 4>. :/:
+         * <(&/,<a --> 3>,?what) =/> <a --> ?wat>>?
+         * 
+         * Solved <(&/,<a --> 3>,+3) =/> <a --> 4>>. %1.00;0.31%
+         * 
+         * because ?wat can be unified with 4 since ?wat is a query variable
+         */
 
         n.addInput("<(&/,<a --> 3>,?what) =/> <a --> ?wat>>?");
-        
+
         final AtomicBoolean solutionFound = new AtomicBoolean(false);
-        new EventHandler(n, true, Answer.class) {            
-            @Override public void event(final Class event, final Object[] args) {
+        new EventHandler(n, true, Answer.class) {
+            @Override
+            public void event(final Class event, final Object[] args) {
                 solutionFound.set(true);
                 n.stop();
             }
         };
 
         n.cycles(1024);
-          
+
         assertTrue(solutionFound.get());
-        
+
     }
 }

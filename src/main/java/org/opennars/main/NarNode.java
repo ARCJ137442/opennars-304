@@ -51,33 +51,42 @@ import org.xml.sax.SAXException;
 /**
  * @author Patrick Hammer
  */
-public class NarNode implements EventObserver  {
-    
-    /* An extra event for received tasks*/
-    public class EventReceivedTask {}
-    
+public class NarNode implements EventObserver {
+
+    /* An extra event for received tasks */
+    public class EventReceivedTask {
+    }
+
     /* The socket the Nar listens from */
     private transient DatagramSocket receiveSocket;
-    
-    /* Listen port however is not transient and can be used to recover the deserialized instance */
+
+    /*
+     * Listen port however is not transient and can be used to recover the
+     * deserialized instance
+     */
     private int listenPort;
-    
+
     public Nar nar;
-    
+
     /***
-     * Create a Nar node that listens for received tasks from other NarNode instances
+     * Create a Nar node that listens for received tasks from other NarNode
+     * instances
      * 
      * @param listenPort
      * @throws SocketException
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
-    public NarNode(int listenPort) throws SocketException, UnknownHostException, IOException, InstantiationException, 
-            InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, 
+    public NarNode(int listenPort) throws SocketException, UnknownHostException, IOException, InstantiationException,
+            InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException,
+            SAXException,
             ClassNotFoundException, ParseException {
-        this(new Nar(),listenPort);
+        this(new Nar(), listenPort);
     }
-    public NarNode(Nar nar, int listenPort) throws SocketException, UnknownHostException, IOException, InstantiationException, 
-            InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, 
+
+    public NarNode(Nar nar, int listenPort)
+            throws SocketException, UnknownHostException, IOException, InstantiationException,
+            InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException,
+            SAXException,
             ClassNotFoundException, ParseException {
         super();
         this.nar = nar;
@@ -87,19 +96,19 @@ public class NarNode implements EventObserver  {
         NarNode THIS = this;
         new Thread() {
             public void run() {
-                for(;;) {
+                for (;;) {
                     try {
                         Object ret = THIS.receiveObject();
-                        if(ret != null) {
-                            if(ret instanceof Task) {
-                                nar.memory.event.emit(EventReceivedTask.class, new Object[]{ret});
+                        if (ret != null) {
+                            if (ret instanceof Task) {
+                                nar.memory.event.emit(EventReceivedTask.class, new Object[] { ret });
                                 nar.addInput((Task) ret, nar);
-                            } else
-                            if(ret instanceof String) { //emits IN.class anyway
+                            } else if (ret instanceof String) { // emits IN.class anyway
                                 nar.addInput((String) ret);
                             }
                         }
-                    } catch (Exception ex) { //log any type of exception, also parsing exceptions, because it shouldn't crash on wrong parses or temporary network issues
+                    } catch (Exception ex) { // log any type of exception, also parsing exceptions, because it shouldn't
+                                             // crash on wrong parses or temporary network issues
                         Logger.getLogger(NarNode.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -111,11 +120,11 @@ public class NarNode implements EventObserver  {
      * Input and derived tasks will be potentially sent
      * 
      * @param event
-     * @param args 
+     * @param args
      */
     @Override
     public void event(Class event, Object[] args) {
-        if(event == Events.TaskAdd.class) {
+        if (event == Events.TaskAdd.class) {
             Task t = (Task) args[0];
             try {
                 sendTask(t);
@@ -124,73 +133,81 @@ public class NarNode implements EventObserver  {
             }
         }
     }
-    
+
     /**
-     * Send tasks that are above priority threshold and contain the optional mustContainTerm
+     * Send tasks that are above priority threshold and contain the optional
+     * mustContainTerm
      * 
      * @param t
-     * @throws IOException 
+     * @throws IOException
      */
     private void sendTask(Task t) throws IOException {
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        ObjectOutput oo = new ObjectOutputStream(bStream); 
+        ObjectOutput oo = new ObjectOutputStream(bStream);
         oo.writeObject(t);
         oo.close();
         byte[] serializedMessage = bStream.toByteArray();
-        for(TargetNar target : targets) {
-            if(t.getPriority() > target.threshold) {
+        for (TargetNar target : targets) {
+            if (t.getPriority() > target.threshold) {
                 Term term = t.getTerm();
                 boolean isCompound = (term instanceof CompoundTerm);
                 boolean searchTerm = target.mustContainTerm != null;
-                boolean atomicEqualsSearched =     searchTerm && !isCompound && target.mustContainTerm.equals(term);
-                boolean compoundContainsSearched = searchTerm &&  isCompound && ((CompoundTerm) term).containsTermRecursively(target.mustContainTerm);
-                if(!searchTerm || atomicEqualsSearched || compoundContainsSearched) {
-                    DatagramPacket packet = new DatagramPacket(serializedMessage, serializedMessage.length, target.targetAddress, target.targetPort);
+                boolean atomicEqualsSearched = searchTerm && !isCompound && target.mustContainTerm.equals(term);
+                boolean compoundContainsSearched = searchTerm && isCompound
+                        && ((CompoundTerm) term).containsTermRecursively(target.mustContainTerm);
+                if (!searchTerm || atomicEqualsSearched || compoundContainsSearched) {
+                    DatagramPacket packet = new DatagramPacket(serializedMessage, serializedMessage.length,
+                            target.targetAddress, target.targetPort);
                     target.sendSocket.send(packet);
-                    //System.out.println("task sent:" + t);
+                    // System.out.println("task sent:" + t);
                 }
             }
         }
     }
-    
+
     /**
      * Send Narsese that contains the optional mustContainTerm
      *
      * @param input
      * @param target
-     * @throws IOException 
+     * @throws IOException
      */
     public static void sendNarsese(String input, TargetNar target) throws IOException {
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        ObjectOutput oo = new ObjectOutputStream(bStream); 
+        ObjectOutput oo = new ObjectOutputStream(bStream);
         oo.writeObject(input);
         oo.close();
         byte[] serializedMessage = bStream.toByteArray();
         boolean searchTerm = target.mustContainTerm != null;
         boolean containsFound = searchTerm && input.contains(target.mustContainTerm.toString());
-        if(!searchTerm || containsFound) {
-            DatagramPacket packet = new DatagramPacket(serializedMessage, serializedMessage.length, target.targetAddress, target.targetPort);
+        if (!searchTerm || containsFound) {
+            DatagramPacket packet = new DatagramPacket(serializedMessage, serializedMessage.length,
+                    target.targetAddress, target.targetPort);
             target.sendSocket.send(packet);
-            //System.out.println("narsese sent:" + input);
+            // System.out.println("narsese sent:" + input);
         }
     }
-    public static void sendNarsese(String input, final String targetIP, final int targetPort, final float taskThreshold, Term mustContainTerm) throws IOException {
+
+    public static void sendNarsese(String input, final String targetIP, final int targetPort, final float taskThreshold,
+            Term mustContainTerm) throws IOException {
         sendNarsese(input, new TargetNar(targetIP, targetPort, taskThreshold, mustContainTerm, true));
     }
 
     public static class TargetNar {
-        
+
         /**
-         * The target Nar node, specifying under which conditions the current Nar node redirects tasks to it.
+         * The target Nar node, specifying under which conditions the current Nar node
+         * redirects tasks to it.
          * 
          * @param targetIP
          * @param targetPort
          * @param threshold
          * @param mustContainTerm
          * @throws SocketException
-         * @throws UnknownHostException 
+         * @throws UnknownHostException
          */
-        public TargetNar(final String targetIP, final int targetPort, final float threshold, Term mustContainTerm, boolean sendInput) throws SocketException, UnknownHostException {
+        public TargetNar(final String targetIP, final int targetPort, final float threshold, Term mustContainTerm,
+                boolean sendInput) throws SocketException, UnknownHostException {
             this.targetAddress = InetAddress.getByName(targetIP);
             this.sendSocket = new DatagramSocket();
             this.threshold = threshold;
@@ -198,6 +215,7 @@ public class NarNode implements EventObserver  {
             this.mustContainTerm = mustContainTerm;
             this.sendInput = sendInput;
         }
+
         final float threshold;
         final DatagramSocket sendSocket;
         final int targetPort;
@@ -205,25 +223,30 @@ public class NarNode implements EventObserver  {
         final Term mustContainTerm;
         final boolean sendInput;
     }
-    
+
     private List<TargetNar> targets = new ArrayList<>();
+
     /**
      * Add another target Nar node to redirect tasks to, and under which conditions.
      * 
-     * @param targetIP The target Nar node IP
-     * @param targetPort The target Nar node port
-     * @param taskThreshold The threshold the priority of the task has to have to redirect
-     * @param mustContainTerm The optional term that needs to be contained recursively in the task term
+     * @param targetIP        The target Nar node IP
+     * @param targetPort      The target Nar node port
+     * @param taskThreshold   The threshold the priority of the task has to have to
+     *                        redirect
+     * @param mustContainTerm The optional term that needs to be contained
+     *                        recursively in the task term
      * @throws SocketException
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
-    public void addRedirectionTo(final String targetIP, final int targetPort, final float taskThreshold, Term mustContainTerm, boolean sendInput) throws SocketException, UnknownHostException {
+    public void addRedirectionTo(final String targetIP, final int targetPort, final float taskThreshold,
+            Term mustContainTerm, boolean sendInput) throws SocketException, UnknownHostException {
         addRedirectionTo(new TargetNar(targetIP, targetPort, taskThreshold, mustContainTerm, sendInput));
     }
+
     public void addRedirectionTo(TargetNar target) throws SocketException, UnknownHostException {
         targets.add(target);
     }
- 
+
     /***
      * NarNode's receiving a task or Narsese string
      * 
@@ -234,20 +257,20 @@ public class NarNode implements EventObserver  {
         byte[] recBytes = new byte[65535];
         DatagramPacket packet = new DatagramPacket(recBytes, recBytes.length);
         receiveSocket.receive(packet);
-        if(packet.getLength() > 0) {
+        if (packet.getLength() > 0) {
             try {
-                try(ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(recBytes))) {
+                try (ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(recBytes))) {
                     Object msg = iStream.readObject();
-                    if(msg instanceof Task || msg instanceof String) {
+                    if (msg instanceof Task || msg instanceof String) {
                         return msg;
                     }
                 }
-                //not an object NarNode could digest
+                // not an object NarNode could digest
+            } catch (Exception ex) {
+                // object wasn't retrieved, maybe it wasn't one
             }
-            catch(Exception ex) {
-                //object wasn't retrieved, maybe it wasn't one
-            }
-            //ok let's assume it's a raw Narsese string encoding not a Java object, the parser will tell
+            // ok let's assume it's a raw Narsese string encoding not a Java object, the
+            // parser will tell
             return new String(recBytes, java.nio.charset.StandardCharsets.UTF_8).trim();
         }
         return null;

@@ -33,15 +33,15 @@ import org.opennars.storage.Memory;
 /**
  * Count the number of elements in a set
  * 
-
-'INVALID
-(^count,a)!
-(^count,a,b)!
-(^count,a,#b)!
-
-'VALID: 
-(^count,[a,b],#b)!
-
+ * 
+ * 'INVALID
+ * (^count,a)!
+ * (^count,a,b)!
+ * (^count,a,#b)!
+ * 
+ * 'VALID:
+ * (^count,[a,b],#b)!
+ * 
  * 
  */
 public class Count extends FunctionOperator {
@@ -51,21 +51,20 @@ public class Count extends FunctionOperator {
     }
 
     final static String requireMessage = "Requires 1 SetExt or SetInt argument";
-    
+
     final static Term counted = Term.get("counted");
-    
-    
+
     @Override
     protected Term function(final Memory memory, final Term[] x) {
-        if (x.length!=1) {
+        if (x.length != 1) {
             throw new IllegalStateException(requireMessage);
         }
 
         final Term content = x[0];
         if (!(content instanceof SetExt) && !(content instanceof SetInt)) {
             throw new IllegalStateException(requireMessage);
-        }       
-        
+        }
+
         final int n = ((CompoundTerm) content).size();
         return Term.get(n);
     }
@@ -75,6 +74,4 @@ public class Count extends FunctionOperator {
         return counted;
     }
 
-
-    
 }

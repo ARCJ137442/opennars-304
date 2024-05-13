@@ -54,16 +54,17 @@ public class StabilityTest {
         Debug.TEST = true;
     }
 
-    final int minCycles = 1550; //TODO reduce this to one or zero to avoid wasting any extra time during tests
+    final int minCycles = 1550; // TODO reduce this to one or zero to avoid wasting any extra time during tests
     static public boolean showOutput = false;
     static public boolean saveSimilar = true;
-    static public  boolean showSuccess = false;
+    static public boolean showSuccess = false;
     static public final boolean showFail = true;
     static public final boolean showReport = true;
     static public final boolean requireSuccess = true;
     static public final int similarsToSave = 5;
-    private static final boolean waitForEnterKeyOnStart = false; //useful for running profiler or some other instrumentation
-    protected static final Map<String, String> examples = new LinkedHashMap(); //path -> script data
+    private static final boolean waitForEnterKeyOnStart = false; // useful for running profiler or some other
+                                                                 // instrumentation
+    protected static final Map<String, String> examples = new LinkedHashMap(); // path -> script data
     public static final Map<String, Boolean> tests = new LinkedHashMap();
     public static final Map<String, Double> scores = new LinkedHashMap();
     final String scriptPath;
@@ -71,7 +72,7 @@ public class StabilityTest {
     public static String getExample(final String path) {
         try {
             String existing = examples.get(path);
-            if (existing!=null)
+            if (existing != null)
                 return existing;
 
             existing = ExampleFileInput.load(path);
@@ -83,13 +84,13 @@ public class StabilityTest {
         }
     }
 
-    public Nar newNAR() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    public Nar newNAR() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
         return new Nar();
-        //return Nar.build(Default.fromJSON("nal/build/pei1.fast.nar"));
-        //return new ContinuousBagNARBuilder().build();
-        //return new DiscretinuousBagNARBuilder().build();
+        // return Nar.build(Default.fromJSON("nal/build/pei1.fast.nar"));
+        // return new ContinuousBagNARBuilder().build();
+        // return new DiscretinuousBagNARBuilder().build();
     }
-
 
     @Parameterized.Parameters
     public static Collection params() {
@@ -97,10 +98,10 @@ public class StabilityTest {
 
         final Map<String, Object> et = ExampleFileInput.getUnitTests(directories);
         final Collection t = et.values();
-        for (final String x : et.keySet()) addTest(x);
+        for (final String x : et.keySet())
+            addTest(x);
         return t;
     }
-
 
     public static void addTest(String name) {
         name = name.substring(3, name.indexOf(".nal"));
@@ -121,13 +122,13 @@ public class StabilityTest {
             }
         }
 
-        //Result result = org.junit.runner.JUnitCore.runClasses(NALTest.class);
+        // Result result = org.junit.runner.JUnitCore.runClasses(NALTest.class);
 
         final Result result = JUnitCore.runClasses(new ParallelComputer(true, true), c);
 
-
         for (final Failure f : result.getFailures()) {
-            final String test = f.getMessage().substring(f.getMessage().indexOf("/nal/single_step") + 8, f.getMessage().indexOf(".nal"));
+            final String test = f.getMessage().substring(f.getMessage().indexOf("/nal/single_step") + 8,
+                    f.getMessage().indexOf(".nal"));
 
             tests.put(test, false);
         }
@@ -152,10 +153,11 @@ public class StabilityTest {
         if (showReport) {
             int totalSucceeded = 0, total = 0;
             for (int i = 0; i < 9; i++) {
-                final float rate = (levelTotals[i] > 0) ? ((float)levelSuccess[i]) / levelTotals[i] : 0;
+                final float rate = (levelTotals[i] > 0) ? ((float) levelSuccess[i]) / levelTotals[i] : 0;
                 final String prefix = (i > 0) ? ("NAL" + i) : "Other";
 
-                System.out.println(prefix + ": " + (rate*100.0) + "%  (" + levelSuccess[i] + "/" + levelTotals[i] + ")" );
+                System.out.println(
+                        prefix + ": " + (rate * 100.0) + "%  (" + levelSuccess[i] + "/" + levelTotals[i] + ")");
                 totalSucceeded += levelSuccess[i];
                 total += levelTotals[i];
             }
@@ -175,11 +177,14 @@ public class StabilityTest {
 
     }
 
-    public double run() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    public double run() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
         return testNAL(scriptPath);
     }
 
-    protected double testNAL(final String path) throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    protected double testNAL(final String path)
+            throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
         final List<OutputCondition> expects = new ArrayList();
 
         Nar n = null;
@@ -205,39 +210,41 @@ public class StabilityTest {
         System.out.flush();
 
         boolean success = expects.size() > 0 && (!error);
-        for (final OutputCondition e: expects) {
-            if (!e.succeeded) success = false;
+        for (final OutputCondition e : expects) {
+            if (!e.succeeded)
+                success = false;
         }
 
         double score = Double.POSITIVE_INFINITY;
         if (success) {
             long lastSuccess = -1;
-            for (final OutputCondition e: expects) {
-                if (e.getTrueTime()!=-1) {
+            for (final OutputCondition e : expects) {
+                if (e.getTrueTime() != -1) {
                     if (lastSuccess < e.getTrueTime())
                         lastSuccess = e.getTrueTime();
                 }
             }
-            if (lastSuccess!=-1) {
-                //score = 1.0 + 1.0 / (1+lastSuccess);
+            if (lastSuccess != -1) {
+                // score = 1.0 + 1.0 / (1+lastSuccess);
                 score = lastSuccess;
                 scores.put(path, score);
             }
-        }
-        else {
+        } else {
             scores.put(path, Double.POSITIVE_INFINITY);
         }
 
-        //System.out.println(lastSuccess + " ,  " + path + "   \t   excess cycles=" + (n.time() - lastSuccess) + "   end=" + n.time());
+        // System.out.println(lastSuccess + " , " + path + " \t excess cycles=" +
+        // (n.time() - lastSuccess) + " end=" + n.time());
 
         if ((!success & showFail) || (success && showSuccess)) {
             System.err.println('\n' + path + " @" + n.time());
-            for (final OutputCondition e: expects) {
+            for (final OutputCondition e : expects) {
                 System.err.println("  " + e);
             }
         }
 
-        //System.err.println("Status: " + success + " total=" + expects.size() + " " + expects);
+        // System.err.println("Status: " + success + " total=" + expects.size() + " " +
+        // expects);
         if (requireSuccess)
             assertTrue(path, success);
 
@@ -245,7 +252,8 @@ public class StabilityTest {
     }
 
     @Test
-    public void test() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
+    public void test() throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
+            ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
         testNAL(scriptPath);
     }
 }

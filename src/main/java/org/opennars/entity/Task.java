@@ -32,33 +32,41 @@ import java.io.Serializable;
 
 /**
  * A task to be processed, consists of a Sentence and a BudgetValue.
- * A task references its parent and an optional causal factor (usually an Operation instance).  These are implemented as WeakReference to allow forgetting via the
- * garbage collection process.  Otherwise, Task ancestry would grow unbounded,
+ * A task references its parent and an optional causal factor (usually an
+ * Operation instance). These are implemented as WeakReference to allow
+ * forgetting via the
+ * garbage collection process. Otherwise, Task ancestry would grow unbounded,
  * violating the assumption of insufficient resources (AIKR).
  *
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class Task<T extends Term> extends Item<Sentence<T>> implements Serializable  {
+public class Task<T extends Term> extends Item<Sentence<T>> implements Serializable {
 
     public boolean processed = false;
     public boolean sequenceTask = false;
-    public double achieved; //between 0 and 1, 1 meaning fully achieved
+    public double achieved; // between 0 and 1, 1 meaning fully achieved
+
     public double getAchievement() {
         return achieved;
     }
+
     public void setAchievement(double achievement) {
         this.achieved = achievement;
     }
-    /* The sentence of the Task*/
+
+    /* The sentence of the Task */
     public final Sentence<T> sentence;
-    /* Belief from which the Task is derived, or null if derived from a theorem*/
+    /* Belief from which the Task is derived, or null if derived from a theorem */
     public final Sentence parentBelief;
-    /* Tasklink from which the Task is derived, null unless Debug.PARENTS is turned on*/
+    /*
+     * Tasklink from which the Task is derived, null unless Debug.PARENTS is turned
+     * on
+     */
     public Sentence parentTask;
-    /* For Question and Goal: best solution found so far*/
+    /* For Question and Goal: best solution found so far */
     private Sentence bestSolution;
-    /* Whether the task should go into event bag or not*/
+    /* Whether the task should go into event bag or not */
     private boolean partOfSequenceBuffer = false;
     /* Whether it is an input task or not */
     private boolean isInput = false;
@@ -68,50 +76,52 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
      *
      * @param s The sentence
      * @param b The budget
-     */ 
+     */
     public Task(final Sentence<T> s, final BudgetValue b, EnumType type) {
-        this(s, b, null, null);  
+        this(s, b, null, null);
         this.isInput = type == EnumType.INPUT;
     }
-    
+
     /***
-     * Constructors for double premise derived task 
+     * Constructors for double premise derived task
      * 
-     * @param s The sentence
-     * @param b The budget
+     * @param s            The sentence
+     * @param b            The budget
      * @param parentBelief The belief used for deriving the task
      */
     public Task(final Sentence<T> s, final BudgetValue b, final Sentence parentBelief) {
         this(s, b, parentBelief, null);
     }
-    
+
     /***
-     * Constructors for solved double premise derived task 
+     * Constructors for solved double premise derived task
      * 
-     * @param s The sentence
-     * @param b The budget
-     * @param parentBelief The belief used for deriving the task 
-     * @param solution The solution to the task
+     * @param s            The sentence
+     * @param b            The budget
+     * @param parentBelief The belief used for deriving the task
+     * @param solution     The solution to the task
      */
     public Task(final Sentence<T> s, final BudgetValue b, final Sentence parentBelief, final Sentence solution) {
         super(b);
         this.sentence = s;
         this.parentBelief = parentBelief;
-        this.bestSolution = solution;   
+        this.bestSolution = solution;
     }
-    
-    @Override public Sentence name() {
+
+    @Override
+    public Sentence name() {
         return sentence;
     }
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) return true;
+        if (obj == this)
+            return true;
         if (obj instanceof Task) {
-            final Task t = (Task)obj;
+            final Task t = (Task) obj;
             return t.sentence.equals(sentence);
         }
-        return false;        
+        return false;
     }
 
     @Override
@@ -136,11 +146,11 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
     public boolean isInput() {
         return isInput;
     }
-    
+
     public boolean aboveThreshold() {
         return budget.aboveThreshold();
     }
-    
+
     /**
      * Merge one Task into another
      *
@@ -170,8 +180,8 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
      *
      * @param judg The solution to be remembered
      */
-    public void setBestSolution(final Memory memory,final Sentence judg, final Timable time) {
-        if(memory.internalExperience != null) {
+    public void setBestSolution(final Memory memory, final Sentence judg, final Timable time) {
+        if (memory.internalExperience != null) {
             InternalExperience.InternalExperienceFromBelief(memory, this, judg, time);
         }
         bestSolution = judg;
@@ -183,7 +193,8 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
      * @return The belief from which the task is derived
      */
     public Sentence getParentBelief() {
-        if (parentBelief == null) return null;
+        if (parentBelief == null)
+            return null;
         return parentBelief;
     }
 
@@ -202,7 +213,9 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
         return s.toString();
     }
 
-    /** flag to indicate whether this Event Task participates in tempporal induction */
+    /**
+     * flag to indicate whether this Event Task participates in tempporal induction
+     */
     public void setElemOfSequenceBuffer(final boolean b) {
         this.partOfSequenceBuffer = b;
     }

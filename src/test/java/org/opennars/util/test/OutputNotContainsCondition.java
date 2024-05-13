@@ -60,5 +60,5 @@ public class OutputNotContainsCondition extends OutputContainsCondition {
 
     protected void onFailure(final Class channel, final Object signal) {
     }
-    
+
 }

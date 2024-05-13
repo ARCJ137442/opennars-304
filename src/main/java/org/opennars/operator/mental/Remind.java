@@ -44,7 +44,7 @@ public class Remind extends Operator {
     public Remind() {
         super("^remind");
     }
-    
+
     public void activate(final Memory memory, final Concept c, final BudgetValue b, final Activating mode) {
         memory.concepts.pickOut(c.name());
         BudgetFunctions.activate(c.budget, b, mode);
@@ -54,15 +54,17 @@ public class Remind extends Operator {
     /**
      * To activate a concept as if a question has been asked about it
      *
-     * @param args Arguments, a Statement followed by an optional tense
+     * @param args   Arguments, a Statement followed by an optional tense
      * @param memory The memory in which the operation is executed
      * @return Immediate results as Tasks
      */
-    @Override    
-    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory, final Timable time) {
+    @Override
+    protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory,
+            final Timable time) {
         final Term term = args[1];
         final Concept concept = memory.conceptualize(Consider.budgetMentalConcept(operation), term);
-        final BudgetValue budget = new BudgetValue(memory.narParameters.DEFAULT_QUESTION_PRIORITY, memory.narParameters.DEFAULT_QUESTION_DURABILITY, 1, memory.narParameters);
+        final BudgetValue budget = new BudgetValue(memory.narParameters.DEFAULT_QUESTION_PRIORITY,
+                memory.narParameters.DEFAULT_QUESTION_DURABILITY, 1, memory.narParameters);
         activate(memory, concept, budget, Activating.TaskLink);
         return null;
     }

@@ -49,7 +49,8 @@ public class Terms {
             return equalSubjectPredicateInRespectToImageAndProduct(a, b);
         }
         if (a instanceof Similarity && b instanceof Similarity) {
-            return equalSubjectPredicateInRespectToImageAndProduct(a, b) || equalSubjectPredicateInRespectToImageAndProduct(b, a);
+            return equalSubjectPredicateInRespectToImageAndProduct(a, b)
+                    || equalSubjectPredicateInRespectToImageAndProduct(b, a);
         }
         final Term[] A = ((CompoundTerm) a).term;
         final Term[] B = ((CompoundTerm) b).term;
@@ -68,7 +69,8 @@ public class Terms {
                         }
                     }
                     if (x instanceof Similarity && y instanceof Similarity) {
-                        if (!equalSubjectPredicateInRespectToImageAndProduct(x, y) && !equalSubjectPredicateInRespectToImageAndProduct(y, x)) {
+                        if (!equalSubjectPredicateInRespectToImageAndProduct(x, y)
+                                && !equalSubjectPredicateInRespectToImageAndProduct(y, x)) {
                             return false;
                         } else {
                             continue;
@@ -84,29 +86,30 @@ public class Terms {
     public static Term reduceUntilLayer2(final CompoundTerm _itself, final Term replacement, final Memory memory) {
         if (_itself == null)
             return null;
-        
+
         final Term reduced = reduceComponentOneLayer(_itself, replacement, memory);
         if (!(reduced instanceof CompoundTerm))
             return null;
-        
-        CompoundTerm itself = (CompoundTerm)reduced;
+
+        CompoundTerm itself = (CompoundTerm) reduced;
         int j = 0;
         for (final Term t : itself.term) {
             final Term t2 = unwrapNegation(t);
-            if (!(t2 instanceof Implication) && !(t2 instanceof Equivalence) && !(t2 instanceof Conjunction) && !(t2 instanceof Disjunction)) {
+            if (!(t2 instanceof Implication) && !(t2 instanceof Equivalence) && !(t2 instanceof Conjunction)
+                    && !(t2 instanceof Disjunction)) {
                 j++;
                 continue;
             }
             final Term ret2 = reduceComponentOneLayer((CompoundTerm) t2, replacement, memory);
-            
-            //CompoundTerm itselfCompound = itself;
+
+            // CompoundTerm itselfCompound = itself;
             Term replaced = null;
-            if (j < itself.term.length  )
+            if (j < itself.term.length)
                 replaced = itself.setComponent(j, ret2, memory);
-            
+
             if (replaced != null) {
                 if (replaced instanceof CompoundTerm)
-                    itself = (CompoundTerm)replaced;
+                    itself = (CompoundTerm) replaced;
                 else
                     return replaced;
             }
@@ -119,7 +122,7 @@ public class Terms {
     /**
      * Try to make a compound term from a template and a list of term
      *
-     * @param compound The template
+     * @param compound   The template
      * @param components The term
      * @return A compound term or null
      */
@@ -137,21 +140,20 @@ public class Terms {
         final Term[] c = components.toArray(new Term[0]);
         return term(compound, c);
     }
-    
 
     /**
      * Try to make a compound term from an operator and a list of term
      * <p>
      * Called from StringParser
      *
-     * @param copula Term operator
+     * @param copula        Term operator
      * @param componentList Component list
      * @return A term or null
      */
     public static Term term(final Symbols.NativeOperator copula, final Term[] componentList) {
-        
+
         switch (copula) {
-            
+
             case SET_EXT_OPENER:
                 return SetExt.make(componentList);
             case SET_INT_OPENER:
@@ -206,9 +208,9 @@ public class Terms {
     /**
      * Try to remove a component from a compound
      *
-     * @param compound The compound
+     * @param compound  The compound
      * @param component The component
-     * @param memory Reference to the memory
+     * @param memory    Reference to the memory
      * @return The new compound
      */
     public static Term reduceComponents(final CompoundTerm compound, final Term component, final Memory memory) {
@@ -223,7 +225,9 @@ public class Terms {
                 return term(compound, list);
             }
             if (list.length == 1) {
-                if ((compound instanceof Conjunction) || (compound instanceof Disjunction) || (compound instanceof IntersectionExt) || (compound instanceof IntersectionInt) || (compound instanceof DifferenceExt) || (compound instanceof DifferenceInt)) {
+                if ((compound instanceof Conjunction) || (compound instanceof Disjunction)
+                        || (compound instanceof IntersectionExt) || (compound instanceof IntersectionInt)
+                        || (compound instanceof DifferenceExt) || (compound instanceof DifferenceInt)) {
                     return list[0];
                 }
             }
@@ -248,7 +252,6 @@ public class Terms {
         return compound;
     }
 
-
     public static Term unwrapNegation(final Term T) {
         if (T != null && T instanceof Negation) {
             return ((CompoundTerm) T).term[0];
@@ -257,26 +260,26 @@ public class Terms {
     }
 
     public static boolean equalSubjectPredicateInRespectToImageAndProduct(final Term a, final Term b) {
-        
+
         if (a == null || b == null) {
             return false;
         }
-        
+
         if (!(a instanceof Statement) && !(b instanceof Statement)) {
             return false;
         }
-        
+
         if (a.equals(b)) {
             return true;
         }
-        
+
         final Statement A = (Statement) a;
         final Statement B = (Statement) b;
-        
-        if (!(A instanceof Similarity && B instanceof Similarity 
+
+        if (!(A instanceof Similarity && B instanceof Similarity
                 || A instanceof Inheritance && B instanceof Inheritance))
             return false;
-            
+
         final Term subjA = A.getSubject();
         final Term predA = A.getPredicate();
         final Term subjB = B.getSubject();
@@ -286,47 +289,59 @@ public class Terms {
         Term sa = null, sb = null;
 
         if ((subjA instanceof Product) && (predB instanceof ImageExt)) {
-            ta = predA; sa = subjA;
-            tb = subjB; sb = predB;
+            ta = predA;
+            sa = subjA;
+            tb = subjB;
+            sb = predB;
         }
         if ((subjB instanceof Product) && (predA instanceof ImageExt)) {
-            ta = subjA; sa = predA;
-            tb = predB; sb = subjB;                
+            ta = subjA;
+            sa = predA;
+            tb = predB;
+            sb = subjB;
         }
         if ((predA instanceof ImageExt) && (predB instanceof ImageExt)) {
-            ta = subjA; sa = predA;
-            tb = subjB; sb = predB;                
+            ta = subjA;
+            sa = predA;
+            tb = subjB;
+            sb = predB;
         }
         if ((subjA instanceof ImageInt) && (subjB instanceof ImageInt)) {
-            ta = predA; sa = subjA;
-            tb = predB; sb = subjB;
+            ta = predA;
+            sa = subjA;
+            tb = predB;
+            sb = subjB;
         }
         if ((predA instanceof Product) && (subjB instanceof ImageInt)) {
-            ta = subjA; sa = predA;
-            tb = predB; sb = subjB;                
+            ta = subjA;
+            sa = predA;
+            tb = predB;
+            sb = subjB;
         }
         if ((predB instanceof Product) && (subjA instanceof ImageInt)) {
-            ta = predA; sa = subjA;
-            tb = subjB; sb = predB;
+            ta = predA;
+            sa = subjA;
+            tb = subjB;
+            sb = predB;
         }
 
-        if (ta==null) {
+        if (ta == null) {
             return false;
         }
 
-        final Term[] sat = ((CompoundTerm)sa).term;
-        final Term[] sbt = ((CompoundTerm)sb).term;
+        final Term[] sat = ((CompoundTerm) sa).term;
+        final Term[] sbt = ((CompoundTerm) sb).term;
 
-        if(sa instanceof Image && sb instanceof Image) {
-            final Image im1=(Image) sa;
-            final Image im2=(Image) sb;
-            if(im1.relationIndex != im2.relationIndex) {
+        if (sa instanceof Image && sb instanceof Image) {
+            final Image im1 = (Image) sa;
+            final Image im2 = (Image) sb;
+            if (im1.relationIndex != im2.relationIndex) {
                 return false;
             }
         }
 
-        final Set<Term> componentsA = new LinkedHashSet(1+sat.length);
-        final Set<Term> componentsB = new LinkedHashSet(1+sbt.length);
+        final Set<Term> componentsA = new LinkedHashSet(1 + sat.length);
+        final Set<Term> componentsB = new LinkedHashSet(1 + sbt.length);
 
         componentsA.add(ta);
         Collections.addAll(componentsA, sat);
@@ -334,24 +349,22 @@ public class Terms {
         componentsB.add(tb);
         Collections.addAll(componentsB, sbt);
 
-        for(final Term sA : componentsA) {
-            boolean had=false;
-            for(final Term sB : componentsB) {
-                if(sA instanceof Variable && sB instanceof Variable) {
-                    if(sA.name().equals(sB.name())) {
-                        had=true;
-        }
-                }
-                else
-                if(sA.equals(sB)) {
-                    had=true;
+        for (final Term sA : componentsA) {
+            boolean had = false;
+            for (final Term sB : componentsB) {
+                if (sA instanceof Variable && sB instanceof Variable) {
+                    if (sA.name().equals(sB.name())) {
+                        had = true;
+                    }
+                } else if (sA.equals(sB)) {
+                    had = true;
                 }
             }
-            if(!had) {
+            if (!had) {
                 return false;
             }
         }
-            
+
         return true;
     }
 
@@ -361,41 +374,43 @@ public class Terms {
      * <p>
      *
      * @param componentLinks The list of TermLink templates built so far
-     * @param type The type of TermLink to be built
-     * @param term The CompoundTerm for which the links are built
+     * @param type           The type of TermLink to be built
+     * @param term           The CompoundTerm for which the links are built
      */
-    public static List<TermLink> prepareComponentLinks(final List<TermLink> componentLinks, final short type, final CompoundTerm term) {
-        
+    public static List<TermLink> prepareComponentLinks(final List<TermLink> componentLinks, final short type,
+            final CompoundTerm term) {
+
         final boolean tEquivalence = (term instanceof Equivalence);
         final boolean tImplication = (term instanceof Implication);
-        
+
         for (int i = 0; i < term.size(); i++) {
             Term t1 = term.term[i];
-            t1=new Sentence(
-                t1,
-                Symbols.TERM_NORMALIZING_WORKAROUND_MARK,
-                null,
-                null).term;
-            
-            
+            t1 = new Sentence(
+                    t1,
+                    Symbols.TERM_NORMALIZING_WORKAROUND_MARK,
+                    null,
+                    null).term;
+
             if (!(t1 instanceof Variable)) {
                 componentLinks.add(new TermLink(type, t1, i));
             }
-            if ((tEquivalence || (tImplication && (i == 0))) && ((t1 instanceof Conjunction) || (t1 instanceof Negation))) {
+            if ((tEquivalence || (tImplication && (i == 0)))
+                    && ((t1 instanceof Conjunction) || (t1 instanceof Negation))) {
                 prepareComponentLinks(componentLinks, TermLink.COMPOUND_CONDITION, (CompoundTerm) t1);
             } else if (t1 instanceof CompoundTerm) {
-                final CompoundTerm ct1 = (CompoundTerm)t1;
-                final int ct1Size = ct1.size(); //cache because this loop is critical
-                final boolean t1ProductOrImage = (t1 instanceof Product) || (t1 instanceof ImageExt) || (t1 instanceof ImageInt);
-                
+                final CompoundTerm ct1 = (CompoundTerm) t1;
+                final int ct1Size = ct1.size(); // cache because this loop is critical
+                final boolean t1ProductOrImage = (t1 instanceof Product) || (t1 instanceof ImageExt)
+                        || (t1 instanceof ImageInt);
+
                 for (int j = 0; j < ct1Size; j++) {
                     Term t2 = ct1.term[j];
 
                     t2 = new Sentence(
-                        t2,
-                        Symbols.TERM_NORMALIZING_WORKAROUND_MARK,
-                        null,
-                        null).term;
+                            t2,
+                            Symbols.TERM_NORMALIZING_WORKAROUND_MARK,
+                            null,
+                            null).term;
 
                     if (!t2.hasVar()) {
                         if (t1ProductOrImage) {
@@ -409,17 +424,17 @@ public class Terms {
                         }
                     }
                     if ((t2 instanceof Product) || (t2 instanceof ImageExt) || (t2 instanceof ImageInt)) {
-                        final CompoundTerm ct2 = (CompoundTerm)t2;
+                        final CompoundTerm ct2 = (CompoundTerm) t2;
                         final int ct2Size = ct2.size();
-                        
+
                         for (int k = 0; k < ct2Size; k++) {
                             Term t3 = ct2.term[k];
 
                             t3 = new Sentence(
-                                t3,
-                                Symbols.TERM_NORMALIZING_WORKAROUND_MARK,
-                                null,
-                                null).term;
+                                    t3,
+                                    Symbols.TERM_NORMALIZING_WORKAROUND_MARK,
+                                    null,
+                                    null).term;
 
                             if (!t3.hasVar()) {
                                 if (type == TermLink.COMPOUND_CONDITION) {
@@ -436,18 +451,20 @@ public class Terms {
         return componentLinks;
     }
 
-   public  static List<TermLink> prepareComponentLinks(final List<TermLink> componentLinks, final CompoundTerm ct) {
-        final short type = (ct instanceof Statement) ? TermLink.COMPOUND_STATEMENT : TermLink.COMPOUND;   // default
+    public static List<TermLink> prepareComponentLinks(final List<TermLink> componentLinks, final CompoundTerm ct) {
+        final short type = (ct instanceof Statement) ? TermLink.COMPOUND_STATEMENT : TermLink.COMPOUND; // default
         return prepareComponentLinks(componentLinks, type, ct);
     }
 
-    //TODO move this to a utility method
+    // TODO move this to a utility method
     public static <T> int indexOf(final T[] array, final T v) {
-        /*if (v == null) {
-        for (final T e : array)
-        if (e == null)
-        return true;
-        } else {*/
+        /*
+         * if (v == null) {
+         * for (final T e : array)
+         * if (e == null)
+         * return true;
+         * } else {
+         */
         int i = 0;
         for (final T e : array) {
             if (v.equals(e)) {
@@ -458,11 +475,15 @@ public class Terms {
         return -1;
     }
 
-    /** compres a set of terms (assumed to be unique) with another set to find if their
-     * contents match. they can be in different order and still match.  this is useful for
-     * comparing whether compound terms in which order doesn't matter (ex: conjunction)
+    /**
+     * compres a set of terms (assumed to be unique) with another set to find if
+     * their
+     * contents match. they can be in different order and still match. this is
+     * useful for
+     * comparing whether compound terms in which order doesn't matter (ex:
+     * conjunction)
      * are equivalent.
-     */ 
+     */
     public static <T> boolean containsAll(final T[] a, final T[] b) {
         for (final T ax : a) {
             if (!contains(b, ax))
@@ -470,8 +491,8 @@ public class Terms {
         }
         return true;
     }
-    
-    /** a contains any of b  NOT TESTED YET */
+
+    /** a contains any of b NOT TESTED YET */
     public static boolean containsAny(final Term[] a, final Collection<Term> b) {
         for (final Term bx : b) {
             if (contains(a, bx))
@@ -479,10 +500,10 @@ public class Terms {
         }
         for (final Term ax : a) {
             if (ax instanceof CompoundTerm)
-                if (containsAny(((CompoundTerm)ax).term, b))
+                if (containsAny(((CompoundTerm) ax).term, b))
                     return true;
         }
-        
+
         return false;
     }
 
@@ -496,10 +517,11 @@ public class Terms {
     }
 
     static boolean equals(final Term[] a, final Term[] b) {
-        if (a.length!=b.length) return false;
+        if (a.length != b.length)
+            return false;
         for (int i = 0; i < a.length; i++) {
             if (!a[i].equals(b[i]))
-                return false;            
+                return false;
         }
         return true;
     }
@@ -514,8 +536,8 @@ public class Terms {
         for (final Object o : t)
             if (o == null)
                 throw new IllegalStateException("Element null in: " + Arrays.toString(t));
-    }    
-    
+    }
+
     public static Term[] verifySortedAndUnique(final Term[] arg, final boolean allowSingleton) {
         if (arg.length == 0) {
             throw new IllegalStateException("Needs >0 components");
@@ -524,14 +546,15 @@ public class Terms {
             throw new IllegalStateException("Needs >1 components: " + Arrays.toString(arg));
         }
         final Term[] s = Term.toSortedSetArray(arg);
-        if (arg.length!=s.length) {
+        if (arg.length != s.length) {
             throw new IllegalStateException("Contains duplicates: " + Arrays.toString(arg));
         }
         int j = 0;
         for (final Term t : s) {
             if (!t.equals(arg[j++]))
-                throw new IllegalStateException("Un-ordered: " + Arrays.toString(arg) + " , correct order=" + Arrays.toString(s));
-        }        
+                throw new IllegalStateException(
+                        "Un-ordered: " + Arrays.toString(arg) + " , correct order=" + Arrays.toString(s));
+        }
         return s;
-    }    
+    }
 }

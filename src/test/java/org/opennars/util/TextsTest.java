@@ -28,9 +28,7 @@ import org.opennars.io.Texts;
 
 import static org.junit.Assert.assertEquals;
 
-
 public class TextsTest {
- 
 
     @Test
     public void testN2() {

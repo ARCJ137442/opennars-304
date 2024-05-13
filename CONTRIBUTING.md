@@ -52,7 +52,7 @@ ISSUES CLOSED: #31
 
 ### Pull Request Process
 
-1. Ensure that binaries such as build dependencies do not appear in any commits in your code branch. 
+1. Ensure that binaries such as build dependencies do not appear in any commits in your code branch.
 2. Ensure all commit messages follow the [Conventional Changelog](https://github.com/conventional-changelog/conventional-changelog-eslint/blob/master/convention.md)
    standard explained earlier.
 4. Update the CHANGELOG.md file to add relevant details describing any changes you've made.
@@ -79,17 +79,17 @@ First ensure the package is prepared for the release process:
 
 Next lets take a few steps to do the actual release:
 
-1.  Update everything listed above. Do **not** drop the package version's `-SNAPSHOT` suffix in master.
-2.  Create a release branch, but make sure never to push this branch to the server: `git checkout -b release`.
-3.  Update the README.md again to ensure travis badge and javadoc badge point to static tag and not latest.
-4.  Drop the `-SNAPSHOT` suffix from the package version.
-5.  Commit the current changes using a generic commit message such as `build(release): version 1.2.3`.
-6.  Fully test the software before deploying, run all tests and install locally to test against the examples package.
+1. Update everything listed above. Do **not** drop the package version's `-SNAPSHOT` suffix in master.
+2. Create a release branch, but make sure never to push this branch to the server: `git checkout -b release`.
+3. Update the README.md again to ensure travis badge and javadoc badge point to static tag and not latest.
+4. Drop the `-SNAPSHOT` suffix from the package version.
+5. Commit the current changes using a generic commit message such as `build(release): version 1.2.3`.
+6. Fully test the software before deploying, run all tests and install locally to test against the examples package.
     You can install the package locally with `mvn clean install`.
-7.  Once satisfied the package is stable deploy it to maven central by executing `mvn -P sign clean package deploy`.
-8.  If deployment was successful then create a new tag for the current version with the following command:
+7. Once satisfied the package is stable deploy it to maven central by executing `mvn -P sign clean package deploy`.
+8. If deployment was successful then create a new tag for the current version with the following command:
     `git tag -a v1.2.3 -m "Version 1.2.3"`.
-9.  Push the newly created tags to the server: `git push origin v1.2.3:v1.2.3`.
+9. Push the newly created tags to the server: `git push origin v1.2.3:v1.2.3`.
 10. Go to Github and go to the release. Update the description with the changelog for the version and upload
     all the artifacts in the target folder.
 10. Checkout master again and then delete the release branch: `git branch -D release`.

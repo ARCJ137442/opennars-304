@@ -56,60 +56,86 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * lookup the truth function and compute the value
+     * 
      * @param type truth-function
-     * @param a truth value of the first premise
-     * @param b truth value of the second premise
+     * @param a    truth value of the first premise
+     * @param b    truth value of the second premise
      * @return truth value as computed by the truth-function
      */
-    public static TruthValue lookupTruthFunctionAndCompute(final EnumType type, final TruthValue a, final TruthValue b, final Parameters narParameters) {
-        switch(type) {
-            case DESIREDED: return desireDed(a, b, narParameters);
-            case DESIREIND: return desireInd(a, b, narParameters);
-            case DESIREWEAK: return desireWeak(a, b, narParameters);
-            case DESIRESTRONG: return desireStrong(a, b, narParameters);
-            case COMPARISON: return comparison(a, b, narParameters);
-            case ANALOGY: return analogy(a, b, narParameters);
-            case ANONYMOUSANALOGY: return anonymousAnalogy(a, b, narParameters);
-            case DEDUCTION: return deduction(a, b, narParameters);
-            case EXEMPLIFICATION: return exemplification(a, b, narParameters);
-            case ABDUCTION: return abduction(a, b, narParameters);
-            case RESEMBLENCE: return resemblance(a, b, narParameters);
-            case REDUCECONJUNCTION: return reduceConjunction(a, b, narParameters);
-            case REDUCEDISJUNCTION: return reduceDisjunction(a, b, narParameters);
-            case REDUCEDISJUNCTIONREV: return reduceDisjunction(b, a, narParameters);
-            case REDUCECONJUNCTIONNEG: return reduceConjunctionNeg(a, b, narParameters);
-            default: throw new IllegalArgumentException("Encountered unimplemented case!"); // internal error
+    public static TruthValue lookupTruthFunctionAndCompute(final EnumType type, final TruthValue a, final TruthValue b,
+            final Parameters narParameters) {
+        switch (type) {
+            case DESIREDED:
+                return desireDed(a, b, narParameters);
+            case DESIREIND:
+                return desireInd(a, b, narParameters);
+            case DESIREWEAK:
+                return desireWeak(a, b, narParameters);
+            case DESIRESTRONG:
+                return desireStrong(a, b, narParameters);
+            case COMPARISON:
+                return comparison(a, b, narParameters);
+            case ANALOGY:
+                return analogy(a, b, narParameters);
+            case ANONYMOUSANALOGY:
+                return anonymousAnalogy(a, b, narParameters);
+            case DEDUCTION:
+                return deduction(a, b, narParameters);
+            case EXEMPLIFICATION:
+                return exemplification(a, b, narParameters);
+            case ABDUCTION:
+                return abduction(a, b, narParameters);
+            case RESEMBLENCE:
+                return resemblance(a, b, narParameters);
+            case REDUCECONJUNCTION:
+                return reduceConjunction(a, b, narParameters);
+            case REDUCEDISJUNCTION:
+                return reduceDisjunction(a, b, narParameters);
+            case REDUCEDISJUNCTIONREV:
+                return reduceDisjunction(b, a, narParameters);
+            case REDUCECONJUNCTIONNEG:
+                return reduceConjunctionNeg(a, b, narParameters);
+            default:
+                throw new IllegalArgumentException("Encountered unimplemented case!"); // internal error
         }
     }
 
     /**
-     * lookup the truth function and compute the value - for two truth functions which are decided by flag
-     * @param flag which type to choose
-     * @param typeTrue truth-function for the case when the flag is true
+     * lookup the truth function and compute the value - for two truth functions
+     * which are decided by flag
+     * 
+     * @param flag      which type to choose
+     * @param typeTrue  truth-function for the case when the flag is true
      * @param typeFalse truth-function for the case when the flag is false
-     * @param a truth value of the first premise
-     * @param b truth value of the second premise
+     * @param a         truth value of the first premise
+     * @param b         truth value of the second premise
      * @return truth value as computed by the truth-function
      */
-    public static TruthValue lookupTruthFunctionByBoolAndCompute(final boolean flag, final EnumType typeTrue, final EnumType typeFalse, final TruthValue a, final TruthValue b, Parameters narParameters) {
+    public static TruthValue lookupTruthFunctionByBoolAndCompute(final boolean flag, final EnumType typeTrue,
+            final EnumType typeFalse, final TruthValue a, final TruthValue b, Parameters narParameters) {
         final EnumType type = flag ? typeTrue : typeFalse;
         return lookupTruthFunctionAndCompute(type, a, b, narParameters);
     }
 
     /**
-     * lookup the truth function by the first boolean which is true or return null if no boolean is true
-     * @param values tuples of boolean conditional values and their corresponding truth function
-     * @param a truth value of the first premise
-     * @param b truth value of the second premise
-     * @return truth value as computed by the truth-function or null if no boolean value was true
+     * lookup the truth function by the first boolean which is true or return null
+     * if no boolean is true
+     * 
+     * @param values tuples of boolean conditional values and their corresponding
+     *               truth function
+     * @param a      truth value of the first premise
+     * @param b      truth value of the second premise
+     * @return truth value as computed by the truth-function or null if no boolean
+     *         value was true
      */
-    public static TruthValue lookupTruthOrNull(final TruthValue a, final TruthValue b, Parameters narParameters, final Object... values) {
+    public static TruthValue lookupTruthOrNull(final TruthValue a, final TruthValue b, Parameters narParameters,
+            final Object... values) {
         final int numberOfTuples = (values.length) / 2;
 
-        for(int idx = 0; idx < numberOfTuples; idx++) {
-            final boolean v = (boolean)values[idx*2];
-            if( v ) {
-                final EnumType type = (EnumType)values[idx*2+1];
+        for (int idx = 0; idx < numberOfTuples; idx++) {
+            final boolean v = (boolean) values[idx * 2];
+            if (v) {
+                final EnumType type = (EnumType) values[idx * 2 + 1];
                 return lookupTruthFunctionAndCompute(type, a, b, narParameters);
             }
         }
@@ -117,17 +143,17 @@ public final class TruthFunctions extends UtilityFunctions {
         return null;
     }
 
-
     /* ----- Single argument functions, called in MatchingRules ----- */
     /**
      * {&lt;A ==&gt; B&gt;} |- &lt;B ==&gt; A&gt;
+     * 
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
     public static final TruthValue conversion(final TruthValue v1, Parameters narParameters) {
         final float f1 = v1.getFrequency();
         final double c1 = v1.getConfidence();
-        final float w = (float)and(f1, c1);
+        final float w = (float) and(f1, c1);
         final double c = w2c(w, narParameters);
         return new TruthValue(1, c, narParameters);
     }
@@ -135,6 +161,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- Single argument functions, called in StructuralRules ----- */
     /**
      * {A} |- (--A)
+     * 
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
@@ -146,13 +173,14 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {&lt;A ==&gt; B&gt;} |- &lt;(--, B) ==&gt; (--, A)&gt;
+     * 
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
     public static final TruthValue contraposition(final TruthValue v1, Parameters narParameters) {
         final float f1 = v1.getFrequency();
         final double c1 = v1.getConfidence();
-        final float w = (float)and(1 - (double)f1, c1);
+        final float w = (float) and(1 - (double) f1, c1);
         final double c = w2c(w, narParameters);
         return new TruthValue(0, c, narParameters);
     }
@@ -160,6 +188,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- double argument functions, called in MatchingRules ----- */
     /**
      * {&lt;S ==&gt; P&gt;, &lt;S ==&gt; P&gt;} |- &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -167,21 +196,23 @@ public final class TruthFunctions extends UtilityFunctions {
     public static final TruthValue revision(final TruthValue v1, final TruthValue v2, Parameters narParameters) {
         return revision(v1, v2, new TruthValue(narParameters), narParameters);
     }
-    
-    private static final TruthValue revision(final TruthValue v1, final TruthValue v2, final TruthValue result, Parameters narParameters) {
+
+    private static final TruthValue revision(final TruthValue v1, final TruthValue v2, final TruthValue result,
+            Parameters narParameters) {
         final float f1 = v1.getFrequency();
         final float f2 = v2.getFrequency();
-        final double w1 = c2w( v1.getConfidence(), narParameters );
-        final double w2 = c2w( v2.getConfidence(), narParameters );
+        final double w1 = c2w(v1.getConfidence(), narParameters);
+        final double w2 = c2w(v2.getConfidence(), narParameters);
         final double w = w1 + w2;
-        result.setFrequency( (float)((w1 * f1 + w2 * f2) / w) );
-        result.setConfidence( w2c(w, narParameters) );
+        result.setFrequency((float) ((w1 * f1 + w2 * f2) / w));
+        result.setConfidence(w2c(w, narParameters));
         return result;
     }
-    
+
     /* ----- double argument functions, called in SyllogisticRules ----- */
     /**
      * {&lt;S ==&gt; M&gt;, &lt;M ==&gt; P&gt;} |- &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -191,14 +222,15 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2, f);
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * {M, &lt;M ==&gt; P&gt;} |- P
-     * @param v1 Truth value of the first premise
+     * 
+     * @param v1       Truth value of the first premise
      * @param reliance Confidence of the second (analytical) premise
      * @return Truth value of the conclusion
      */
@@ -211,6 +243,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {&lt;S ==&gt; M&gt;, &lt;M &lt;=&gt; P&gt;} |- &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -220,13 +253,14 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2, f2);
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * {&lt;S &lt;=&gt; M&gt;, &lt;M &lt;=&gt; P&gt;} |- &lt;S &lt;=&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -236,13 +270,14 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2, or(f1, f2));
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * {&lt;S ==&gt; M&gt;, &lt;P ==&gt; M&gt;} |- &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -262,7 +297,8 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {M, &lt;P ==&gt; M&gt;} |- P
-     * @param v1 Truth value of the first premise
+     * 
+     * @param v1       Truth value of the first premise
      * @param reliance Confidence of the second (analytical) premise
      * @return Truth value of the conclusion
      */
@@ -279,6 +315,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {&lt;M ==&gt; S&gt;, &lt;M ==&gt; P&gt;} |- &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -289,6 +326,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {&lt;M ==&gt; S&gt;, &lt;P ==&gt; M&gt;} |- &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -308,6 +346,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {&lt;M ==&gt; S&gt;, &lt;M ==&gt; P&gt;} |- &lt;S &lt;=&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -318,7 +357,7 @@ public final class TruthFunctions extends UtilityFunctions {
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
         final float f0 = or(f1, f2);
-        final float f = (f0 == 0) ? 0 : ((float)and(f1, f2) / f0);
+        final float f = (f0 == 0) ? 0 : ((float) and(f1, f2) / f0);
         final double w = and(f0, c1, c2);
         final double c = w2c(w, narParameters);
         return new TruthValue(f, c, narParameters);
@@ -327,6 +366,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- desire-value functions, called in SyllogisticRules ----- */
     /**
      * A function specially designed for desire value [To be refined]
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -336,13 +376,14 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2, f2);
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * A function specially designed for desire value [To be refined]
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -352,13 +393,14 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2, f2, w2c(1.0, narParameters));
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * A function specially designed for desire value [To be refined]
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -368,13 +410,14 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2);
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * A function specially designed for desire value [To be refined]
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -392,6 +435,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- double argument functions, called in CompositionalRules ----- */
     /**
      * {&lt;M --&gt; S&gt;, &lt;M &gt; P&gt;} |- &lt;M --&gt; (S|P)&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -408,6 +452,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {&lt;M --&gt; S&gt;, &lt;M &lt;-&gt; P&gt;} |- &lt;M --&gt; (S&amp;P)&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -417,68 +462,79 @@ public final class TruthFunctions extends UtilityFunctions {
         final float f2 = v2.getFrequency();
         final double c1 = v1.getConfidence();
         final double c2 = v2.getConfidence();
-        final float f = (float)and(f1, f2);
+        final float f = (float) and(f1, f2);
         final double c = and(c1, c2);
         return new TruthValue(f, c, narParameters);
     }
 
     /**
      * {(||, A, B), (--, B)} |- A
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
      */
-    public static final TruthValue reduceDisjunction(final TruthValue v1, final TruthValue v2, Parameters narParameters) {
+    public static final TruthValue reduceDisjunction(final TruthValue v1, final TruthValue v2,
+            Parameters narParameters) {
         final TruthValue v0 = intersection(v1, negation(v2, narParameters), narParameters);
         return deduction(v0, 1f, narParameters);
     }
 
     /**
      * {(--, (&amp;&amp;, A, B)), B} |- (--, A)
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
      */
-    public static final TruthValue reduceConjunction(final TruthValue v1, final TruthValue v2, Parameters narParameters) {
+    public static final TruthValue reduceConjunction(final TruthValue v1, final TruthValue v2,
+            Parameters narParameters) {
         final TruthValue v0 = intersection(negation(v1, narParameters), v2, narParameters);
         return negation(deduction(v0, 1f, narParameters), narParameters);
     }
 
     /**
      * {(--, (&amp;&amp;, A, (--, B))), (--, B)} |- (--, A)
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
      */
-    public static final TruthValue reduceConjunctionNeg(final TruthValue v1, final TruthValue v2, Parameters narParameters) {
+    public static final TruthValue reduceConjunctionNeg(final TruthValue v1, final TruthValue v2,
+            Parameters narParameters) {
         return reduceConjunction(v1, negation(v2, narParameters), narParameters);
     }
 
     /**
-     * {(&amp;&amp;, &lt;#x() ==&gt; M&gt;, &lt;#x() ==&gt; P&gt;), S ==&gt; M} |- &lt;S ==&gt; P&gt;
+     * {(&amp;&amp;, &lt;#x() ==&gt; M&gt;, &lt;#x() ==&gt; P&gt;), S ==&gt; M} |-
+     * &lt;S ==&gt; P&gt;
+     * 
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
      */
-    public static final TruthValue anonymousAnalogy(final TruthValue v1, final TruthValue v2, Parameters narParameters) {
+    public static final TruthValue anonymousAnalogy(final TruthValue v1, final TruthValue v2,
+            Parameters narParameters) {
         final float f1 = v1.getFrequency();
         final double c1 = v1.getConfidence();
         final TruthValue v0 = new TruthValue(f1, w2c(c1, narParameters), narParameters);
         return analogy(v2, v0, narParameters);
     }
-    
-    
-    /** Indicates the result of eternalization
+
+    /**
+     * Indicates the result of eternalization
      *
-     * Implements the same functionality like TruthValue */
+     * Implements the same functionality like TruthValue
+     */
     public static final class EternalizedTruthValue extends TruthValue {
         public EternalizedTruthValue(final float f, final double c, Parameters narParameters) {
             super(f, c, narParameters);
-        }        
+        }
     }
-    
+
     /**
      * From one moment to eternal
+     * 
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
@@ -488,9 +544,12 @@ public final class TruthFunctions extends UtilityFunctions {
         final double c = w2c(c1, narParameters);
         return new EternalizedTruthValue(f1, c, narParameters);
     }
-    
-    public static final float temporalProjection(final long sourceTime, final long targetTime, final long currentTime, Parameters param) {
-        final double a = 100000.0 * param.PROJECTION_DECAY; //projection less strict as we changed in v2.0.0  10000.0 slower decay than 100000.0
-        return 1.0f - abs(sourceTime - targetTime) / (float) (abs(sourceTime - currentTime) + abs(targetTime - currentTime) + a);
+
+    public static final float temporalProjection(final long sourceTime, final long targetTime, final long currentTime,
+            Parameters param) {
+        final double a = 100000.0 * param.PROJECTION_DECAY; // projection less strict as we changed in v2.0.0 10000.0
+                                                            // slower decay than 100000.0
+        return 1.0f - abs(sourceTime - targetTime)
+                / (float) (abs(sourceTime - currentTime) + abs(targetTime - currentTime) + a);
     }
 }

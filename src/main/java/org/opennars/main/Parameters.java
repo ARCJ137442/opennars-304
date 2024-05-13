@@ -300,9 +300,9 @@ public class Parameters implements Serializable {
     public volatile int THREADS_AMOUNT = 1;
     
     /** Default volume at startup */
-    public volatile int VOLUME = 0;
+    public volatile int VOLUME = 100;
     
-    /** Default miliseconds per step at startup */
+    /** Default milliseconds per step at startup */
     public volatile int MILLISECONDS_PER_STEP = 0;
     
     /** Timing mode, steps or real time */

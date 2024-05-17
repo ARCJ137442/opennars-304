@@ -1,26 +1,3 @@
-/* 
- * The MIT License
- *
- * Copyright 2018 The OpenNARS authors.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package org.opennars.storage;
 
 import org.opennars.control.DerivationContext;
@@ -72,26 +49,15 @@ public class Buffer extends Bag<Task<Term>, Sentence<Term>> {
     }
 
     public Task putIn(Task task) {
-        if ((task.parentTask == null || task.sequenceTask) && nar.narParameters.ALLOW_LEGACY_EVENT_BAG_HANDLING_TOO) // essentially
-                                                                                                                     // marked
-                                                                                                                     // as
-                                                                                                                     // relevant
-                                                                                                                     // for
-                                                                                                                     // temporal
-                                                                                                                     // reasoning
-                                                                                                                     // by
-                                                                                                                     // being
-                                                                                                                     // input
-                                                                                                                     // event
-                                                                                                                     // or
-                                                                                                                     // temporal
-                                                                                                                     // rule
-        {
+        // essentially marked as relevant for temporal reasoning by being input event or
+        // temporal rule
+        if ((task.parentTask == null || task.sequenceTask) && nar.narParameters.ALLOW_LEGACY_EVENT_BAG_HANDLING_TOO) {
             if (this == nar.memory.globalBuffer &&
                     task.sentence.getOccurenceTime() != Stamp.ETERNAL &&
-                    task.sentence.isJudgment()) // but only for global buffer this handling is allowed for comparison
-                                                // purposes, if it's more powerful we might want to consider making it
-                                                // default for buffer in general
+                    task.sentence.isJudgment())
+            // but only for global buffer this handling is allowed for comparison purposes,
+            // if it's more powerful we might want to consider making it default for buffer
+            // in general
             {
                 addToSequenceTasks(task);
             }

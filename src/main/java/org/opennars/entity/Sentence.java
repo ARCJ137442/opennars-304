@@ -165,7 +165,7 @@ public class Sentence implements Cloneable, Serializable {
         }
 
         if ((isQuestion() || isQuest()) && punctuation != Symbols.TERM_NORMALIZING_WORKAROUND_MARK
-                && !stamp.isEternal()) {
+                && stamp != null && !stamp.isEternal()) {
             stamp.setEternal();
             // throw new IllegalStateException("Questions and Quests require eternal
             // tense");
@@ -185,7 +185,7 @@ public class Sentence implements Cloneable, Serializable {
 
             this.term = newTerm;
             final CompoundTerm c = (CompoundTerm) term;
-            final List<Variable> vars = new ArrayList(); // may contain duplicates, list for efficiency
+            final List<Variable> vars = new ArrayList<Variable>(); // may contain duplicates, list for efficiency
 
             c.recurseSubtermsContainingVariables((t, parent) -> {
                 if (t instanceof Variable) {
@@ -194,7 +194,7 @@ public class Sentence implements Cloneable, Serializable {
                 }
             });
 
-            final Map<CharSequence, CharSequence> rename = new LinkedHashMap();
+            final Map<CharSequence, CharSequence> rename = new LinkedHashMap<>();
             boolean renamed = false;
 
             for (final Variable v : vars) {
@@ -230,10 +230,11 @@ public class Sentence implements Cloneable, Serializable {
         } else {
             this.term = _content;
         }
-
-        if (isNotTermlinkNormalizer())
+        if (isNotTermlinkNormalizer()) {
+            if (stamp == null)
+                throw new AssertionError("Stamp should not be null");
             this.hash = Objects.hash(term, punctuation, truth, stamp.getOccurrenceTime());
-        else
+        } else
             this.hash = Objects.hash(term, punctuation, truth);
     }
 
@@ -488,7 +489,7 @@ public class Sentence implements Cloneable, Serializable {
 
         final CharSequence contentName = term.name();
 
-        final long t = nar.time();
+        // final long t = nar.time();
 
         final long diff = stamp.getOccurrenceTime() - nar.time();
         final long diffabs = Math.abs(diff);
@@ -516,6 +517,8 @@ public class Sentence implements Cloneable, Serializable {
         if (truth != null)
             stringLength += 11;
 
+        if (stampString == null)
+            throw new AssertionError("stampString should not be null");
         if (showStamp)
             stringLength += stampString.length() + 1;
 

@@ -16,7 +16,6 @@ import org.opennars.io.events.Events.CycleEnd;
 import org.opennars.io.events.Events.ResetEnd;
 import org.opennars.language.*;
 import org.opennars.main.Nar;
-import org.opennars.operator.Operator;
 
 public class VisionChannel extends SensoryChannel {
     public volatile float defaultOutputConfidence = 0.5f;
@@ -204,6 +203,8 @@ public class VisionChannel extends SensoryChannel {
                     // int oldFocusY = this.focusY;
                     VisualSpace lastSpace = (VisualSpace) ((Inheritance) lastPrototype.task.getTerm())
                             .getSubject().imagination;
+                    if (best == null)
+                        throw new IllegalStateException("No prototype found");
                     VisualSpace newSpace = (VisualSpace) ((Inheritance) best.task.getTerm()).getSubject().imagination;
                     int oldFocusX = lastSpace.px;
                     int oldFocusY = lastSpace.py;
@@ -249,6 +250,8 @@ public class VisionChannel extends SensoryChannel {
 
                 // 4. add the best prototype as identified sensation
                 // but with current time stamp
+                if (best == null)
+                    throw new IllegalStateException("No prototype found");
                 Sentence bestSentence = new Sentence(best.task.getTerm(),
                         best.task.sentence.punctuation,
                         bestTruth,

@@ -40,6 +40,8 @@ public class Texts {
             return null;
         }
         if (total == 1) {
+            if (lastNonNull == null)
+                throw new IllegalStateException("lastNonNull is null");
             return lastNonNull.toString();
         }
 

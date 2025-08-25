@@ -2,7 +2,6 @@ package org.opennars.io.events;
 
 import org.opennars.entity.Sentence;
 import org.opennars.entity.Task;
-import org.opennars.io.Texts;
 import org.opennars.io.events.Events.Answer;
 import org.opennars.main.Nar;
 
@@ -92,7 +91,7 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
      *
      */
     @Override
-    public void event(final Class<?> channel, final Object... oo) {
+    public void event(final Class<?> channel, final Object[] oo) {
         if (!showErrors && (channel == ERR.class))
             return;
 
@@ -140,13 +139,13 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
         return this;
     }
 
-    public static String getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
+    public String getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
             final boolean showStamp, final Nar nar, final StringBuilder buffer) {
         return getOutputString(channel, signal, showChannel, showStamp, nar, buffer, 0);
     }
 
     /** generates a human-readable string from an output channel and signal */
-    public static String getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
+    public String getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
             final boolean showStamp, final Nar nar, final StringBuilder buffer, final float minPriority) {
         buffer.setLength(0);
 
@@ -159,8 +158,8 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
 
                 buffer.append(e.toString());
 
-                /* if (showStackTrace) */ {
-                    // buffer.append(" ").append(Arrays.asList(e.getStackTrace()));
+                if (showStackTrace) {
+                    buffer.append(" ").append(Arrays.asList(e.getStackTrace()));
                 }
             } else {
                 buffer.append(signal.toString());
@@ -246,10 +245,10 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
         } else if (signal instanceof Object[]) {
             if (channel == Answer.class) {
                 final Object[] o = (Object[]) signal;
-                final Task task = (Task) o[0];
+                // final Task task = (Task) o[0];
                 final Sentence belief = (Sentence) o[1];
 
-                final Sentence question = task.sentence;
+                // final Sentence question = task.sentence;
                 final Sentence answer = belief;
 
                 buffer.append(answer.toString(nar, showStamp));

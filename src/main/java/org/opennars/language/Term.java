@@ -6,9 +6,7 @@ import org.opennars.io.Symbols;
 import org.opennars.io.Symbols.NativeOperator;
 import org.opennars.io.Texts;
 import org.opennars.main.Debug;
-import org.opennars.operator.ImaginationSpace;
-import org.opennars.operator.Operation;
-import org.opennars.operator.Operator;
+import org.opennars.operator.*;
 import org.opennars.storage.Memory;
 
 import java.io.Serializable;
@@ -27,7 +25,7 @@ import java.util.*;
  */
 public class Term implements AbstractTerm, Serializable {
     public ImaginationSpace imagination;
-    private static final Map<CharSequence, Term> atoms = new LinkedHashMap();
+    private static final Map<CharSequence, Term> atoms = new LinkedHashMap<>();
 
     final public static Term SELF = SetExt.make(Term.get("SELF"));
     final public static Term SEQ_SPATIAL = Term.get("#");
@@ -53,8 +51,9 @@ public class Term implements AbstractTerm, Serializable {
         // which means its only used as monitor
         final boolean isOp = this instanceof Operation;
         if (isOp) {
-            final Operator op = ((Operation) this).getOperator(); // the following part may be refactored after we
-            // know more about how the NAL9 concepts should really interact together:
+            // final Operator op = ((Operation) this).getOperator();
+            // the following part may be refactored after we know more about how the NAL9
+            // concepts should really interact together:
             /*
              * if(op.equals(mem.getOperator("^want")) ||
              * op.equals(mem.getOperator("^believe"))) {
@@ -91,22 +90,22 @@ public class Term implements AbstractTerm, Serializable {
             return x;
         }
 
-        final String namestr = name.toString();
+        final String nameStr = name.toString();
         // p[s,i,j]
         int[] term_indices = null;
         String before_indices_str = null;
-        if (namestr.endsWith("]") && namestr.contains("[")) { // simple check, failing for most terms
-            String indices_str = namestr.split("\\[")[1].split("\\]")[0];
-            before_indices_str = namestr.split("\\[")[0];
-            String[] inds = indices_str.split(",");
-            if (inds.length == 2) { // only position info given
+        if (nameStr.endsWith("]") && nameStr.contains("[")) { // simple check, failing for most terms
+            String indices_str = nameStr.split("\\[")[1].split("\\]")[0];
+            before_indices_str = nameStr.split("\\[")[0];
+            String[] ind_s = indices_str.split(",");
+            if (ind_s.length == 2) { // only position info given
                 indices_str = "1,1," + indices_str;
-                inds = indices_str.split(",");
+                ind_s = indices_str.split(",");
             }
-            term_indices = new int[inds.length];
-            for (int i = 0; i < inds.length; i++) {
-                if (StringUtils.isNumeric(inds[i]))
-                    term_indices[i] = Integer.valueOf(inds[i]);
+            term_indices = new int[ind_s.length];
+            for (int i = 0; i < ind_s.length; i++) {
+                if (StringUtils.isNumeric(ind_s[i]))
+                    term_indices[i] = Integer.valueOf(ind_s[i]);
                 else {
                     term_indices = null;
                     break;
@@ -373,7 +372,7 @@ public class Term implements AbstractTerm, Serializable {
 
     public static NavigableSet<Term> toSortedSet(final Term... arg) {
         // use toSortedSetArray where possible
-        final NavigableSet<Term> t = new TreeSet();
+        final NavigableSet<Term> t = new TreeSet<>();
         Collections.addAll(t, arg);
         return t;
     }
@@ -411,8 +410,8 @@ public class Term implements AbstractTerm, Serializable {
         // TODO fast sorted array for arg.length == 3
 
         // terms > 2:
-        final NavigableSet<Term> s = new TreeSet();
-        // SortedList<Term> s = new SortedList(arg.length);
+        final NavigableSet<Term> s = new TreeSet<>();
+        // SortedList<Term> s = new SortedList<>(arg.length);
         // s.setAllowDuplicate(false);
 
         Collections.addAll(s, arg);

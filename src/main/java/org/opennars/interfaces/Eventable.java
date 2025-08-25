@@ -12,7 +12,7 @@ public interface Eventable {
 
     void off(final Class<?> c, final EventEmitter.EventObserver o);
 
-    void event(final EventEmitter.EventObserver e, final boolean enabled, final Class... events);
+    void event(final EventEmitter.EventObserver e, final boolean enabled, final Class<?>... events);
 
     void emit(final Class<?> c, final Object... o);
 }

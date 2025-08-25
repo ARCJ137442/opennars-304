@@ -458,7 +458,7 @@ public class Stamp implements Cloneable, Serializable {
     /**
      * Element of the evidential base of stamp
      */
-    public static class BaseEntry implements Comparable, Serializable {
+    public static class BaseEntry implements Comparable<BaseEntry>, Serializable {
         public final long narId; // the NAR in which the input evidence was added
 
         public long getNarId() {
@@ -509,9 +509,10 @@ public class Stamp implements Cloneable, Serializable {
         }
 
         @Override
-        public int compareTo(Object o) {
-            return Comparator.comparing(BaseEntry::getNarId).thenComparing(BaseEntry::getInputId).compare(this,
-                    (BaseEntry) o);
+        public int compareTo(BaseEntry o) {
+            return Comparator.comparing(BaseEntry::getNarId)
+                    .thenComparing(BaseEntry::getInputId)
+                    .compare(this, o);
         }
     }
 }

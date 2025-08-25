@@ -31,7 +31,7 @@ public abstract class OutputCondition extends OutputHandler {
     }
 
     @Override
-    public void event(final Class<?> channel, final Object... args) {
+    public void event(final Class<?> channel, final Object[] args) {
         if ((succeeded) && (!isInverse())) {
             return;
         }
@@ -63,7 +63,7 @@ public abstract class OutputCondition extends OutputHandler {
      */
     public static List<OutputCondition> getConditions(final Nar n, final String example,
             final int similarResultsToSave) {
-        final List<OutputCondition> conditions = new ArrayList();
+        final List<OutputCondition> conditions = new ArrayList<>();
         final String[] lines = example.split("\n");
 
         for (String s : lines) {
@@ -114,7 +114,7 @@ public abstract class OutputCondition extends OutputHandler {
         return getClass().getSimpleName() + " " + (succeeded ? "OK: " + getTrueReasons() : getFalseReason());
     }
 
-    public List getTrueReasons() {
+    public List<?> getTrueReasons() {
         if (!isTrue())
             throw new IllegalStateException(this + " is not true so has no true reasons");
         return Collections.emptyList();

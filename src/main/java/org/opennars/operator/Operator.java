@@ -121,13 +121,12 @@ public abstract class Operator extends Term implements Plugin {
         }
 
         if (memory.emitting(EXE.class)) {
-            final Operator operator = (Operator) opT;
+            // final Operator operator = (Operator) opT;
 
             if (feedback instanceof Exception)
                 feedback = feedback.getClass().getSimpleName() + ": " + ((Throwable) feedback).getMessage();
 
-            memory.emit(EXE.class,
-                    new ExecutionResult(operation, feedback));
+            memory.emit(EXE.class, new ExecutionResult(operation, feedback));
         }
     }
 

@@ -135,8 +135,10 @@ public class TemporalInferenceControl {
                         final List<Task> seq_op = proceedWithTemporalInduction(Toperation.sentence, takeout.sentence,
                                 nal.memory.lastDecision, nal, true, false, true);
                         for (final Task t : seq_op) {
-                            if (!t.sentence.isEternal()) { // TODO do not return the eternal here probably..;
-                                final List<Task> res = proceedWithTemporalInduction(newEvent.sentence, t.sentence,
+                            if (!t.sentence.isEternal()) {
+                                // TODO do not return the eternal here probably..;
+                                /* final List<Task> res = */ proceedWithTemporalInduction(newEvent.sentence,
+                                        t.sentence,
                                         newEvent, nal, true, true, false); // only =/> </> ..
                                 /*
                                  * DETAILED: for(Task seq_op_cons : res) {

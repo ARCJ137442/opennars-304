@@ -16,20 +16,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Used to read and parse the XML configuration file
@@ -142,7 +135,7 @@ public class ConfigReader {
     private static Plugin createPluginByClassnameAndArguments(String pluginClassPath, NodeList arguments,
             Reasoner reasoner) throws ParseException, ClassNotFoundException, NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
-        List<Class> types = new ArrayList<>();
+        List<Class<?>> types = new ArrayList<>();
         List<Object> values = new ArrayList<>();
 
         for (int parameterIdx = 0; parameterIdx < arguments.getLength(); parameterIdx++) {
@@ -164,6 +157,8 @@ public class ConfigReader {
             if (specialIsReasoner) {
                 types.add(Reasoner.class);
                 values.add(reasoner);
+            } else if (typeString == null) {
+                throw new ParseException("No type specified for parameter", 0);
             } else if (typeString.equals("int.class")) {
                 types.add(int.class);
                 values.add(Integer.parseInt(valueString));

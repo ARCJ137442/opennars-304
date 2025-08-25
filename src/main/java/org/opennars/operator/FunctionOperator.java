@@ -4,9 +4,7 @@ import com.google.common.collect.Lists;
 import org.opennars.entity.*;
 import org.opennars.interfaces.Timable;
 import org.opennars.io.Symbols;
-import org.opennars.language.CompoundTerm;
-import org.opennars.language.Term;
-import org.opennars.language.Variable;
+import org.opennars.language.*;
 import org.opennars.storage.Memory;
 
 import java.util.List;
@@ -58,8 +56,8 @@ public abstract class FunctionOperator extends Operator {
         }
 
         // last argument a variable?
-        final Term lastTerm = args[numArgs];
-        final boolean variable = lastTerm instanceof Variable;
+        // final Term lastTerm = args[numArgs];
+        // final boolean variable = lastTerm instanceof Variable;
 
         final int numParam = numArgs - 1;
 
@@ -91,7 +89,7 @@ public abstract class FunctionOperator extends Operator {
          * }
          */
 
-        final Variable var = new Variable("$1");
+        // final Variable var = new Variable("$1");
         // Term actual_part = Similarity.make(var, y);
         // Variable vardep=new Variable("#1");
         // Term actual_dep_part = Similarity.make(vardep, y);

@@ -24,6 +24,7 @@ import java.util.*;
 
 // TODO< run more tests >
 
+@SuppressWarnings("unused")
 public class AttentionMetric {
     public static String[] directories = new String[] { "/nal/multi_step/", "/nal/application/" };
 
@@ -37,7 +38,7 @@ public class AttentionMetric {
 
         final Map<String, Object> et = ExampleFileInput.getUnitTests(directories);
 
-        final Collection t = et.values();
+        // final Collection t = et.values();
 
         for (Map.Entry<String, Object> iTest : et.entrySet()) {
             boolean enTest = false;
@@ -58,7 +59,7 @@ public class AttentionMetric {
             }
         }
 
-        int debugHere = 5;
+        // int debugHere = 5;
     }
 
     public static double calcScore(Map<String, ExecOrAnswerByTime> execOrQaAnswersByTime, Parameters narParams) {
@@ -143,6 +144,8 @@ public class AttentionMetric {
             e.printStackTrace();
         }
 
+        if (n == null)
+            throw new IllegalStateException("Could not create NAR");
         ((Nar) n).memory.randomNumber.setSeed(rng.nextInt(10000)); // start it with another seed
 
         if (showOutput) {
@@ -175,7 +178,7 @@ public class AttentionMetric {
 
         System.out.println("score of " + name + " = " + scoreOfThisTest);
 
-        int here = 5;
+        // int here = 5;
 
         return scoreOfThisTest;
     }
@@ -203,7 +206,7 @@ public class AttentionMetric {
         }
 
         @Override
-        public void event(Class event, Object[] args) {
+        public void event(Class<?> event, Object[] args) {
             Operator.ExecutionResult exeResult = (Operator.ExecutionResult) args[0];
             Task task = exeResult.getTask();
             update(execOrQaAnswersByTime, task.sentence, nar);
@@ -223,7 +226,7 @@ public class AttentionMetric {
         public void onSolution(Sentence belief) {
             update(execOrQaAnswersByTime, belief, reasoner);
 
-            int here = 5;
+            // int here = 5;
         }
     }
 

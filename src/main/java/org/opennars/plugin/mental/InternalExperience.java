@@ -1,6 +1,5 @@
 package org.opennars.plugin.mental;
 
-import java.io.Serializable;
 import org.opennars.control.DerivationContext;
 import org.opennars.entity.*;
 import org.opennars.inference.BudgetFunctions;
@@ -23,7 +22,7 @@ import java.util.Arrays;
  * <p>
  * called from Concept
  */
-public class InternalExperience implements Plugin, EventObserver, Serializable {
+public class InternalExperience implements Plugin, EventObserver {
     private Memory memory;
 
     public static boolean enabled = false;

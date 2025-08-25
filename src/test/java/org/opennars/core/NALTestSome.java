@@ -27,8 +27,8 @@ public class NALTestSome extends NALTest {
     }
 
     @Parameterized.Parameters
-    public static Collection params() {
-        final List l = new LinkedList();
+    public static Collection<?> params() {
+        final List<Object[]> l = new LinkedList<>();
 
         File folder = null;
         try {

@@ -11,6 +11,7 @@ import java.util.Map;
  *
  * Metrics are numeric values which indicate how fast NARS could solve problems
  */
+@SuppressWarnings("unused")
 public class NalTestMetrics {
     public static double computeMetric(final Map<String, List<Double>> scores) {
         double metric = 0;

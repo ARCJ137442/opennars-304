@@ -22,7 +22,7 @@ public enum Tense {
         return symbol;
     }
 
-    protected static final Map<String, Tense> stringToTense = new LinkedHashMap(Tense.values().length * 2);
+    protected static final Map<String, Tense> stringToTense = new LinkedHashMap<>(Tense.values().length * 2);
 
     static {
         for (final Tense t : Tense.values()) {

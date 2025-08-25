@@ -113,6 +113,8 @@ public abstract class Statement extends CompoundTerm {
                 return Equivalence.make(subject, predicate, customOrder ? order : TemporalRules.ORDER_FORWARD);
             case EQUIVALENCE_WHEN:
                 return Equivalence.make(subject, predicate, customOrder ? order : TemporalRules.ORDER_CONCURRENT);
+            default:
+                System.out.println("Unknown Term operator: " + o + " (" + o.name() + ")");
         }
 
         return null;

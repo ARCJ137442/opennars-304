@@ -78,9 +78,9 @@ public class Symbols {
 
     public static String SELF = "SELF";
 
-    protected static final Map<String, NativeOperator> stringToOperator = new LinkedHashMap(
+    protected static final Map<String, NativeOperator> stringToOperator = new LinkedHashMap<>(
             NativeOperator.values().length * 2);
-    protected static final Map<Character, NativeOperator> charToOperator = new LinkedHashMap(
+    protected static final Map<Character, NativeOperator> charToOperator = new LinkedHashMap<>(
             NativeOperator.values().length * 2);
 
     public enum NativeOperator {

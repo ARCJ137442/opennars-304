@@ -26,9 +26,9 @@ import java.util.*;
  */
 public class Anticipate extends Operator implements EventObserver {
 
-    public final Map<Prediction, LinkedHashSet<Term>> anticipations = new LinkedHashMap();
+    public final Map<Prediction, LinkedHashSet<Term>> anticipations = new LinkedHashMap<>();
 
-    private transient Set<Term> newTasks = new LinkedHashSet();
+    private transient Set<Term> newTasks = new LinkedHashSet<>();
 
     private TruthValue expiredTruth = null;
     private BudgetValue expiredBudget = null;
@@ -69,7 +69,7 @@ public class Anticipate extends Operator implements EventObserver {
 
         // share stamps created by tasks in this cycle
         if (newTasks == null) {
-            newTasks = new LinkedHashSet();
+            newTasks = new LinkedHashSet<>();
         }
         boolean hasNewTasks = !newTasks.isEmpty();
 
@@ -128,7 +128,7 @@ public class Anticipate extends Operator implements EventObserver {
 
                 if (maybeHappened) {
                     if (newTasks == null) {
-                        newTasks = new LinkedHashSet();
+                        newTasks = new LinkedHashSet<>();
                     }
                     if (newTasks.remove(aTerm)) {
                         // in case it happened, temporal induction will do the rest, else
@@ -152,7 +152,7 @@ public class Anticipate extends Operator implements EventObserver {
         }
 
         if (newTasks == null) {
-            newTasks = new LinkedHashSet();
+            newTasks = new LinkedHashSet<>();
         }
         newTasks.clear();
     }
@@ -168,7 +168,7 @@ public class Anticipate extends Operator implements EventObserver {
                     && newEvent.sentence.truth.getExpectation() > nal.narParameters.DEFAULT_CONFIRMATION_EXPECTATION
                     && !newEvent.sentence.isEternal()) {
                 if (newTasks == null) {
-                    newTasks = new LinkedHashSet();
+                    newTasks = new LinkedHashSet<>();
                 }
                 newTasks.add(newEvent.getTerm()); // new: always add but keep truth value in mind
             }
@@ -216,7 +216,7 @@ public class Anticipate extends Operator implements EventObserver {
             memory.emit(ANTICIPATE.class, content);
         }
 
-        final LinkedHashSet<Term> ae = new LinkedHashSet();
+        final LinkedHashSet<Term> ae = new LinkedHashSet<>();
         anticipations.put(new Prediction(time.time(), occurenceTime), ae);
 
         ae.add(content);

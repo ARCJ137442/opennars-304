@@ -51,7 +51,7 @@ public class OutputContainsCondition extends OutputCondition {
     }
 
     final String containing;
-    public final NavigableSet<SimilarOutput> almost = new TreeSet();
+    public final NavigableSet<SimilarOutput> almost = new TreeSet<>();
     final boolean saveSimilar;
     int maxSimilars = 5;
 
@@ -192,7 +192,7 @@ public class OutputContainsCondition extends OutputCondition {
     }
 
     @Override
-    public List getTrueReasons() {
+    public List<?> getTrueReasons() {
         return exact;
     }
 

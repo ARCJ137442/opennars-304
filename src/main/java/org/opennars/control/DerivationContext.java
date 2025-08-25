@@ -304,10 +304,7 @@ public class DerivationContext {
                 derive_stamp);
 
         final Task newTask = new Task(newSentence, newBudget, Task.EnumType.DERIVED);
-        if (newTask != null) {
-            return derivedTask(newTask, false, true, false);
-        }
-        return false;
+        return derivedTask(newTask, false, true, false); // * ℹ️ new之后的对象不会是null
     }
 
     public boolean singlePremiseTask(final Sentence newSentence, final BudgetValue newBudget) {

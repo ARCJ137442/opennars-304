@@ -25,6 +25,7 @@ public class ExampleFileInput {
         while ((line = br.readLine()) != null) {
             sb.append(line).append("\n");
         }
+        br.close();
         return sb.toString();
     }
 
@@ -44,7 +45,7 @@ public class ExampleFileInput {
     }
 
     public static Map<String, Object> getUnitTests(final String[] directories) {
-        final Map<String, Object> l = new TreeMap();
+        final Map<String, Object> l = new TreeMap<>();
 
         for (final String dir : directories) {
 

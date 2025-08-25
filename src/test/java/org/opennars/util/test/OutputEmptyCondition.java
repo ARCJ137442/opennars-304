@@ -10,7 +10,7 @@ import java.util.List;
  * @author me
  */
 public class OutputEmptyCondition extends OutputCondition {
-    final List<String> output = new LinkedList();
+    final List<String> output = new LinkedList<>();
 
     public OutputEmptyCondition(final Nar nar) {
         super(nar);

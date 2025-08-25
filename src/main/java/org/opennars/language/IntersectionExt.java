@@ -77,7 +77,7 @@ public class IntersectionExt extends CompoundTerm {
             // helper function like existed previously
             return SetExt.make(set.toArray(new Term[0]));
         }
-        final List<Term> se = new ArrayList();
+        final List<Term> se = new ArrayList<>();
         if (term1 instanceof IntersectionExt) {
             ((CompoundTerm) term1).addTermsTo(se);
             if (term2 instanceof IntersectionExt) {

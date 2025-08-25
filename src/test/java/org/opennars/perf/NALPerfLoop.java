@@ -30,7 +30,7 @@ public class NALPerfLoop {
 
         final Reasoner n = new Nar();
 
-        final Collection c = NALTest.params();
+        final Collection<?> c = NALTest.params();
         while (true) {
             for (final Object o : c) {
                 final String examplePath = (String) ((Object[]) o)[0];

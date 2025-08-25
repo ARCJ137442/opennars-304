@@ -402,7 +402,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
 
     /** Gives a set of all contained term, recursively */
     public Set<Term> getContainedTerms() {
-        final Set<Term> s = new LinkedHashSet(getComplexity());
+        final Set<Term> s = new LinkedHashSet<>(getComplexity());
         for (final Term t : term) {
             s.add(t);
             if (t instanceof CompoundTerm)
@@ -480,7 +480,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
     }
 
     public List<Term> asTermList() {
-        final List l = new ArrayList(term.length);
+        final List<Term> l = new ArrayList<>(term.length);
         addTermsTo(l);
         return l;
     }
@@ -514,7 +514,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
 
     /** forced deep clone of terms */
     public List<Term> cloneTermsListDeep() {
-        final List<Term> l = new ArrayList(term.length);
+        final List<Term> l = new ArrayList<>(term.length);
         for (final Term t : term)
             l.add(t.clone());
         return l;

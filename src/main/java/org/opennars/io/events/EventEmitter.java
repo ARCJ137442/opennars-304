@@ -12,7 +12,7 @@ public class EventEmitter {
 
     private final Map<Class<?>, List<EventObserver>> events;
 
-    private final Deque<Object[]> pendingOps = new ArrayDeque();
+    private final Deque<Object[]> pendingOps = new ArrayDeque<>();
 
     /**
      * EventEmitter that allows unknown events; must use concurrent collection
@@ -32,18 +32,18 @@ public class EventEmitter {
      * EventEmitter with a fixed set of known events; the 'events' map
      * can then be made unmodifiable and non-concurrent for speed.
      */
-    public EventEmitter(final Class... knownEventClasses) {
-        events = new LinkedHashMap(knownEventClasses.length);
+    public EventEmitter(final Class<?>... knownEventClasses) {
+        events = new LinkedHashMap<>(knownEventClasses.length);
         for (final Class<?> c : knownEventClasses) {
             events.put(c, newObserverList());
         }
     }
 
     protected List<EventObserver> newObserverList() {
-        return new ArrayList();
+        return new ArrayList<>();
         /*
          * return Parameters.THREADS == 1 ?
-         * new ArrayList() : Collections.synchronizedList(new ArrayList());
+         * new ArrayList<>() : Collections.synchronizedList(new ArrayList<>());
          */
     }
 
@@ -58,7 +58,7 @@ public class EventEmitter {
         synchronized (pendingOps) {
             if (!pendingOps.isEmpty()) {
                 for (final Object[] o : pendingOps) {
-                    final Class<?> c = (Class) o[1];
+                    final Class<?> c = (Class<?>) o[1];
                     final EventObserver d = (EventObserver) o[2];
                     if ((Boolean) o[0]) {
                         on(c, d);
@@ -102,7 +102,7 @@ public class EventEmitter {
     }
 
     /** for enabling many events at the same time */
-    public void set(final EventObserver o, final boolean enable, final Class... events) {
+    public void set(final EventObserver o, final boolean enable, final Class<?>... events) {
         for (final Class<?> c : events) {
             if (enable)
                 on(c, o);
@@ -117,7 +117,7 @@ public class EventEmitter {
         if ((observers == null) || (observers.isEmpty()))
             return;
 
-        final int n = observers.size();
+        // final int n = observers.size();
         for (final EventObserver m : observers) {
             m.event(eventClass, params);
         }

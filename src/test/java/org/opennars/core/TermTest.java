@@ -2,15 +2,13 @@ package org.opennars.core;
 
 import org.junit.Test;
 import org.opennars.entity.Concept;
-import org.opennars.io.Narsese;
+import org.opennars.io.*;
 import org.opennars.io.Symbols.NativeOperator;
-import org.opennars.io.Texts;
 import org.opennars.language.CompoundTerm;
 import org.opennars.language.Inheritance;
 import org.opennars.language.Statement;
 import org.opennars.language.Term;
-import org.opennars.main.Nar;
-import org.opennars.main.Debug;
+import org.opennars.main.*;
 import org.opennars.operator.Operation;
 import org.xml.sax.SAXException;
 
@@ -40,7 +38,7 @@ public class TermTest {
     protected void assertEquivalent(final String term1String, final String term2String)
             throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
             ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
-        final Nar n = new Nar();
+        // final Nar n = new Nar();
 
         try {
             final Term term1 = np.parseTerm(term1String);
@@ -62,7 +60,7 @@ public class TermTest {
     public void testCommutativeCompoundTerm()
             throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
             ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
-        final Nar n = new Nar();
+        // final Nar n = new Nar();
 
         assertEquivalent("(&&,a,b)", "(&&,b,a)");
         assertEquivalent("(&&,(||,b,c),a)", "(&&,a,(||,b,c))");
@@ -90,7 +88,7 @@ public class TermTest {
     public void testConjunctionTreeSet() throws Narsese.InvalidInputException, IOException, InstantiationException,
             InvocationTargetException, NoSuchMethodException, ParserConfigurationException, IllegalAccessException,
             SAXException, ClassNotFoundException, ParseException {
-        final Nar n = new Nar();
+        // final Nar n = new Nar();
 
         // these 2 representations are equal, after natural ordering
         final String term1String = "<#1 --> (&,boy,(/,taller_than,{Tom},_))>";
@@ -144,7 +142,7 @@ public class TermTest {
     public void testUnconceptualizedTermInstancing() throws Narsese.InvalidInputException, IOException,
             InstantiationException, InvocationTargetException, NoSuchMethodException, ParserConfigurationException,
             IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
-        final Nar n = new Nar();
+        // final Nar n = new Nar();
 
         final String term1String = "<a --> b>";
         final Term term1 = np.parseTerm(term1String);
@@ -153,11 +151,11 @@ public class TermTest {
         assertTrue(term1.equals(term2));
         assertTrue(term1.hashCode() == term2.hashCode());
 
-        final CompoundTerm cterm1 = ((CompoundTerm) term1);
-        final CompoundTerm cterm2 = ((CompoundTerm) term2);
+        final CompoundTerm cTerm1 = ((CompoundTerm) term1);
+        final CompoundTerm cTerm2 = ((CompoundTerm) term2);
 
         // test subterms
-        assertTrue(cterm1.term[0].equals(cterm2.term[0])); // 'a'
+        assertTrue(cTerm1.term[0].equals(cTerm2.term[0])); // 'a'
 
     }
 

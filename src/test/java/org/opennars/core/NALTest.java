@@ -80,11 +80,11 @@ public class NALTest {
     }
 
     @Parameterized.Parameters
-    public static Collection params() {
+    public static Collection<?> params() {
         // return all test-paths of all files in the directories
 
         final Map<String, Object> et = ExampleFileInput.getUnitTests(directories);
-        final Collection t = et.values();
+        final Collection<?> t = et.values();
         for (final String x : et.keySet())
             addTest(x);
         return t;

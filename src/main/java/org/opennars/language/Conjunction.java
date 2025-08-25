@@ -346,7 +346,7 @@ public class Conjunction extends CompoundTerm {
 
         } else {
 
-            final List<Term> set = new ArrayList();
+            final List<Term> set = new ArrayList<>();
             if (term1 instanceof Conjunction) {
                 ((CompoundTerm) term1).addTermsTo(set);
                 if (term2 instanceof Conjunction) {

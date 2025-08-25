@@ -7,13 +7,12 @@ import org.opennars.io.Narsese;
 import org.opennars.language.Term;
 import org.opennars.main.Nar;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.opennars.plugin.Plugin;
 
-public abstract class SensoryChannel implements Plugin, Serializable {
+public abstract class SensoryChannel implements Plugin {
     private Collection<SensoryChannel> reportResultsTo;
     public Nar nar; // for top-down influence of concept budgets
     public final List<Task> results = new ArrayList<>();
@@ -93,13 +92,11 @@ public abstract class SensoryChannel implements Plugin, Serializable {
     }
 
     public double topDownPriority(final Term t) {
-        double prioritysum = 0.0f;
-        int k = 0;
+        double prioritySum = 0.0f;
         for (final SensoryChannel chan : reportResultsTo) {
-            prioritysum += chan.priority(t);
-            k++;
+            prioritySum += chan.priority(t);
         }
-        return prioritysum / (double) reportResultsTo.size();
+        return prioritySum / (double) reportResultsTo.size();
     }
 
     public double priority(final Term t) {

@@ -346,11 +346,11 @@ public final class SyllogisticRules {
         if (nal.narParameters.BREAK_NAL_HOL_BOUNDARY && !sentence.term.hasVarIndep() && (st instanceof Equivalence)
                 && order1 == order2 && belief.term.isHigherOrderStatement() && sentence.term.isHigherOrderStatement()) {
 
-            final BudgetValue budget1 = null;
-            final BudgetValue budget2 = null;
+            // final BudgetValue budget1 = null;
+            // final BudgetValue budget2 = null;
             BudgetValue budget3 = null;
-            final TruthValue truth1 = null;
-            final TruthValue truth2 = null;
+            // final TruthValue truth1 = null;
+            // final TruthValue truth2 = null;
             TruthValue truth3 = null;
             final TruthValue value1 = sentence.truth;
             final TruthValue value2 = belief.truth;

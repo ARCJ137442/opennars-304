@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.opennars.perf.BagPerf.NullItem;
 import org.opennars.storage.Bag;
 import static org.junit.Assert.assertTrue;
-import org.opennars.main.Nar;
 
 public class BagIteratorTest {
 
@@ -23,13 +22,15 @@ public class BagIteratorTest {
 
         if (b.size() > 1) {
             // check correct order
+            if (first == null || current == null)
+                throw new AssertionError();
             assertTrue(first.getPriority() > current.getPriority());
         }
 
         assertTrue(count == b.size());
     }
 
-    public int numEmptyLevels(Bag bag) {
+    public int numEmptyLevels(Bag<?, ?> bag) {
         /*
          * int empty = 0;
          * for (int i = 0; i < bag.level.length; i++) {
@@ -53,7 +54,7 @@ public class BagIteratorTest {
         b.putIn(new NullItem(0.7f));
         b.putIn(new NullItem(0.8f));
 
-        assert !(b instanceof Bag) || (numEmptyLevels((Bag) b) < L);
+        assert !(b instanceof Bag) || (numEmptyLevels((Bag<?, ?>) b) < L);
 
         testIterator(b);
 

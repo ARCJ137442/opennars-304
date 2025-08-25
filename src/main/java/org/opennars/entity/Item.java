@@ -14,7 +14,7 @@ import java.util.Comparator;
  */
 public abstract class Item<K> implements Serializable {
 
-    public static class ItemPriorityComparator<E extends Item> implements Comparator<E> {
+    public static class ItemPriorityComparator<E extends Item<?>> implements Comparator<E> {
 
         @Override
         public int compare(final E a, final E b) {
@@ -153,7 +153,7 @@ public abstract class Item<K> implements Serializable {
      * @param that The Item to be merged
      * @return the resulting Item: this or that
      */
-    public Item merge(final Item that) {
+    public Item<?> merge(final Item<?> that) {
         budget.merge(that.budget);
         return this;
     }
@@ -217,7 +217,7 @@ public abstract class Item<K> implements Serializable {
         if (obj == this)
             return true;
         if (obj instanceof Item) {
-            return ((Item) obj).name().equals(name());
+            return ((Item<?>) obj).name().equals(name());
         }
         return false;
     }
@@ -238,16 +238,16 @@ public abstract class Item<K> implements Serializable {
             if (obj == this)
                 return true;
             if (obj instanceof Item) {
-                return ((Item) obj).name().equals(name());
+                return ((Item<?>) obj).name().equals(name());
             }
             return false;
         }
 
     }
 
-    public static float getPrioritySum(final Iterable<? extends Item> c) {
+    public static float getPrioritySum(final Iterable<? extends Item<?>> c) {
         float totalPriority = 0;
-        for (final Item i : c)
+        for (final Item<?> i : c)
             totalPriority += i.getPriority();
         return totalPriority;
     }

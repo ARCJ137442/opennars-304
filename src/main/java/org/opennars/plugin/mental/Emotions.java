@@ -1,6 +1,5 @@
 package org.opennars.plugin.mental;
 
-import java.io.Serializable;
 import org.opennars.control.DerivationContext;
 import org.opennars.entity.*;
 import org.opennars.inference.BudgetFunctions;
@@ -15,7 +14,7 @@ import org.opennars.plugin.Plugin;
  * emotional value; self-felt internal mental states; variables used to record
  * emotional values
  */
-public class Emotions implements Plugin, Serializable {
+public class Emotions implements Plugin {
 
     public volatile float HAPPY_EVENT_HIGHER_THRESHOLD = 0.75f;
     public volatile float HAPPY_EVENT_LOWER_THRESHOLD = 0.25f;

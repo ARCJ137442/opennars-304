@@ -2,7 +2,6 @@ package org.opennars.language;
 
 import org.opennars.inference.TemporalRules;
 import org.opennars.io.Symbols;
-import org.opennars.storage.Memory;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -17,6 +16,7 @@ import java.util.Set;
  */
 public class Variables {
 
+    @SuppressWarnings("unchecked")
     public static boolean findSubstitute(Random rnd, final char type, final Term term1, final Term term2,
             final Map<Term, Term> map1, final Map<Term, Term> map2) {
         return findSubstitute(rnd, type, term1, term2, new Map[] { map1, map2 });
@@ -281,6 +281,7 @@ public class Variables {
      * @param source source maps (two)
      * @return copied maps
      */
+    @SuppressWarnings("unchecked")
     private static Map<Term, Term>[] copyMapFrom(Map<Term, Term>[] source) {
         final Map<Term, Term>[] destination = (Map<Term, Term>[]) new LinkedHashMap<?, ?>[2];
 

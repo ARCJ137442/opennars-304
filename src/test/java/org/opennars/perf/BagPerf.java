@@ -7,7 +7,6 @@ import org.opennars.entity.BudgetValue;
 import org.opennars.entity.Item;
 import org.opennars.main.Nar;
 import org.opennars.storage.Bag;
-import org.opennars.storage.Memory;
 import org.opennars.main.Parameters;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -57,12 +56,12 @@ public class BagPerf {
     final double insertRatio = 0.9;
 
     /*
-     * public int getLevelSize(Bag lb, final int level) {
+     * public int getLevelSize(Bag<?,?> lb, final int level) {
      * return (lb.level[level] == null) ? 0 : lb.level[level].size();
      * }
      */
 
-    public float getMaxItemsPerLevel(Bag b) {
+    public float getMaxItemsPerLevel(Bag<?, ?> b) {
         /*
          * int max = getLevelSize(b,0);
          * for (int i = 1; i < b.levels; i++) {
@@ -76,7 +75,7 @@ public class BagPerf {
         return 0.0f;
     }
 
-    public float getMinItemsPerLevel(Bag b) {
+    public float getMinItemsPerLevel(Bag<?, ?> b) {
         /*
          * int min = getLevelSize(b,0);
          * for (int i = 1; i < b.levels; i++) {
@@ -128,7 +127,11 @@ public class BagPerf {
                 } catch (ParseException ex) {
                     Logger.getLogger(BagPerf.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                final Bag<NullItem, CharSequence> b = new Bag(levels, capacity, nar.narParameters) {
+
+                if (nar == null)
+                    throw new IllegalStateException("NAR not initialized");
+                final Bag<NullItem, CharSequence> b = new Bag<NullItem, CharSequence>(levels, capacity,
+                        nar.narParameters) {
 
                     // @Override
                     // protected ArrayDeque<NullItem> newLevel() {
@@ -211,7 +214,9 @@ public class BagPerf {
         Bag<E, K> newBag();
     }
 
-    public static double getTime(final String label, final BagBuilder b, final int iterations, final int randomAccesses,
+    public static double getTime(final String label, final BagBuilder<NullItem, CharSequence> b,
+            final int iterations,
+            final int randomAccesses,
             final float insertRatio, final int repeats, final int warmups) {
         final Performance p = new Performance(label, repeats, warmups) {
 
@@ -222,7 +227,7 @@ public class BagPerf {
             @Override
             public void run(final boolean warmup) {
 
-                final Bag bag = b.newBag();
+                final Bag<NullItem, CharSequence> bag = b.newBag();
 
                 randomBagIO(bag, randomAccesses, insertRatio);
 
@@ -250,12 +255,14 @@ public class BagPerf {
 
     }
 
-    public static Map<Bag, Double> compare(final int iterations, final int randomAccesses, final float insertRatio,
-            final int repeats, final int warmups, final Bag... B) {
+    public static Map<Bag<NullItem, CharSequence>, Double> compare(final int iterations,
+            final int randomAccesses,
+            final float insertRatio,
+            final int repeats, final int warmups, final Bag<NullItem, CharSequence>... B) {
 
-        final Map<Bag, Double> t = new LinkedHashMap();
+        final Map<Bag<NullItem, CharSequence>, Double> t = new LinkedHashMap<>();
 
-        for (final Bag X : B) {
+        for (final Bag<NullItem, CharSequence> X : B) {
             X.clear();
 
             t.put(X, getTime(X.toString(), () -> X, iterations, randomAccesses, insertRatio, repeats, warmups));
@@ -294,17 +301,17 @@ public class BagPerf {
                 final int iterations = iterationsPerItem * items;
                 final int randomAccesses = accessesPerItem * items;
 
-                final Bag[] bags = new Bag[1];
-                bags[0] = new Bag(levels, items, narParameters);
+                final Bag<NullItem, CharSequence>[] bags = new Bag[1];
+                bags[0] = new Bag<>(levels, items, narParameters);
 
-                final Map<Bag, Double> t = BagPerf.compare(
+                final Map<Bag<NullItem, CharSequence>, Double> t = BagPerf.compare(
                         iterations, randomAccesses, insertRatio, repeats, warmups,
                         bags);
 
                 if (!printedHeader) {
 
                     final List<String> ls = Lists.newArrayList("items", "io_ratio", "accesses", "nexts");
-                    for (final Map.Entry<Bag, Double> e : t.entrySet())
+                    for (final Map.Entry<Bag<NullItem, CharSequence>, Double> e : t.entrySet())
                         ls.add(e.getKey().toString());
 
                     printCSVLine(System.out, ls);
@@ -314,7 +321,7 @@ public class BagPerf {
                 {
                     final List<String> ls = Lists.newArrayList(items + "", insertRatio + "", randomAccesses + "",
                             iterations + "");
-                    for (final Map.Entry<Bag, Double> e : t.entrySet())
+                    for (final Map.Entry<Bag<NullItem, CharSequence>, Double> e : t.entrySet())
                         ls.add(e.getValue().toString());
 
                     printCSVLine(System.out, ls);

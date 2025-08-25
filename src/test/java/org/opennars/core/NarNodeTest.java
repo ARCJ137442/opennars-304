@@ -35,7 +35,7 @@ public class NarNodeTest {
         nar1.addRedirectionTo(nar2_connection);
         nar2.nar.event(new EventEmitter.EventObserver() {
             @Override
-            public void event(Class event, Object[] args) {
+            public void event(Class<?> event, Object[] args) {
                 if (event == NarNode.EventReceivedTask.class || event == IN.class) {
                     Task task = (Task) args[0];
                     System.out.println("received task event triggered in nar2: " + task);

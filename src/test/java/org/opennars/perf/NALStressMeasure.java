@@ -79,7 +79,7 @@ public class NALStressMeasure {
         final int warmups = 0;
         final int extraCycles = 5000;
 
-        final Collection c = NALTest.params();
+        final Collection<?> c = NALTest.params();
         double totalTime = 0;
         for (final Object o : c) {
             final String examplePath = (String) ((Object[]) o)[0];

@@ -64,11 +64,9 @@ public class Operation extends Inheritance {
         final StringBuilder nameBuilder = new StringBuilder(16) // estimate
                 .append(COMPOUND_TERM_OPENER.ch).append(op);
 
-        int n = 0;
         for (final Term t : arg) {
             nameBuilder.append(Symbols.ARGUMENT_SEPARATOR);
             nameBuilder.append(t.name());
-            n++;
         }
 
         nameBuilder.append(COMPOUND_TERM_CLOSER.ch);

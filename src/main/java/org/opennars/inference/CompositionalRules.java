@@ -18,7 +18,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import static org.opennars.inference.TruthFunctions.*;
 import static org.opennars.language.Terms.reduceComponents;
-import org.opennars.storage.Memory;
 
 /**
  * Compound term composition and decomposition rules, with two premises.

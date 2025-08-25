@@ -5,8 +5,6 @@ import org.opennars.language.Term;
 import org.opennars.plugin.mental.InternalExperience;
 import org.opennars.storage.Memory;
 
-import java.io.Serializable;
-
 /**
  * A task to be processed, consists of a Sentence and a BudgetValue.
  * A task references its parent and an optional causal factor (usually an
@@ -18,7 +16,7 @@ import java.io.Serializable;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class Task extends Item<Sentence> implements Serializable {
+public class Task extends Item<Sentence> {
 
     /* The sentence of the Task */
     public final Sentence sentence;
@@ -122,7 +120,7 @@ public class Task extends Item<Sentence> implements Serializable {
      * @param that The other Task
      */
     @Override
-    public Item merge(final Item that) {
+    public Item<?> merge(final Item<?> that) {
         if (getCreationTime() >= ((Task) that).getCreationTime()) {
             return super.merge(that);
         } else {
@@ -143,13 +141,13 @@ public class Task extends Item<Sentence> implements Serializable {
      * Set the best-so-far solution for a Question or Goal, and report answer
      * for input question
      *
-     * @param judg The solution to be remembered
+     * @param judgment The solution to be remembered
      */
-    public void setBestSolution(final Memory memory, final Sentence judg, final Timable time) {
+    public void setBestSolution(final Memory memory, final Sentence judgment, final Timable time) {
         if (memory.internalExperience != null) {
-            InternalExperience.InternalExperienceFromBelief(memory, this, judg, time);
+            InternalExperience.InternalExperienceFromBelief(memory, this, judgment, time);
         }
-        bestSolution = judg;
+        bestSolution = judgment;
     }
 
     /**

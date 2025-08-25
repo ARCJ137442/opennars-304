@@ -3,7 +3,6 @@ package org.opennars.entity;
 import org.opennars.io.Symbols;
 import org.opennars.language.Term;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -23,7 +22,7 @@ import java.util.Objects;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class TermLink extends Item<TermLink> implements TLink<Term>, Serializable {
+public class TermLink extends Item<TermLink> implements TLink<Term> {
 
     /** At C, point to C; TaskLink only */
     public static final short SELF = 0;

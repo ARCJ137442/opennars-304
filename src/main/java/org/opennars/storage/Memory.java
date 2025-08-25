@@ -278,7 +278,7 @@ public class Memory implements Serializable, Iterable<Concept>, Resettable {
      * @param time      indirection to retrieve time
      */
     public void executedTask(final Timable time, final Operation operation, final TruthValue truth) {
-        final Task opTask = operation.getTask();
+        // final Task opTask = operation.getTask();
         // logic.TASK_EXECUTED.commit(opTask.budget.getPriority());
 
         final Stamp stamp = new Stamp(time, this, Tense.Present);

@@ -10,7 +10,6 @@ import org.junit.runners.Parameterized;
 import org.opennars.io.events.TextOutputHandler;
 import org.opennars.main.Nar;
 import org.opennars.main.Debug;
-import org.opennars.storage.Memory;
 import org.opennars.util.io.ExampleFileInput;
 import org.opennars.util.test.OutputCondition;
 import org.xml.sax.SAXException;
@@ -40,9 +39,9 @@ public class StabilityTest {
     static public final int similarsToSave = 5;
     private static final boolean waitForEnterKeyOnStart = false; // useful for running profiler or some other
                                                                  // instrumentation
-    protected static final Map<String, String> examples = new LinkedHashMap(); // path -> script data
-    public static final Map<String, Boolean> tests = new LinkedHashMap();
-    public static final Map<String, Double> scores = new LinkedHashMap();
+    protected static final Map<String, String> examples = new LinkedHashMap<>(); // path -> script data
+    public static final Map<String, Boolean> tests = new LinkedHashMap<>();
+    public static final Map<String, Double> scores = new LinkedHashMap<>();
     final String scriptPath;
 
     public static String getExample(final String path) {
@@ -69,11 +68,11 @@ public class StabilityTest {
     }
 
     @Parameterized.Parameters
-    public static Collection params() {
+    public static Collection<?> params() {
         final String[] directories = new String[] { "/nal/stability/" };
 
         final Map<String, Object> et = ExampleFileInput.getUnitTests(directories);
-        final Collection t = et.values();
+        final Collection<?> t = et.values();
         for (final String x : et.keySet())
             addTest(x);
         return t;
@@ -161,7 +160,7 @@ public class StabilityTest {
     protected double testNAL(final String path)
             throws IOException, InstantiationException, InvocationTargetException, NoSuchMethodException,
             ParserConfigurationException, IllegalAccessException, SAXException, ClassNotFoundException, ParseException {
-        final List<OutputCondition> expects = new ArrayList();
+        final List<OutputCondition> expects = new ArrayList<>();
 
         Nar n = null;
         final boolean error = false;

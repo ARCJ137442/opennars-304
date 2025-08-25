@@ -93,19 +93,19 @@ public class Equivalence extends Statement {
             predicate = interm;
         }
 
-        final NativeOperator copula;
+        // final NativeOperator copula;
         switch (temporalOrder) {
             case TemporalRules.ORDER_BACKWARD:
                 temporalOrder = TemporalRules.ORDER_FORWARD;
                 // TODO determine if this missing break is intended
-            case TemporalRules.ORDER_FORWARD:
-                copula = NativeOperator.EQUIVALENCE_AFTER;
-                break;
-            case TemporalRules.ORDER_CONCURRENT:
-                copula = NativeOperator.EQUIVALENCE_WHEN;
-                break;
-            default:
-                copula = NativeOperator.EQUIVALENCE;
+                // case TemporalRules.ORDER_FORWARD:
+                // copula = NativeOperator.EQUIVALENCE_AFTER;
+                // break;
+                // case TemporalRules.ORDER_CONCURRENT:
+                // copula = NativeOperator.EQUIVALENCE_WHEN;
+                // break;
+                // default:
+                // copula = NativeOperator.EQUIVALENCE;
         }
         final Term[] t;
         if (temporalOrder == TemporalRules.ORDER_FORWARD)

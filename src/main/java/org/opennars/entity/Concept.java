@@ -30,7 +30,7 @@ import static org.opennars.inference.UtilityFunctions.or;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class Concept extends Item<Term> implements Serializable {
+public class Concept extends Item<Term> {
 
     /**
      * The term is the unique ID of the concept

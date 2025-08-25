@@ -24,12 +24,12 @@ public class DistributorAnalyzer {
             total++;
         }
 
-        final List<Double> probability = new ArrayList(levels);
+        final List<Double> probability = new ArrayList<>(levels);
         for (int i = 0; i < levels; i++) {
             probability.add(count[i] / total);
         }
 
-        final List<Double> probabilityActiveAdjusted = new ArrayList(levels);
+        final List<Double> probabilityActiveAdjusted = new ArrayList<>(levels);
         final double activeIncrease = 0.009;
         final double dormantDecrease = ((0.1 * levels) * activeIncrease) / ((1.0 - 0.1) * levels);
         for (int i = 0; i < levels; i++) {

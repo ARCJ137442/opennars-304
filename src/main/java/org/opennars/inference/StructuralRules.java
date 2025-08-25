@@ -7,7 +7,6 @@ import org.opennars.entity.Task;
 import org.opennars.entity.TruthValue;
 import org.opennars.io.Symbols;
 import org.opennars.language.*;
-import org.opennars.storage.Memory;
 
 import java.util.List;
 
@@ -345,7 +344,7 @@ public final class StructuralRules {
      */
     static void transformProductImage(final Inheritance inh, final CompoundTerm oldContent, final short[] indices,
             final DerivationContext nal) {
-        final Memory memory = nal.mem();
+        // final Memory memory = nal.mem();
         Term subject = inh.getSubject();
         Term predicate = inh.getPredicate();
         final short index = indices[indices.length - 1];
@@ -959,7 +958,7 @@ public final class StructuralRules {
      */
     protected static boolean contraposition(final Statement statement, final Sentence sentence,
             final DerivationContext nal) {
-        final Memory memory = nal.mem();
+        // final Memory memory = nal.mem();
         // memory.logic.CONTRAPOSITION.commit(statement.complexity);
 
         final Term subj = statement.getSubject();

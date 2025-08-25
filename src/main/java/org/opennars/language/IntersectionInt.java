@@ -77,7 +77,7 @@ public class IntersectionInt extends CompoundTerm {
             return SetInt.make(set.toArray(new Term[0]));
         }
 
-        final List<Term> se = new ArrayList();
+        final List<Term> se = new ArrayList<>();
         if (term1 instanceof IntersectionInt) {
             ((CompoundTerm) term1).addTermsTo(se);
             if (term2 instanceof IntersectionInt) {

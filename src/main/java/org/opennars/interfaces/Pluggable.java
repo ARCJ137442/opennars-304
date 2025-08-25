@@ -30,5 +30,5 @@ public interface Pluggable {
      * 
      * @return plugins
      */
-    List getPlugins();
+    List<?> getPlugins();
 }

@@ -55,7 +55,7 @@ public class Disjunction extends CompoundTerm {
      * @return A Disjunction generated or a Term it reduced to
      */
     public static Term make(final Term term1, final Term term2) {
-        final List<Term> set = new ArrayList();
+        final List<Term> set = new ArrayList<>();
         if (term1 instanceof Disjunction) {
             set.addAll(((CompoundTerm) term1).asTermList());
             if (term2 instanceof Disjunction) {

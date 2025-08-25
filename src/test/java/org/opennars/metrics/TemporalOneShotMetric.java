@@ -19,6 +19,7 @@ import java.util.Random;
  * temporal metric to test and quantify the capability of a NARS implementation
  * to retain a temporal relationship it had learned a long time ago with events.
  */
+@SuppressWarnings("unused")
 public class TemporalOneShotMetric extends AnswerHandler {
     public Reasoner reasonerUnderTest;
 

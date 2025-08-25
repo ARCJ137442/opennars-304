@@ -306,6 +306,8 @@ public class Terms {
             return false;
         }
 
+        if (sa == null || sb == null)
+            throw new IllegalStateException("Equivalence requires 2 components: " + sa + sb);
         final Term[] sat = ((CompoundTerm) sa).term;
         final Term[] sbt = ((CompoundTerm) sb).term;
 
@@ -317,8 +319,8 @@ public class Terms {
             }
         }
 
-        final Set<Term> componentsA = new LinkedHashSet(1 + sat.length);
-        final Set<Term> componentsB = new LinkedHashSet(1 + sbt.length);
+        final Set<Term> componentsA = new LinkedHashSet<>(1 + sat.length);
+        final Set<Term> componentsB = new LinkedHashSet<>(1 + sbt.length);
 
         componentsA.add(ta);
         Collections.addAll(componentsA, sat);
@@ -503,7 +505,7 @@ public class Terms {
         return true;
     }
 
-    public static void verifyNonNull(final Collection t) {
+    public static void verifyNonNull(final Collection<?> t) {
         for (final Object o : t)
             if (o == null)
                 throw new IllegalStateException("Element null in: " + t);

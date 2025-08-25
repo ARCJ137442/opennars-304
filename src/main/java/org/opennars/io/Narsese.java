@@ -4,7 +4,6 @@ import org.opennars.entity.*;
 import org.opennars.io.Symbols.*;
 import org.opennars.language.*;
 import org.opennars.main.Nar;
-import org.opennars.main.Debug;
 import org.opennars.operator.Operation;
 import org.opennars.operator.Operator;
 import org.opennars.storage.Memory;
@@ -194,7 +193,7 @@ public class Narsese implements Serializable, Parser {
             default:
                 throw new Parser.InvalidInputException("unknown punctuation: '" + punctuation + "'");
         }
-        if (s != null) { // overrite default
+        if (s != null) { // override default
             final int i = s.indexOf(VALUE_SEPARATOR);
             if (i < 0) { // default durability
                 priority = parseFloat(s);
@@ -280,6 +279,8 @@ public class Narsese implements Serializable, Parser {
                     } else {
                         throw new Parser.InvalidInputException("missing Statement closer");
                     }
+                default: // ! 📌【2025-08-25 23:36:31】还有其它一些类型没被解析
+                    throw new Parser.InvalidInputException("unknown opener");
             }
         } else {
 

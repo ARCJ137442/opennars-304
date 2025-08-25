@@ -16,6 +16,7 @@ import java.util.Random;
  *
  * @author Robert Wünsche
  */
+@SuppressWarnings("unused")
 public class LongTermStability {
     public final Reasoner reasoner;
 

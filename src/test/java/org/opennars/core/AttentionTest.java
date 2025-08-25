@@ -37,7 +37,7 @@ public class AttentionTest {
         final int c = Iterables.size(n.memory.concepts);
         assertTrue(c > 32);
 
-        final Set<Concept> uniqueconcepts = new LinkedHashSet();
+        final Set<Concept> uniqueconcepts = new LinkedHashSet<>();
 
         for (int i = 0; i < numConcepts; i++) {
             final Concept s = n.memory.concepts.takeOut();

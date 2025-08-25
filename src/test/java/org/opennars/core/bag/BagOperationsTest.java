@@ -52,21 +52,21 @@ public class BagOperationsTest {
     }
 
     static Concept makeConcept(final String name, final float priority) {
-        final BudgetValue budg = new BudgetValue(priority, priority, priority, narParameters);
-        final Concept s = new Concept(budg, new Term(name), nar.memory);
+        final BudgetValue budget = new BudgetValue(priority, priority, priority, narParameters);
+        final Concept s = new Concept(budget, new Term(name), nar.memory);
         return s;
     }
 
     @Test
     public void testConcept() throws Exception {
         Nar nar = new Nar();
-        this.narParameters = nar.narParameters;
-        testBagSequence(new Bag(2, 2, nar.narParameters));
+        BagOperationsTest.narParameters = nar.narParameters;
+        testBagSequence(new Bag<>(2, 2, nar.narParameters));
     }
 
     public static float getMinPriority(Bag<Concept, Term> bag) {
         float min = 1.0f;
-        for (final Item e : bag) {
+        for (final Item<?> e : bag) {
             final float p = e.getPriority();
             if (p < min)
                 min = p;
@@ -76,7 +76,7 @@ public class BagOperationsTest {
 
     public static float getMaxPriority(Bag<Concept, Term> bag) {
         float max = 0.0f;
-        for (final Item e : bag) {
+        for (final Item<?> e : bag) {
             final float p = e.getPriority();
             if (p > max)
                 max = p;
@@ -84,7 +84,7 @@ public class BagOperationsTest {
         return max;
     }
 
-    public static void testBagSequence(final Bag b) {
+    public static void testBagSequence(final Bag<Concept, Term> b) {
 
         // different id, different priority
         b.putIn(makeConcept("a", 0.1f));
@@ -110,12 +110,12 @@ public class BagOperationsTest {
         assertEquals(0.2f, getMinPriority(b), 0.001f);
         assertEquals(0.4f, getMaxPriority(b), 0.001f);
 
-        final Item tb = b.pickOut(new Term("b"));
+        final Item<?> tb = b.pickOut(new Term("b"));
         assertTrue(tb != null);
         assertEquals(1, b.size());
         assertEquals(0.4f, tb.getPriority(), 0.001f);
 
-        final Item tc = b.takeOut();
+        final Item<?> tc = b.takeOut();
         assertEquals(0, b.size());
         assertEquals(0.2f, tc.getPriority(), 0.001f);
 

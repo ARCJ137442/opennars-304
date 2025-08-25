@@ -81,6 +81,10 @@ public class ProcessGoal {
         }
 
         if (oldGoalT != null && revisable(goal, oldGoal, nal.narParameters)) {
+            if (oldGoal == null)
+                throw new IllegalAccessError("oldGoal == null");
+            if (oldGoal.stamp == null)
+                throw new IllegalAccessError("oldGoal.stamp ");
             final Stamp oldStamp = oldGoal.stamp;
             nal.setTheNewStamp(newStamp, oldStamp, nal.time.time());
             final Sentence projectedGoal = oldGoal.projection(task.sentence.getOccurrenceTime(),

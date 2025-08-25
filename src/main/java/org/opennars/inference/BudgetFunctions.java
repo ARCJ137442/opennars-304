@@ -287,7 +287,7 @@ public final class BudgetFunctions extends UtilityFunctions {
      */
     private static BudgetValue budgetInference(final float qual, final float complexity,
             final DerivationContext nal) {
-        Item t = nal.getCurrentTaskLink();
+        Item<?> t = nal.getCurrentTaskLink();
         if (t == null) {
             t = nal.getCurrentTask();
         }

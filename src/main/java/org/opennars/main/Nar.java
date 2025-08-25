@@ -55,7 +55,7 @@ import org.opennars.plugin.mental.InternalExperience;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class Nar extends SensoryChannel implements Reasoner, Serializable, Runnable {
+public class Nar extends SensoryChannel implements Reasoner, Runnable {
     public Parameters narParameters = new Parameters();
 
     /*
@@ -114,6 +114,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
         for (Plugin p : pluginsToAdd) {
             ret.addPlugin(p);
         }
+        stream.close();
         return ret;
     }
 
@@ -563,7 +564,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
     }
 
     /** set an event handler. useful for multiple events. */
-    public void event(final EventObserver e, final boolean enabled, final Class... events) {
+    public void event(final EventObserver e, final boolean enabled, final Class<?>... events) {
         memory.event.set(e, enabled, events);
     }
 
@@ -589,7 +590,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
                 memory.removeOperator((Operator) p);
             }
             if (p instanceof SensoryChannel) {
-                sensoryChannels.remove(p);
+                sensoryChannels.remove((Object) p);
             }
             // TODO sensory channels can be plugins
             ps.setEnabled(false);
@@ -680,6 +681,8 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
     public void cycle() {
         try {
             memory.cycle(this);
+            // * 📌20250826000546预期：Shell启动后输入simpleOperationTest.nal，一定会在43377步左右执行操作
+            // * 🚩断点：reportExecution(operation, args, feedback, memory);
 
             synchronized (cycle) {
                 cycle++;

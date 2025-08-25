@@ -25,7 +25,8 @@ public class UnificationTest {
                     "<(&&,$1#1$,$2,$4$3$,(#,$2,$1#1$,$4$3$)) ==> <(*,$1#1$,(*,(/,REPRESENT,$2,_),(/,REPRESENT,$4$3$,_))) --> REPRESENT>>");
             CompoundTerm t2 = (CompoundTerm) parser.parseTerm(
                     "<(&&,#1,$2,$3,(#,$2,#1,$3)) ==> <(*,#1,(*,(/,REPRESENT,$2,_),(/,REPRESENT,$3,_))) --> REPRESENT>>");
-            Map[] unifier = new LinkedHashMap[] { new LinkedHashMap<Term, Term>(), new LinkedHashMap<Term, Term>() };
+            Map<Term, Term>[] unifier = new LinkedHashMap[] { new LinkedHashMap<Term, Term>(),
+                    new LinkedHashMap<Term, Term>() };
             Variables.findSubstitute(nar.memory.randomNumber, Symbols.VAR_DEPENDENT, t1, t2, unifier);
             // Variables.unify(0, t1, t2, compound)
             // findSubstitute(final char type, final Term term1, final Term term2, final

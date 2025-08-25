@@ -1,13 +1,11 @@
 package org.opennars.control;
 
 import org.opennars.control.concept.ProcessAnticipation;
-import org.opennars.control.concept.ProcessGoal;
 import org.opennars.entity.Concept;
 import org.opennars.entity.Task;
 import org.opennars.entity.TermLink;
 import org.opennars.inference.BudgetFunctions;
 import org.opennars.inference.RuleTables;
-import org.opennars.interfaces.Timable;
 import org.opennars.io.events.Events;
 import org.opennars.main.Nar;
 import org.opennars.main.Parameters;

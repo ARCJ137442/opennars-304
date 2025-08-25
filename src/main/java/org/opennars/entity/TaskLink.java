@@ -20,7 +20,7 @@ import java.util.Iterator;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
+public class TaskLink extends Item<Task> implements TLink<Task> {
 
     /**
      * The Task linked. The "target" field in TermLink is not used here.
@@ -85,7 +85,7 @@ public class TaskLink extends Item<Task> implements TLink<Task>, Serializable {
 
         this.targetTask = t;
         this.recordLength = recordLength;
-        this.records = new ArrayDeque(recordLength);
+        this.records = new ArrayDeque<>(recordLength);
         this.hash = (((targetTask.hashCode() * 31) + type) * 31) + (index != null ? Arrays.hashCode(index) : 0);
     }
 

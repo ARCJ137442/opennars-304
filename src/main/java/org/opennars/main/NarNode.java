@@ -37,11 +37,11 @@ public class NarNode implements EventObserver {
     /* The socket the Nar listens from */
     private transient DatagramSocket receiveSocket;
 
-    /*
-     * Listen port however is not transient and can be used to recover the
-     * deserialized instance
-     */
-    private int listenPort;
+    // /*
+    // * Listen port however is not transient and can be used to recover the
+    // * deserialized instance
+    // */
+    // private int listenPort;
 
     public Nar nar;
 
@@ -67,7 +67,7 @@ public class NarNode implements EventObserver {
             ClassNotFoundException, ParseException {
         super();
         this.nar = nar;
-        this.listenPort = listenPort;
+        // this.listenPort = listenPort;
         this.receiveSocket = new DatagramSocket(listenPort, InetAddress.getByName("127.0.0.1"));
         nar.event(this, true, Events.TaskAdd.class);
         NarNode THIS = this;
@@ -100,7 +100,7 @@ public class NarNode implements EventObserver {
      * @param args
      */
     @Override
-    public void event(Class event, Object[] args) {
+    public void event(Class<?> event, Object[] args) {
         if (event == Events.TaskAdd.class) {
             Task t = (Task) args[0];
             try {

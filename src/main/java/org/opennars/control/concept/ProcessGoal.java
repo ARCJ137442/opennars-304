@@ -156,7 +156,7 @@ public class ProcessGoal {
             return;
         }
 
-        final boolean isFullfilled = AntiSatisfaction < nal.narParameters.SATISFACTION_TRESHOLD;
+        final boolean isFullfilled = AntiSatisfaction < nal.narParameters.SATISFACTION_THRESHOLD;
         final Sentence projectedGoal = goal.projection(nal.time.time(), nal.time.time(), nal.memory);
         if (!(projectedGoal != null && task.aboveThreshold() && !isFullfilled)) {
             return;

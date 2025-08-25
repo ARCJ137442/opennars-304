@@ -19,7 +19,7 @@ import java.util.List;
  * @author Patrick Hammer
  */
 public class DerivationContext {
-    public boolean evidentalOverlap = false;
+    public boolean evidentialOverlap = false;
     public final Memory memory;
     protected Term currentTerm;
     protected Concept currentConcept;
@@ -96,11 +96,11 @@ public class DerivationContext {
 
         final Stamp stamp = task.sentence.stamp;
 
-        // its revision, of course its cyclic, apply evidental base policy
+        // its revision, of course its cyclic, apply evidential base policy
         if (!overlapAllowed) { // todo reconsider
             // !single since the derivation shouldn't depend on whether there is a current
             // belief or not!!
-            final boolean doublePremiseEvidentalBaseOverlap = !single && this.evidentalOverlap;
+            final boolean doublePremiseEvidentalBaseOverlap = !single && this.evidentialOverlap;
             if (doublePremiseEvidentalBaseOverlap) {
                 memory.removeTask(task, "overlapping evidential base");
                 return false;

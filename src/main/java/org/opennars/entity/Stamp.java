@@ -152,7 +152,7 @@ public class Stamp implements Cloneable, Serializable {
 
         int i1, i2, j;
         i1 = i2 = j = 0;
-        this.baseLength = Math.min(first.baseLength + second.baseLength, narParameters.MAXIMUM_EVIDENTAL_BASE_LENGTH);
+        this.baseLength = Math.min(first.baseLength + second.baseLength, narParameters.MAXIMUM_EVIDENTIAL_BASE_LENGTH);
         this.evidentialBase = new BaseEntry[baseLength];
 
         final BaseEntry[] firstBase = first.evidentialBase;
@@ -183,7 +183,7 @@ public class Stamp implements Cloneable, Serializable {
         this(time, memory, Tense.Present);
     }
 
-    /** Detects evidental base overlaps **/
+    /** Detects evidential base overlaps **/
     public static boolean baseOverlap(final Stamp a, final Stamp b) {
         final BaseEntry[] base1 = a.evidentialBase;
         final BaseEntry[] base2 = b.evidentialBase;

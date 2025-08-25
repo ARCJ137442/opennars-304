@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
-        "decisionthreshold"
+        "decisionthreshold",
+        "TASKLINK",
+        "TERMLINK"
     ],
     "java.compile.nullAnalysis.mode": "automatic"
 }

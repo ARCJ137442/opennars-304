@@ -104,7 +104,7 @@ public class Parameters implements Serializable {
      */
     public float BAG_THRESHOLD = 1.0f;
 
-    /** (see its use in budgetfunctions iterative forgetting) */
+    /** (see its use in budget functions iterative forgetting) */
     public volatile float FORGET_QUALITY_RELATIVE = 0.3f;
 
     public volatile int REVISION_MAX_OCCURRENCE_DISTANCE = 10;
@@ -134,8 +134,8 @@ public class Parameters implements Serializable {
     public volatile double PROJECTION_DECAY = 0.1;
 
     /* ---------- avoiding repeated reasoning ---------- */
-    /** Maximum length of the evidental base of the Stamp */
-    public int MAXIMUM_EVIDENTAL_BASE_LENGTH = 20000;
+    /** Maximum length of the evidential base of the Stamp */
+    public int MAXIMUM_EVIDENTIAL_BASE_LENGTH = 20000;
 
     /** Maximum TermLinks used in reasoning for each Task in Concept */
     public volatile int TERMLINK_MAX_REASONED = 3;
@@ -168,7 +168,8 @@ public class Parameters implements Serializable {
     // ----------------------------------
 
     /*
-     * max length of a Term name for which it can be storedally via String.intern().
+     * max length of a Term name for which it can be store dally via
+     * String.intern().
      * set to zero to disable this feature.
      * The problem with indiscriminate use of intern() is that interned strings can
      * not be garbage collected (i.e. permgen) - possible a memory leak if terms
@@ -241,7 +242,7 @@ public class Parameters implements Serializable {
      */
     public boolean RETROSPECTIVE_ANTICIPATIONS = false;
 
-    public volatile float SATISFACTION_TRESHOLD = 0.0f; // decision threshold is enough for now
+    public volatile float SATISFACTION_THRESHOLD = 0.0f; // decision threshold is enough for now
 
     public volatile float COMPLEXITY_UNIT = 1.0f; // 1.0 - oo
 

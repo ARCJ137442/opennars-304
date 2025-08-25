@@ -46,7 +46,20 @@ public class ProcessAnticipation {
         // Budget for one-time processing
         Term mainPredicate = ((Statement) mainSentence.term).getPredicate();
         if (!(mainPredicate instanceof CompoundTerm))
-            return;
+            return; // ! ℹ️【2025-08-25 23:11:08】原版也会在「执行操作后的预期」中出现该错误
+        /*
+         * MWE 触发案例
+         * A. :|:
+         * 3
+         * <(*, {SELF}) --> ^left>. :|:
+         * 3
+         * G. :|:
+         * 5
+         * A. :|:
+         * 3
+         * G! :|:
+         * 50000
+         */
         Term specificAnticipationTerm = ((CompoundTerm) mainPredicate).applySubstitute(substitution);
         final Concept c = nal.memory.concept(specificAnticipationTerm); // put into consequence concept
         if (c != null /* && minTime > nal.memory.time() */ && c.observable

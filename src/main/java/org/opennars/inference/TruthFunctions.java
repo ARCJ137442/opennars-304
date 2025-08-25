@@ -33,7 +33,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * lookup the truth function and compute the value
-     * 
+     *
      * @param type truth-function
      * @param a    truth value of the first premise
      * @param b    truth value of the second premise
@@ -80,7 +80,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /**
      * lookup the truth function and compute the value - for two truth functions
      * which are decided by flag
-     * 
+     *
      * @param flag      which type to choose
      * @param typeTrue  truth-function for the case when the flag is true
      * @param typeFalse truth-function for the case when the flag is false
@@ -97,7 +97,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /**
      * lookup the truth function by the first boolean which is true or return null
      * if no boolean is true
-     * 
+     *
      * @param values tuples of boolean conditional values and their corresponding
      *               truth function
      * @param a      truth value of the first premise
@@ -123,7 +123,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- Single argument functions, called in MatchingRules ----- */
     /**
      * {<A ==> B>} |- <B ==> A>
-     * 
+     *
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
@@ -138,7 +138,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- Single argument functions, called in StructuralRules ----- */
     /**
      * {A} |- (--A)
-     * 
+     *
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
@@ -150,7 +150,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<A ==> B>} |- <(--, B) ==> (--, A)>
-     * 
+     *
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */
@@ -165,7 +165,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- double argument functions, called in MatchingRules ----- */
     /**
      * {<S ==> P>, <S ==> P>} |- <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -189,7 +189,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- double argument functions, called in SyllogisticRules ----- */
     /**
      * {<S ==> M>, <M ==> P>} |- <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -206,7 +206,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {M, <M ==> P>} |- P
-     * 
+     *
      * @param v1       Truth value of the first premise
      * @param reliance Confidence of the second (analytical) premise
      * @return Truth value of the conclusion
@@ -220,7 +220,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<S ==> M>, <M <=> P>} |- <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -237,7 +237,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<S <=> M>, <M <=> P>} |- <S <=> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -254,7 +254,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<S ==> M>, <P ==> M>} |- <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -274,7 +274,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {M, <P ==> M>} |- P
-     * 
+     *
      * @param v1       Truth value of the first premise
      * @param reliance Confidence of the second (analytical) premise
      * @return Truth value of the conclusion
@@ -292,7 +292,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<M ==> S>, <M ==> P>} |- <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -303,7 +303,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<M ==> S>, <P ==> M>} |- <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -323,7 +323,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<M ==> S>, <M ==> P>} |- <S <=> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -343,7 +343,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- desire-value functions, called in SyllogisticRules ----- */
     /**
      * A function specially designed for desire value [To be refined]
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -360,7 +360,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * A function specially designed for desire value [To be refined]
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -377,7 +377,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * A function specially designed for desire value [To be refined]
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -394,7 +394,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * A function specially designed for desire value [To be refined]
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -412,7 +412,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /* ----- double argument functions, called in CompositionalRules ----- */
     /**
      * {<M --> S>, <M > P>} |- <M --> (S|P)>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -429,7 +429,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {<M --> S>, <M <-> P>} |- <M --> (S&P)>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -446,7 +446,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {(||, A, B), (--, B)} |- A
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -459,7 +459,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {(--, (&&, A, B)), B} |- (--, A)
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -472,7 +472,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * {(--, (&&, A, (--, B))), (--, B)} |- (--, A)
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -485,7 +485,7 @@ public final class TruthFunctions extends UtilityFunctions {
     /**
      * {(&&, <#x() ==> M>, <#x() ==> P>), S ==> M} |-
      * <S ==> P>
-     * 
+     *
      * @param v1 Truth value of the first premise
      * @param v2 Truth value of the second premise
      * @return Truth value of the conclusion
@@ -511,7 +511,7 @@ public final class TruthFunctions extends UtilityFunctions {
 
     /**
      * From one moment to eternal
-     * 
+     *
      * @param v1 Truth value of the premise
      * @return Truth value of the conclusion
      */

@@ -15,7 +15,7 @@ public class Distributor implements Serializable {
     /**
      * For any number N < range, there is N+1 copies of it in the array,
      * distributed as evenly as possible
-     * 
+     *
      * @param range Range of valid numbers
      */
     public Distributor(int range) {
@@ -38,7 +38,7 @@ public class Distributor implements Serializable {
 
     /**
      * Get the next number according to the given index
-     * 
+     *
      * @param index The current index
      * @return the random value
      */
@@ -48,7 +48,7 @@ public class Distributor implements Serializable {
 
     /**
      * Advance the index
-     * 
+     *
      * @param index The current index
      * @return the next index
      */

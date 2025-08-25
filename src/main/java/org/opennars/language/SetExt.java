@@ -18,7 +18,7 @@ public class SetExt extends SetTensional {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term - args must be unique and sorted
      */
     public SetExt(final Term... arg) {
@@ -27,7 +27,7 @@ public class SetExt extends SetTensional {
 
     /**
      * Clone a SetExt
-     * 
+     *
      * @return A new object, to be casted into a SetExt
      */
     @Override
@@ -56,7 +56,7 @@ public class SetExt extends SetTensional {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override
@@ -66,7 +66,7 @@ public class SetExt extends SetTensional {
 
     /**
      * Make a String representation of the set, override the default.
-     * 
+     *
      * @return true for communitative
      */
     @Override

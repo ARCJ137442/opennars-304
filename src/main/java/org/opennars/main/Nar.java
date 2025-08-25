@@ -422,7 +422,7 @@ public class Nar extends SensoryChannel implements Reasoner, Runnable {
 
     /**
      * dispatches the task to the sensory channel if necessary
-     * 
+     *
      * @param task dispatched task
      * @return was it dispatched to a sensory channel?
      */
@@ -730,7 +730,7 @@ public class Nar extends SensoryChannel implements Reasoner, Runnable {
 
     /**
      * overrides parameter values by name
-     * 
+     *
      * @param parameters (overwritten) parameters of a Reasoner
      * @param overrides  specific override values by parameter name
      */

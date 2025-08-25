@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * OutputCondition that watches for a specific String output,
  * while collecting similar results (according to Levenshtein text distance).
- * 
+ *
  */
 public class OutputContainsCondition extends OutputCondition {
     public double confOfBestAnswer = 0.0;
@@ -56,7 +56,7 @@ public class OutputContainsCondition extends OutputCondition {
     int maxSimilars = 5;
 
     /**
-     * 
+     *
      * @param nar
      * @param containing
      * @param maxSimilars # of similar results to collect, -1 to disable

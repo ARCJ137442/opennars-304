@@ -14,7 +14,7 @@ public abstract class Instance /* extends Statement */ {
      * rules.
      * <p>
      * A {-- B becomes {A} --> B
-     * 
+     *
      * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or null

@@ -12,7 +12,7 @@ import org.opennars.language.Conjunction;
  * each movement
  * feedback corresponds to a sampling result, where each adds its part of
  * information.
- * 
+ *
  * @author Patrick
  */
 public interface ImaginationSpace {

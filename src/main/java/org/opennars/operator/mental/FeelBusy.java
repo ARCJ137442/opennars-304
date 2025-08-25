@@ -19,7 +19,7 @@ public class FeelBusy extends Feel {
 
     /**
      * To get the current value of an internal sensor
-     * 
+     *
      * @param args   Arguments, a set and a variable
      * @param memory The memory in which the operation is executed
      * @return Immediate results as Tasks

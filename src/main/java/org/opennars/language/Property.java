@@ -13,7 +13,7 @@ public abstract class Property /* would extend "Statement" if it were its own ty
      * rules.
      * <p>
      * A --] B becomes A --> [B]
-     * 
+     *
      * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or null

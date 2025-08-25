@@ -26,7 +26,7 @@ public abstract class FunctionOperator extends Operator {
 
     /**
      * y = function(x)
-     * 
+     *
      * @return y, or null if unsuccessful
      */
     abstract protected Term function(Memory memory, Term[] x);

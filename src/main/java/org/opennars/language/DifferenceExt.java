@@ -18,7 +18,7 @@ public class DifferenceExt extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     private DifferenceExt(final Term[] arg) {
@@ -31,7 +31,7 @@ public class DifferenceExt extends CompoundTerm {
 
     /**
      * Clone an object
-     * 
+     *
      * @return A new object, to be casted into a DifferenceExt
      */
     @Override
@@ -49,7 +49,7 @@ public class DifferenceExt extends CompoundTerm {
 
     /**
      * Try to make a new DifferenceExt. Called by StringParser.
-     * 
+     *
      * @return the Term generated from the arguments
      * @param arg The list of term
      */
@@ -76,7 +76,7 @@ public class DifferenceExt extends CompoundTerm {
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
-     * 
+     *
      * @param t1 The first component
      * @param t2 The second component
      * @return A compound generated or a term it reduced to
@@ -90,7 +90,7 @@ public class DifferenceExt extends CompoundTerm {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override

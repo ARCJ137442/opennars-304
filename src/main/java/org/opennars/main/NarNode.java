@@ -48,7 +48,7 @@ public class NarNode implements EventObserver {
     /***
      * Create a Nar node that listens for received tasks from other NarNode
      * instances
-     * 
+     *
      * @param listenPort
      * @throws SocketException
      * @throws UnknownHostException
@@ -95,7 +95,7 @@ public class NarNode implements EventObserver {
 
     /**
      * Input and derived tasks will be potentially sent
-     * 
+     *
      * @param event
      * @param args
      */
@@ -114,7 +114,7 @@ public class NarNode implements EventObserver {
     /**
      * Send tasks that are above priority threshold and contain the optional
      * mustContainTerm
-     * 
+     *
      * @param t
      * @throws IOException
      */
@@ -175,7 +175,7 @@ public class NarNode implements EventObserver {
         /**
          * The target Nar node, specifying under which conditions the current Nar node
          * redirects tasks to it.
-         * 
+         *
          * @param targetIP
          * @param targetPort
          * @param threshold
@@ -205,7 +205,7 @@ public class NarNode implements EventObserver {
 
     /**
      * Add another target Nar node to redirect tasks to, and under which conditions.
-     * 
+     *
      * @param targetIP        The target Nar node IP
      * @param targetPort      The target Nar node port
      * @param taskThreshold   The threshold the priority of the task has to have to
@@ -226,7 +226,7 @@ public class NarNode implements EventObserver {
 
     /***
      * NarNode's receiving a task or Narsese string
-     * 
+     *
      * @return the object received (Task, String)
      * @throws IOException when can't receive packet
      */

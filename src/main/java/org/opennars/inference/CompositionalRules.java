@@ -671,7 +671,7 @@ public final class CompositionalRules {
     /**
      * The power set, from João Silva,
      * https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
-     * 
+     *
      * @param <T>
      * @param originalSet
      * @return
@@ -698,7 +698,7 @@ public final class CompositionalRules {
     /**
      * Introduction of variables that appear either within subjects or within
      * predicates and more than once
-     * 
+     *
      * @param nal                              The derivation context
      * @param implicationEquivalenceOrJunction
      * @param subject
@@ -780,7 +780,7 @@ public final class CompositionalRules {
 
     /**
      * Add the variable candidates that appear as subjects and predicates
-     * 
+     *
      * @param candidates manipulated set of candidates
      * @param side
      * @param subject

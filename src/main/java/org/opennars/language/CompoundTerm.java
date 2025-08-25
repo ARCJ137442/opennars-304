@@ -308,7 +308,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
 
     /**
      * build a component list from terms
-     * 
+     *
      * @return the component list
      */
     public static Term[] termArray(final Term... t) {
@@ -422,7 +422,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
 
     /**
      * Cloned array of Terms, except for one or more Terms.
-     * 
+     *
      * @param toRemove
      * @return the cloned array with the missing terms removed, OR null if no terms
      *         were actually removed when requireModification=true
@@ -593,7 +593,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
 
     /**
      * Add all the components of term t into components recursively
-     * 
+     *
      * @param t          The term
      * @param components The components
      * @return
@@ -690,7 +690,7 @@ public abstract class CompoundTerm extends Term implements Iterable<Term> {
     /**
      * Recursively apply a substitute to the current CompoundTerm
      * May return null if the term can not be created
-     * 
+     *
      * @param subs
      */
     public Term applySubstitute(final Map<Term, Term> subs) {

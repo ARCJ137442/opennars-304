@@ -21,7 +21,7 @@ public class Register extends Operator {
 
     /**
      * To register a new operator
-     * 
+     *
      * @param args   Arguments, a Statement followed by an optional tense
      * @param memory The memory in which the operation is executed
      * @return Immediate results as Tasks

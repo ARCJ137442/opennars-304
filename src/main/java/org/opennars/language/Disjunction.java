@@ -16,7 +16,7 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     private Disjunction(final Term[] arg) {
@@ -31,7 +31,7 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Clone an object
-     * 
+     *
      * @return A new object
      */
     @Override
@@ -49,7 +49,7 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Try to make a new Disjunction from two term. Called by the inference rules.
-     * 
+     *
      * @param term1 The first component
      * @param term2 The first component
      * @return A Disjunction generated or a Term it reduced to
@@ -91,7 +91,7 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override
@@ -101,7 +101,7 @@ public class Disjunction extends CompoundTerm {
 
     /**
      * Disjunction is commutative.
-     * 
+     *
      * @return true for commutative
      */
     @Override

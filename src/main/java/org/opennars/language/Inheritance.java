@@ -17,7 +17,7 @@ public class Inheritance extends Statement {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     protected Inheritance(final Term[] arg) {
@@ -32,7 +32,7 @@ public class Inheritance extends Statement {
 
     /**
      * Clone an object
-     * 
+     *
      * @return A new object, to be casted into a SetExt
      */
     @Override
@@ -63,7 +63,7 @@ public class Inheritance extends Statement {
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
-     * 
+     *
      * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or null
@@ -94,7 +94,7 @@ public class Inheritance extends Statement {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override

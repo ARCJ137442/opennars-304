@@ -40,7 +40,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Constructor with initial budget
-     * 
+     *
      * @param budget The initial budget
      */
     protected Item(final BudgetValue budget) {
@@ -52,14 +52,14 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Get the current key
-     * 
+     *
      * @return Current key value
      */
     abstract public K name();
 
     /**
      * Get priority value
-     * 
+     *
      * @return Current priority value
      */
     public float getPriority() {
@@ -68,7 +68,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Set priority value
-     * 
+     *
      * @param v Set a new priority value
      */
     public void setPriority(final float v) {
@@ -77,7 +77,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Increase priority value
-     * 
+     *
      * @param v The amount of increase
      */
     public void incPriority(final float v) {
@@ -86,7 +86,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Decrease priority value
-     * 
+     *
      * @param v The amount of decrease
      */
     public void decPriority(final float v) {
@@ -95,7 +95,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Get durability value
-     * 
+     *
      * @return Current durability value
      */
     public float getDurability() {
@@ -104,7 +104,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Set durability value
-     * 
+     *
      * @param v The new durability value
      */
     public void setDurability(final float v) {
@@ -113,7 +113,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Increase durability value
-     * 
+     *
      * @param v The amount of increase
      */
     public void incDurability(final float v) {
@@ -122,7 +122,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Decrease durability value
-     * 
+     *
      * @param v The amount of decrease
      */
     public void decDurability(final float v) {
@@ -131,7 +131,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Get quality value
-     * 
+     *
      * @return The quality value
      */
     public float getQuality() {
@@ -140,7 +140,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Set quality value
-     * 
+     *
      * @param v The new quality value
      */
     public void setQuality(final float v) {
@@ -149,7 +149,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Merge with another Item with identical key
-     * 
+     *
      * @param that The Item to be merged
      * @return the resulting Item: this or that
      */
@@ -160,7 +160,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Return a String representation of the Item
-     * 
+     *
      * @return The String representation of the full content
      */
     @Override
@@ -175,7 +175,7 @@ public abstract class Item<K> implements Serializable {
 
     /**
      * Return a String representation of the Item after simplification
-     * 
+     *
      * @return A simplified String representation of the content
      */
     public String toStringExternal() {
@@ -199,7 +199,7 @@ public abstract class Item<K> implements Serializable {
 
     /*
      * //default:
-     * 
+     *
      * @Override
      * public int compareTo(final Object o) {
      * //return System.identityHashCode(this) - System.identityHashCode(o);

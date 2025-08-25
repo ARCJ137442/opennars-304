@@ -40,7 +40,7 @@ public class ProcessJudgment {
      * the will become the top entries in the belief table.
      * Additionally, judgements can themselves be the solution to existing questions
      * and goals, which is also processed here.
-     * 
+     *
      * @param task    The judgment task to be accepted
      * @param concept The concept of the judment task
      * @param nal     The derivation context
@@ -92,7 +92,7 @@ public class ProcessJudgment {
      * concept
      * interpret current events as preconditions and future events as
      * post-conditions to the invoked operation.
-     * 
+     *
      * @param task The judgement task be checked
      * @param nal  The derivation context
      */
@@ -112,7 +112,7 @@ public class ProcessJudgment {
     /**
      * Check whether the task is an executable hypothesis of the form
      * <(&/,a,op()) =/> b>.
-     * 
+     *
      * @param task The judgement task be checked
      * @param nal  The derivation context
      * @return Whether task is an executable precondition
@@ -144,7 +144,7 @@ public class ProcessJudgment {
 
     /**
      * Add <(&/,a,op()) =/> b> beliefs to preconditions in concept b
-     * 
+     *
      * @param task The potential implication task
      * @param nal  The derivation context
      */

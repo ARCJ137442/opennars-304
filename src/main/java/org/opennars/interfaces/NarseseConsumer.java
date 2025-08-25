@@ -11,7 +11,7 @@ public interface NarseseConsumer {
 
     /**
      * feeds narsese input to the consumer
-     * 
+     *
      * @param narsese the narsese text
      */
     void addInput(String narsese);

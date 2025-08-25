@@ -362,7 +362,7 @@ public class Stamp implements Cloneable, Serializable {
     }
 
     /**
-     * 
+     *
      */
     public void setEternal() {
         occurrenceTime = ETERNAL;

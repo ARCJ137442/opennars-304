@@ -110,7 +110,7 @@ public class ProcessAnticipation {
     /**
      * Process outdated anticipations within the concept,
      * these which are outdated generate negative feedback
-     * 
+     *
      * @param narParameters The reasoner parameters
      * @param concept       The concept which potentially outdated anticipations
      *                      should be processed
@@ -217,7 +217,7 @@ public class ProcessAnticipation {
 
     /**
      * Whether a processed judgement task satisfies the anticipations within concept
-     * 
+     *
      * @param task    The judgement task be checked
      * @param concept The concept that is processed
      * @param nal     The derivation context
@@ -243,7 +243,7 @@ public class ProcessAnticipation {
     /**
      * Fire predictive inference based on beliefs that are known to the concept's
      * neighbors
-     * 
+     *
      * @param judgementTask judgement task
      * @param concept       concept that is processed
      * @param nal           derivation context

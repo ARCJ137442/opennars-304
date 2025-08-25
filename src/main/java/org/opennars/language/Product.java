@@ -14,7 +14,7 @@ public class Product extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     public Product(final Term... arg) {
@@ -33,7 +33,7 @@ public class Product extends CompoundTerm {
 
     /**
      * Clone a Product
-     * 
+     *
      * @return A new object, to be casted into an ImageExt
      */
     @Override
@@ -52,7 +52,7 @@ public class Product extends CompoundTerm {
     /**
      * Try to make a Product from an ImageExt/ImageInt and a component. Called by
      * the inference rules.
-     * 
+     *
      * @param image     The existing Image
      * @param component The component to be added into the component list
      * @param index     The index of the place-holder in the new Image -- optional
@@ -67,7 +67,7 @@ public class Product extends CompoundTerm {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override

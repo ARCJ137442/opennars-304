@@ -113,7 +113,7 @@ public class NALTest {
          * commented because name.split() is broken for a special case in NalTestMetrics
          * final int[] levelSuccess = new int[10];
          * final int[] levelTotals = new int[10];
-         * 
+         *
          * for (final Map.Entry<String, Boolean> e : tests.entrySet()) {
          * final String name = e.getKey();
          * int level = 0;
@@ -123,14 +123,14 @@ public class NALTest {
          * levelSuccess[level]++;
          * }
          * }
-         * 
+         *
          * if (showReport) {
          * int totalSucceeded = 0, total = 0;
          * for (int i = 0; i < 9; i++) {
          * final float rate = (levelTotals[i] > 0) ? ((float)levelSuccess[i]) /
          * levelTotals[i] : 0;
          * final String prefix = (i > 0) ? ("NAL" + i) : "Other";
-         * 
+         *
          * System.out.println(prefix + ": " + (rate*100.0) + "%  (" + levelSuccess[i] +
          * "/" + levelTotals[i] + ")" );
          * totalSucceeded += levelSuccess[i];

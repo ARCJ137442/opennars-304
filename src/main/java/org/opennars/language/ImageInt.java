@@ -19,7 +19,7 @@ public class ImageInt extends Image {
 
     /**
      * constructor with partial values, called by make
-     * 
+     *
      * @param arg   The component list of the term
      * @param index The index of relation in the component list
      */
@@ -29,7 +29,7 @@ public class ImageInt extends Image {
 
     /**
      * Clone an object
-     * 
+     *
      * @return A new object, to be casted into an ImageInt
      */
     @Override
@@ -51,7 +51,7 @@ public class ImageInt extends Image {
 
     /**
      * Try to make a new ImageExt. Called by StringParser.
-     * 
+     *
      * @return the Term generated from the arguments
      * @param argList The list of term
      */
@@ -77,7 +77,7 @@ public class ImageInt extends Image {
     /**
      * Try to make an Image from a Product and a relation. Called by the inference
      * rules.
-     * 
+     *
      * @param product  The product
      * @param relation The relation
      * @param index    The index of the place-holder
@@ -103,7 +103,7 @@ public class ImageInt extends Image {
     /**
      * Try to make an Image from an existing Image and a component. Called by the
      * inference rules.
-     * 
+     *
      * @param oldImage  The existing Image
      * @param component The component to be added into the component list
      * @param index     The index of the place-holder in the new Image
@@ -121,7 +121,7 @@ public class ImageInt extends Image {
     /**
      * Try to make a new compound from a set of term. Called by the public make
      * methods.
-     * 
+     *
      * @param argument The argument list
      * @param index    The index of the place-holder in the new Image
      * @return the Term generated from the arguments
@@ -132,7 +132,7 @@ public class ImageInt extends Image {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override

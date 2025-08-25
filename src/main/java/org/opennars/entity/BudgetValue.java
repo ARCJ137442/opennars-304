@@ -51,7 +51,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Constructor with initialization
-     * 
+     *
      * @param p Initial priority
      * @param d Initial durability
      * @param q Initial quality
@@ -74,7 +74,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Cloning constructor
-     * 
+     *
      * @param v Budget value to be cloned
      */
     public BudgetValue(final BudgetValue v) {
@@ -91,7 +91,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Get priority value
-     * 
+     *
      * @return The current priority
      */
     public float getPriority() {
@@ -100,7 +100,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Change priority value
-     * 
+     *
      * @param v The new priority
      */
     public final void setPriority(final float v) {
@@ -113,7 +113,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Increase priority value by a percentage of the remaining range
-     * 
+     *
      * @param v The increasing percent
      */
     public void incPriority(final float v) {
@@ -127,7 +127,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Decrease priority value by a percentage of the remaining range
-     * 
+     *
      * @param v The decreasing percent
      */
     public void decPriority(final float v) {
@@ -136,7 +136,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Get durability value
-     * 
+     *
      * @return The current durability
      */
     public float getDurability() {
@@ -145,7 +145,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Change durability value
-     * 
+     *
      * @param d The new durability
      */
     public void setDurability(float d) {
@@ -157,7 +157,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Increase durability value by a percentage of the remaining range
-     * 
+     *
      * @param v The increasing percent
      */
     public void incDurability(final float v) {
@@ -170,7 +170,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Decrease durability value by a percentage of the remaining range
-     * 
+     *
      * @param v The decreasing percent
      */
     public void decDurability(final float v) {
@@ -179,7 +179,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Get quality value
-     * 
+     *
      * @return The current quality
      */
     public float getQuality() {
@@ -188,7 +188,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Change quality value
-     * 
+     *
      * @param v The new quality
      */
     public void setQuality(final float v) {
@@ -197,7 +197,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Increase quality value by a percentage of the remaining range
-     * 
+     *
      * @param v The increasing percent
      */
     public void incQuality(final float v) {
@@ -206,7 +206,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Decrease quality value by a percentage of the remaining range
-     * 
+     *
      * @param v The decreasing percent
      */
     public void decQuality(final float v) {
@@ -215,7 +215,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Merge one BudgetValue into another
-     * 
+     *
      * @param that The other Budget
      */
     public void merge(final BudgetValue that) {
@@ -235,7 +235,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * To summarize a BudgetValue into a single number in [0, 1]
-     * 
+     *
      * @return The summary value
      */
     public float summary() {
@@ -261,7 +261,7 @@ public class BudgetValue implements Cloneable, Serializable {
      * Whether the budget should get any processing at all
      * <p>
      * to be revised to depend on how busy the system is
-     * 
+     *
      * @return The decision on whether to process the Item
      */
     public boolean aboveThreshold() {
@@ -270,7 +270,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Fully display the BudgetValue
-     * 
+     *
      * @return String representation of the value
      */
     @Override
@@ -280,7 +280,7 @@ public class BudgetValue implements Cloneable, Serializable {
 
     /**
      * Briefly display the BudgetValue
-     * 
+     *
      * @return String representation of the value with 2-digit accuracy
      */
     public String toStringExternal() {

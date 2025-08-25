@@ -9,17 +9,17 @@ import org.opennars.storage.Memory;
 
 /**
  * Count the number of elements in a set
- * 
- * 
+ *
+ *
  * 'INVALID
  * (^count,a)!
  * (^count,a,b)!
  * (^count,a,#b)!
- * 
+ *
  * 'VALID:
  * (^count,[a,b],#b)!
- * 
- * 
+ *
+ *
  */
 public class Count extends FunctionOperator {
 

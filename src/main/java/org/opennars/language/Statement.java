@@ -23,7 +23,7 @@ public abstract class Statement extends CompoundTerm {
     /**
      * Constructor with partial values, called by make
      * Subclass constructors should call init after any initialization
-     * 
+     *
      * @param arg The component list of the term
      */
     protected Statement(final Term[] arg) {
@@ -51,7 +51,7 @@ public abstract class Statement extends CompoundTerm {
 
     /**
      * Make a Statement from given components, called by the rules
-     * 
+     *
      * @return The Statement built
      * @param subj      The first component
      * @param pred      The second component
@@ -196,7 +196,7 @@ public abstract class Statement extends CompoundTerm {
     /**
      * Check the validity of a potential Statement. [To be refined]
      * <p>
-     * 
+     *
      * @param subject   The first component
      * @param predicate The second component
      * @return Whether The Statement is invalid
@@ -235,7 +235,7 @@ public abstract class Statement extends CompoundTerm {
      * Check if one term is identical to or included in another one, except in a
      * reflexive relation
      * <p>
-     * 
+     *
      * @param t1 The first term
      * @param t2 The second term
      * @return Whether they cannot be related in a statement
@@ -292,7 +292,7 @@ public abstract class Statement extends CompoundTerm {
 
     /**
      * returns the subject (0) or predicate(1)
-     * 
+     *
      * @param side subject(0) or predicate(1)
      * @return the term of the side
      */

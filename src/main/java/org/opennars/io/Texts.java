@@ -21,7 +21,7 @@ public class Texts {
      * if the combined length <= maxLen, creates a StringBuilder appending them
      * all.
      * if the combined length > maxLen, creates a Rope appending them all.
-     * 
+     *
      * TODO do not allow a StringBuilder to appear in output, instead wrap in
      * CharArrayRope
      */

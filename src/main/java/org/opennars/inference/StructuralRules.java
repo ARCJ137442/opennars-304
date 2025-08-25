@@ -779,7 +779,7 @@ public final class StructuralRules {
 
     /**
      * Derives a sub-sequence of a sequence based on a (inclusive) index range
-     * 
+     *
      * @param sourceConjunction   The conjunction we take out a certain part from
      * @param inclusiveStartIndex The start index (inclusive)
      * @param inclusiveEndIndex   The end index (inclusive)
@@ -823,7 +823,7 @@ public final class StructuralRules {
 
     /***
      * Derives a sequence task, inheriting properties from parentConj
-     * 
+     *
      * @param nal   The derivation context
      * @param total The sub-terms the conjunction should be created from
      * @param truth The truth value of the derivation

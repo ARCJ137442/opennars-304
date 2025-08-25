@@ -61,7 +61,7 @@ public class TermLink extends Item<TermLink> implements TLink<Term> {
      * Constructor for TermLink template
      * <p>
      * called in CompoundTerm.prepareComponentLinks only
-     * 
+     *
      * @param target  Target Term
      * @param type    Link type
      * @param indices Component indices in compound, may be 1 to 4
@@ -87,7 +87,7 @@ public class TermLink extends Item<TermLink> implements TLink<Term> {
      * Constructor to make actual TermLink from a template
      * <p>
      * called in Concept.buildTermLinks only
-     * 
+     *
      * @param t        Target Term
      * @param template TermLink template previously prepared
      * @param v        Budget value of the link
@@ -178,7 +178,7 @@ public class TermLink extends Item<TermLink> implements TLink<Term> {
 
     /**
      * Get one index by level
-     * 
+     *
      * @param i The index level
      * @return The index value
      */

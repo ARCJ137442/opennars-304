@@ -22,7 +22,7 @@ public interface Reasoner extends
         Timable {
     /**
      * ask reasoner a eternal question
-     * 
+     *
      * @param termString narsese string with term of question
      * @param answered   handler which will be called when answered
      * @return reasoner which processes the question
@@ -32,7 +32,7 @@ public interface Reasoner extends
 
     /**
      * ask reasoner a now question
-     * 
+     *
      * @param termString narsese string with term of question
      * @param answered   handler which will be called when answered
      * @return reasoner which processes the question
@@ -42,7 +42,7 @@ public interface Reasoner extends
 
     /**
      * returns the concept by name/term or creates it if it doesn't exist
-     * 
+     *
      * @param concept the name/term of the concept
      * @return queried or created concept
      * @throws Narsese.InvalidInputException
@@ -63,14 +63,14 @@ public interface Reasoner extends
 
     /**
      * is the reasoner running?
-     * 
+     *
      * @return is it running
      */
     boolean isRunning();
 
     /**
      * returns the minimum delay of a cycle in milliseconds
-     * 
+     *
      * @return minimum cycle delay period
      */
     long getMinCyclePeriodMS();
@@ -79,7 +79,7 @@ public interface Reasoner extends
      * When b is true, Nar will call Thread.yield each run() iteration that
      * minCyclePeriodMS==0 (no delay).
      * This is for improving program responsiveness when Nar is run with no delay.
-     * 
+     *
      * @param b Nar will call Thread.yield each run()
      */
     void setThreadYield(final boolean b);

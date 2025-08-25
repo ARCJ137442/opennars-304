@@ -203,7 +203,7 @@ public class Variable extends Term {
      * variable terms are listed first alphabetically
      *
      * @param that The Term to be compared with the current Term
-     * 
+     *
      * @return The same as compareTo as defined on Strings
      */
     /*

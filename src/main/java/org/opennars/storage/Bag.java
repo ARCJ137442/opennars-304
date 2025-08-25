@@ -60,7 +60,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Get the average priority of Items
-     * 
+     *
      * @return The average priority of Items in the bag
      */
     public float getAveragePriority() {
@@ -76,7 +76,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Check if an item is in the bag
-     * 
+     *
      * @param it An item
      * @return Whether the Item is in the Bag
      */
@@ -86,7 +86,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Get an Item by key
-     * 
+     *
      * @param key The key of the Item
      * @return The Item with the given key
      */
@@ -96,7 +96,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Add a new Item into the Bag
-     * 
+     *
      * @param newItem The new Item
      * @return Whether the new Item is added into the Bag
      */
@@ -134,7 +134,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Choose an Item according to priority distribution and take it out of the Bag
-     * 
+     *
      * @return The selected Item
      */
     public Type takeOut() {
@@ -167,7 +167,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Pick an item by key, then remove it from the bag
-     * 
+     *
      * @param key The given key
      * @return The Item with the key
      */
@@ -186,7 +186,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Check whether a level is empty
-     * 
+     *
      * @param n The level index
      * @return Whether that level is empty
      */
@@ -196,7 +196,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Decide the put-in level according to priority
-     * 
+     *
      * @param item The Item to put in
      * @return The put-in level
      */
@@ -208,7 +208,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Insert an item into the itemTable, and return the overflow
-     * 
+     *
      * @param newItem The Item to put in
      * @return The overflow Item
      */
@@ -233,7 +233,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Take out the first or last Type in a level from the itemTable
-     * 
+     *
      * @param level The current level
      * @return The first Item
      */
@@ -246,7 +246,7 @@ public class Bag<Type extends Item<K>, K> implements Serializable, Iterable<Type
 
     /**
      * Remove an item from itemTable, then adjust mass
-     * 
+     *
      * @param oldItem The Item to be removed
      */
     protected void outOfBase(Type oldItem) {

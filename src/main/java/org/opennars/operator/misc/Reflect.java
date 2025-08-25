@@ -6,7 +6,7 @@ import org.opennars.storage.Memory;
 
 /**
  * Produces canonical "Reflective-Narsese" representation of a parameter term
- * 
+ *
  * @author me
  */
 public class Reflect extends FunctionOperator {
@@ -34,7 +34,7 @@ public class Reflect extends FunctionOperator {
 
     /**
      * <(*,subject,object) --> predicate>
-     * 
+     *
      * @param subject   the subject of the relation
      * @param object    the object for the relation
      * @param predicate the predicate of the relation

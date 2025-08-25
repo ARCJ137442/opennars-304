@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Monitors an output stream for certain conditions. Used in testing and
  * analysis.
- * 
+ *
  * Parameter O is the type of object which will be remembered that can make
  * the condition true
  */

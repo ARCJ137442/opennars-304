@@ -277,7 +277,7 @@ public class Variables {
 
     /**
      * copies two maps from source into two new maps
-     * 
+     *
      * @param source source maps (two)
      * @return copied maps
      */

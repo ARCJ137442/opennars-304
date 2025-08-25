@@ -81,7 +81,7 @@ abstract public class Image extends CompoundTerm {
 
     /**
      * Get the other term in the Image
-     * 
+     *
      * @return The term relaterom existing fields
      * @return the name of the term
      */
@@ -92,7 +92,7 @@ abstract public class Image extends CompoundTerm {
 
     /**
      * Get the relation term in the Image
-     * 
+     *
      * @return The term representing a relation
      */
     public Term getRelation() {
@@ -101,7 +101,7 @@ abstract public class Image extends CompoundTerm {
 
     /**
      * Get the other term in the Image
-     * 
+     *
      * @return The term related
      */
     public Term getTheOtherComponent() {

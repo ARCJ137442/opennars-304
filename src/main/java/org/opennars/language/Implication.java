@@ -19,7 +19,7 @@ public class Implication extends Statement {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     public Implication(final Term[] arg, final int order) {
@@ -32,7 +32,7 @@ public class Implication extends Statement {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     public Implication(final Term[] arg, final int order, final long counter) {
@@ -50,7 +50,7 @@ public class Implication extends Statement {
 
     /**
      * Clone an object
-     * 
+     *
      * @return A new object
      */
     @Override
@@ -71,7 +71,7 @@ public class Implication extends Statement {
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
-     * 
+     *
      * @param subject   The first component
      * @param predicate The second component
      * @return A compound generated or a term it reduced to
@@ -132,7 +132,7 @@ public class Implication extends Statement {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override

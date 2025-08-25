@@ -170,7 +170,7 @@ public class Emotions implements Plugin {
              * Sentence s3=new Sentence(o,Symbols.JUDGMENT_MARK,truth3,new
              * Stamp(nal.memory));
              * s3.stamp.setOccurrenceTime(nal.memory.time());
-             * 
+             *
              * //INTERNAL_EXPERIENCE_DURABILITY_MUL
              * BudgetValue budget=new
              * BudgetValue(Parameters.DEFAULT_JUDGMENT_PRIORITY,Parameters.

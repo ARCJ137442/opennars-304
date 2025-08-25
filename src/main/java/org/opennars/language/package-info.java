@@ -3,7 +3,7 @@
  * Term hierarchy in Narsese
  *
  * Open-NARS implements the following formal language, Narsese.
- * 
+ *
  * <pre>
  *            <sentence> ::= <judgment>
  *                         | <question>

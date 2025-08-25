@@ -139,17 +139,17 @@ public class Memory implements Serializable, Iterable<Concept>, Resettable {
 
     /**
      * Get the Concept associated to a Term, or create it.
-     * 
+     *
      * Existing concept: apply taskLink activation (remove from bag, adjust budget,
      * reinsert)
      * New concept: set initial activation, insert
      * Subconcept: extract from cache, apply activation, insert
-     * 
+     *
      * If failed to insert as a result of null bag, returns null
      *
      * A displaced Concept resulting from insert is forgotten (but may be stored in
      * optional subconcept memory
-     * 
+     *
      * @param term indicating the concept
      * @return an existing Concept, or a new one, or null
      */

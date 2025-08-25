@@ -203,7 +203,7 @@ public class Term implements AbstractTerm, Serializable {
      * False if it uses one instance of a variable ("free" like a "free radical" in
      * chemistry).
      * Therefore it may be considered Constant, yet actually contain variables.
-     * 
+     *
      * @return A Term is constant by default
      */
     @Override

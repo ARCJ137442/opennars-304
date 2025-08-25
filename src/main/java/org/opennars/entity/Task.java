@@ -47,7 +47,7 @@ public class Task extends Item<Sentence> {
 
     /***
      * Constructors for double premise derived task
-     * 
+     *
      * @param s            The sentence
      * @param b            The budget
      * @param parentBelief The belief used for deriving the task
@@ -58,7 +58,7 @@ public class Task extends Item<Sentence> {
 
     /***
      * Constructors for solved double premise derived task
-     * 
+     *
      * @param s            The sentence
      * @param b            The budget
      * @param parentBelief The belief used for deriving the task

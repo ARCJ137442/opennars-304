@@ -14,7 +14,7 @@ import java.util.Iterator;
  * <p>
  * The reason to separate a Task and a TaskLink is that the same Task can be
  * linked from multiple Concepts, with different BudgetValue.
- * 
+ *
  * TaskLinks are unique according to the Task they reference
  *
  * @author Pei Wang
@@ -112,7 +112,7 @@ public class TaskLink extends Item<Task> implements TLink<Task> {
 
     /**
      * Get one index by level
-     * 
+     *
      * @param i The index level
      * @return The index value
      */

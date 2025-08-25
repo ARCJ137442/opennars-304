@@ -18,7 +18,7 @@ public class IntersectionExt extends CompoundTerm {
 
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     private IntersectionExt(final Term[] arg) {
@@ -34,7 +34,7 @@ public class IntersectionExt extends CompoundTerm {
 
     /**
      * Clone an object
-     * 
+     *
      * @return A new object, to be casted into a IntersectionExt
      */
     @Override
@@ -52,7 +52,7 @@ public class IntersectionExt extends CompoundTerm {
 
     /**
      * Try to make a new compound from two term. Called by the inference rules.
-     * 
+     *
      * @param term1 The first component
      * @param term2 The first component
      * @return A compound generated or a term it reduced to
@@ -112,7 +112,7 @@ public class IntersectionExt extends CompoundTerm {
 
     /**
      * Get the operator of the term.
-     * 
+     *
      * @return the operator of the term
      */
     @Override
@@ -122,7 +122,7 @@ public class IntersectionExt extends CompoundTerm {
 
     /**
      * Check if the compound is commutative.
-     * 
+     *
      * @return true for commutative
      */
     @Override

@@ -16,7 +16,7 @@ public interface Parser {
     class InvalidInputException extends Exception {
         /**
          * An invalid addInput line.
-         * 
+         *
          * @param s type of error
          */
         InvalidInputException(final String s) {

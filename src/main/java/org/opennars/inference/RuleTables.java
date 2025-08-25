@@ -567,7 +567,7 @@ public class RuleTables {
      * side of the Statement
      *
      * a figure is a encoding for the sides
-     * 
+     *
      * @param figure       figure encoding as 11 or 12 or 21 or 22
      * @param sideOfFigure side
      * @return

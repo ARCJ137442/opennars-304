@@ -13,7 +13,7 @@ import java.nio.CharBuffer;
 abstract public class SetTensional extends CompoundTerm {
     /**
      * Constructor with partial values, called by make
-     * 
+     *
      * @param arg The component list of the term
      */
     protected SetTensional(final Term[] arg) {
@@ -58,7 +58,7 @@ abstract public class SetTensional extends CompoundTerm {
 
     /**
      * Check if the compound is communitative.
-     * 
+     *
      * @return true for communitative
      */
     @Override

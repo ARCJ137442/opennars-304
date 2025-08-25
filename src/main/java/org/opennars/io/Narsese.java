@@ -211,7 +211,7 @@ public class Narsese implements Serializable, Parser {
 
     /**
      * Recognize the tense of an addInput sentence
-     * 
+     *
      * @param s the addInput in a StringBuilder
      * @return a tense value
      */

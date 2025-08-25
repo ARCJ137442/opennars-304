@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "decisionthreshold"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

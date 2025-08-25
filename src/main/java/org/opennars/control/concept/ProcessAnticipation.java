@@ -42,10 +42,8 @@ public class ProcessAnticipation {
                 mainSentence.punctuation,
                 new TruthValue(0.0f, eternalized_induction_confidence, nal.narParameters),
                 stamp);
-        final Task t = new Task(s, new BudgetValue(0.99f, 0.1f, 0.1f, nal.narParameters), Task.EnumType.DERIVED); // Budget
-                                                                                                                  // for
-                                                                                                                  // one-time
-                                                                                                                  // processing
+        final Task t = new Task(s, new BudgetValue(0.99f, 0.1f, 0.1f, nal.narParameters), Task.EnumType.DERIVED);
+        // Budget for one-time processing
         Term specificAnticipationTerm = ((CompoundTerm) ((Statement) mainSentence.term).getPredicate())
                 .applySubstitute(substitution);
         final Concept c = nal.memory.concept(specificAnticipationTerm); // put into consequence concept
@@ -88,8 +86,8 @@ public class ProcessAnticipation {
                             nal.time);
                 }
             }
-            nal.memory.emit(OutputHandler.ANTICIPATE.class, specificAnticipationTerm); // disappoint/confirm printed
-                                                                                       // anyway
+            nal.memory.emit(OutputHandler.ANTICIPATE.class, specificAnticipationTerm);
+            // disappoint/confirm printed anyway
         }
 
     }

@@ -60,15 +60,8 @@ public class ProcessQuestion {
 
         if (newAnswerT != null) {
             trySolution(newAnswerT.sentence, task, nal, true);
-        } else if (task.isInput() && !quesTask.getTerm().hasVarQuery() && quesTask.getBestSolution() != null) { // show
-                                                                                                                // previously
-                                                                                                                // found
-                                                                                                                // solution
-                                                                                                                // anyway
-                                                                                                                // in
-                                                                                                                // case
-                                                                                                                // of
-                                                                                                                // input
+        } else if (task.isInput() && !quesTask.getTerm().hasVarQuery() && quesTask.getBestSolution() != null) {
+            // show previously found solution anyway in case of input
             concept.memory.emit(Events.Answer.class, quesTask, quesTask.getBestSolution());
         }
     }

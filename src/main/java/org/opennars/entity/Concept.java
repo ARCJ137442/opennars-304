@@ -272,26 +272,13 @@ public class Concept extends Item<Term> implements Serializable {
         synchronized (list) {
             for (final Task judgT : list) {
                 final Sentence judg = judgT.sentence;
-                beliefQuality = LocalRules.solutionQuality(rateByConfidence, query, judg, memory, time); // makes
-                                                                                                         // revision
-                                                                                                         // explicitly
-                                                                                                         // search for
-                if (beliefQuality > currentBest /* && (!forRevision || judgT.sentence.equalsContent(query)) */ /*
-                                                                                                                * && (!
-                                                                                                                * forRevision
-                                                                                                                * ||
-                                                                                                                * !Stamp
-                                                                                                                * .
-                                                                                                                * baseOverlap
-                                                                                                                * (query
-                                                                                                                * .stamp
-                                                                                                                * .
-                                                                                                                * evidentialBase,
-                                                                                                                * judg.
-                                                                                                                * stamp.
-                                                                                                                * evidentialBase
-                                                                                                                * ))
-                                                                                                                */) {
+                // makes revision explicitly search for
+                beliefQuality = LocalRules.solutionQuality(rateByConfidence, query, judg, memory, time);
+                if (beliefQuality > currentBest /* && (!forRevision || judgT.sentence.equalsContent(query)) */
+                /*
+                 * && (! forRevision || !Stamp . baseOverlap (query .stamp . evidentialBase,
+                 * judg. stamp. evidentialBase ))
+                 */) {
                     currentBest = beliefQuality;
                     candidate = judgT;
                 }

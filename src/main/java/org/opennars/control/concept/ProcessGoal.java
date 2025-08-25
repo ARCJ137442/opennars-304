@@ -288,16 +288,17 @@ public class ProcessGoal {
      */
     public static void bestReactionForGoal(final Concept concept, final DerivationContext nal,
             final Sentence projectedGoal, final Task task) {
-        concept.incAcquiredQuality(); // useful as it is represents a goal concept that can hold important procedure
-                                      // knowledge
+        concept.incAcquiredQuality();
+        // useful as it is represents a goal concept that can hold important procedure
+        // knowledge
         // 1. pull up variable based preconditions from component concepts without
         // replacing them
         Map<Term, Integer> ret = (projectedGoal.getTerm()).countTermRecursively(null);
         List<Task> generalPreconditions = new ArrayList<>();
         for (Term t : ret.keySet()) {
             final Concept get_concept = nal.memory.concept(t); // the concept to pull preconditions from
-            if (get_concept == null || get_concept == concept) { // target concept does not exist or is the same as the
-                                                                 // goal concept
+            if (get_concept == null || get_concept == concept) {
+                // target concept does not exist or is the same as the goal concept
                 continue;
             }
             // pull variable based preconditions from component concepts

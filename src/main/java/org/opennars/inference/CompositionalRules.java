@@ -635,7 +635,7 @@ public final class CompositionalRules {
                 || (component instanceof Similarity && content instanceof Similarity)) {
             // CompoundTerm result = T;
             if (component.equals(content)) {
-                return; // wouldnt make sense to create a conjunction here, would contain a statement
+                return; // wouldn't make sense to create a conjunction here, would contain a statement
                         // twice
             }
 

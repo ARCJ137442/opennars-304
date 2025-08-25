@@ -688,6 +688,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
             if (Debug.SHOW_REASONING_ERRORS) {
                 emit(ERR.class, e);
             }
+            e.printStackTrace();
             if (!Debug.REASONING_ERRORS_CONTINUE) {
                 throw new IllegalStateException("Reasoning error:\n", e);
             }

@@ -42,12 +42,12 @@ public class ProcessAnticipation {
                 mainSentence.punctuation,
                 new TruthValue(0.0f, eternalized_induction_confidence, nal.narParameters),
                 stamp);
-        final Task t = new Task(s, new BudgetValue(0.99f, 0.1f, 0.1f, nal.narParameters), Task.EnumType.DERIVED); // Budget
-                                                                                                                  // for
-                                                                                                                  // one-time
-                                                                                                                  // processing
-        Term specificAnticipationTerm = ((CompoundTerm) ((Statement) mainSentence.term).getPredicate())
-                .applySubstitute(substitution);
+        final Task t = new Task(s, new BudgetValue(0.99f, 0.1f, 0.1f, nal.narParameters), Task.EnumType.DERIVED);
+        // Budget for one-time processing
+        Term mainPredicate = ((Statement) mainSentence.term).getPredicate();
+        if (!(mainPredicate instanceof CompoundTerm))
+            return;
+        Term specificAnticipationTerm = ((CompoundTerm) mainPredicate).applySubstitute(substitution);
         final Concept c = nal.memory.concept(specificAnticipationTerm); // put into consequence concept
         if (c != null /* && minTime > nal.memory.time() */ && c.observable
                 && (mainSentence.getTerm() instanceof Implication || mainSentence.getTerm() instanceof Equivalence) &&

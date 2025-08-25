@@ -6,7 +6,9 @@
         "javadoc",
         "roundtrips",
         "Tasklink",
+        "TERMLINK",
         "Timable",
-        "Unexecutable"
+        "Unexecutable",
+        "Wünsche"
     ]
 }

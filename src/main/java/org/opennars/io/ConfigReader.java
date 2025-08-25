@@ -1,26 +1,3 @@
-/* 
- * The MIT License
- *
- * Copyright 2018 The OpenNARS authors.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package org.opennars.io;
 
 import com.google.common.io.Resources;
@@ -61,25 +38,28 @@ import java.util.logging.Logger;
  */
 public class ConfigReader {
 
-    public static List<Plugin> loadParamsFromFileAndReturnPlugins(final String filepath, final Reasoner reasoner, final Parameters parameters) throws IOException, IllegalAccessException, ParseException, ParserConfigurationException, SAXException, ClassNotFoundException, NoSuchMethodException, InstantiationException, InvocationTargetException {
-        
+    public static List<Plugin> loadParamsFromFileAndReturnPlugins(final String filepath, final Reasoner reasoner,
+            final Parameters parameters)
+            throws IOException, IllegalAccessException, ParseException, ParserConfigurationException, SAXException,
+            ClassNotFoundException, NoSuchMethodException, InstantiationException, InvocationTargetException {
+
         System.out.println("Got relative path for loading the config: " + filepath);
         List<Plugin> ret = new ArrayList<Plugin>();
         File file = new File(filepath);
 
         InputStream stream = null;
         // if this failed, then load from resources
-        if(!file.exists()) {
+        if (!file.exists()) {
             file = null;
             URL n = Resources.getResource("config/defaultConfig.xml");
-            //System.out.println(n.toURI().toString());
+            // System.out.println(n.toURI().toString());
             URLConnection connection = n.openConnection();
             stream = connection.getInputStream();
-            System.out.println("Loading config " + "config/defaultConfig.xml" +" from resources");
+            System.out.println("Loading config " + "config/defaultConfig.xml" + " from resources");
         } else {
-            System.out.println("Loading config " + file.getName() +" from file");
+            System.out.println("Loading config " + file.getName() + " from file");
         }
-        
+
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         final Document document = stream != null ? documentBuilder.parse(stream) : documentBuilder.parse(file);
@@ -93,7 +73,7 @@ public class ConfigReader {
             }
 
             final String nodeName = iConfig.getNodeName();
-            if( nodeName.equals("plugins") ) {
+            if (nodeName.equals("plugins")) {
                 final NodeList plugins = iConfig.getChildNodes();
 
                 for (int iterationPluginIdx = 0; iterationPluginIdx < plugins.getLength(); iterationPluginIdx++) {
@@ -110,8 +90,7 @@ public class ConfigReader {
                     Plugin createdPlugin = createPluginByClassnameAndArguments(pluginClassPath, arguments, reasoner);
                     ret.add(createdPlugin);
                 }
-            }
-            else {
+            } else {
 
                 final String propertyName = iConfig.getAttributes().getNamedItem("name").getNodeValue();
                 final String propertyValueAsString = iConfig.getAttributes().getNamedItem("value").getNodeValue();
@@ -160,7 +139,9 @@ public class ConfigReader {
         return ret;
     }
 
-    private static Plugin createPluginByClassnameAndArguments(String pluginClassPath, NodeList arguments, Reasoner reasoner) throws ParseException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static Plugin createPluginByClassnameAndArguments(String pluginClassPath, NodeList arguments,
+            Reasoner reasoner) throws ParseException, ClassNotFoundException, NoSuchMethodException,
+            IllegalAccessException, InvocationTargetException, InstantiationException {
         List<Class> types = new ArrayList<>();
         List<Object> values = new ArrayList<>();
 
@@ -183,24 +164,19 @@ public class ConfigReader {
             if (specialIsReasoner) {
                 types.add(Reasoner.class);
                 values.add(reasoner);
-            }
-            else if (typeString.equals("int.class")) {
+            } else if (typeString.equals("int.class")) {
                 types.add(int.class);
                 values.add(Integer.parseInt(valueString));
-            }
-            else if (typeString.equals("float.class")) {
+            } else if (typeString.equals("float.class")) {
                 types.add(float.class);
                 values.add(Float.parseFloat(valueString));
-            }
-            else if (typeString.equals("boolean.class")) {
+            } else if (typeString.equals("boolean.class")) {
                 types.add(boolean.class);
                 values.add(Boolean.parseBoolean(valueString));
-            }
-            else if (typeString.equals("String.class")) {
+            } else if (typeString.equals("String.class")) {
                 types.add(java.lang.String.class);
                 values.add(valueString);
-            }
-            else {
+            } else {
                 throw new ParseException("Unknown type", 0);
             }
         }
@@ -210,7 +186,7 @@ public class ConfigReader {
 
         Class c = Class.forName(pluginClassPath);
 
-        Plugin createdPlugin = (Plugin)c.getConstructor(typesAsArr).newInstance(valuesAsArr);
+        Plugin createdPlugin = (Plugin) c.getConstructor(typesAsArr).newInstance(valuesAsArr);
         return createdPlugin;
     }
 }

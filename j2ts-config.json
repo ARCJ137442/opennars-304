@@ -1,0 +1,5 @@
+{
+    "packageRoot": "./",
+    "outputPath": "./target/j2ts",
+    "options": {}
+}

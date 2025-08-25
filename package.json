@@ -1,0 +1,8 @@
+{
+    "dependencies": {
+        "java2typescript": "^1.1.0"
+    },
+    "scripts": {
+        "java2ts": "java2ts j2ts-config.json"
+    }
+}

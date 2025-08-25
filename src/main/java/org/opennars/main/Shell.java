@@ -124,14 +124,15 @@ public class Shell {
                 try {
                     final String line = bufIn.readLine();
                     if (line != null) {
-                        // try {
-                        nar.addInput(line);
-                        // } catch (Exception ex) {
-                        // if (Debug.DETAILED) {
-                        // throw new IllegalStateException("ERROR: error parsing:" + line, ex);
-                        // }
-                        // System.out.println("ERROR: parsing error");
-                        // }
+                        try {
+                            nar.addInput(line);
+                        } catch (Exception ex) {
+                            if (Debug.DETAILED) {
+                                System.out.println("ERROR: error parsing:" + line);
+                                ex.printStackTrace();
+                            } else
+                                System.out.println("ERROR: parsing error");
+                        }
                     }
 
                 } catch (final IOException e) {

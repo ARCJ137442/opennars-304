@@ -158,7 +158,7 @@ public class Anticipate extends Operator implements EventObserver {
     }
 
     @Override
-    public void event(final Class event, final Object[] args) {
+    public void event(final Class<?> event, final Object[] args) {
         if (event == Events.InduceSucceedingEvent.class || event == Events.TaskDerive.class) {
             final Task newEvent = (Task) args[0];
             DerivationContext nal = (DerivationContext) args[1];

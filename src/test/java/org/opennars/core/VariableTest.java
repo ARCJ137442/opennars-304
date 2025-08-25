@@ -46,7 +46,7 @@ public class VariableTest {
          */
         new EventHandler(n, true, Answer.class) {
             @Override
-            public void event(final Class event, final Object[] args) {
+            public void event(final Class<?> event, final Object[] args) {
                 // nothing should arrive via Solved.class channel
                 assertTrue(false);
             }
@@ -76,7 +76,7 @@ public class VariableTest {
         final AtomicBoolean solutionFound = new AtomicBoolean(false);
         new EventHandler(n, true, Answer.class) {
             @Override
-            public void event(final Class event, final Object[] args) {
+            public void event(final Class<?> event, final Object[] args) {
                 solutionFound.set(true);
                 n.stop();
             }

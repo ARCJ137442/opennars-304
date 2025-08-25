@@ -7,7 +7,7 @@ import org.opennars.main.Nar;
 public abstract class EventHandler implements EventEmitter.EventObserver {
     protected final EventEmitter source;
     protected boolean active = false;
-    private final Class[] events;
+    private final Class<?>[] events;
 
     public EventHandler(final Nar n, final boolean active, final Class... events) {
         this(n.memory.event, active, events);

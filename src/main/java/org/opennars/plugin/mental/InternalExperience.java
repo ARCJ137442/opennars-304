@@ -205,7 +205,7 @@ public class InternalExperience implements Plugin, EventObserver, Serializable {
     }
 
     @Override
-    public void event(final Class event, final Object[] a) {
+    public void event(final Class<?> event, final Object[] a) {
 
         if (event == Events.ConceptDirectProcessedTask.class) {
             final Task task = (Task) a[0];

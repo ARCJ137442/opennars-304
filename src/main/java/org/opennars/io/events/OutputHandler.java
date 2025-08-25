@@ -46,7 +46,7 @@ public abstract class OutputHandler extends EventHandler {
     public static class DISAPPOINT {
     }
 
-    public static final Class[] DefaultOutputEvents = new Class[] { IN.class, EXE.class, OUT.class, ERR.class,
+    public static final Class<?>[] DefaultOutputEvents = new Class<?>[] { IN.class, EXE.class, OUT.class, ERR.class,
             ECHO.class, Answer.class, ANTICIPATE.class, CONFIRM.class, DISAPPOINT.class, DEBUG.class };
 
     public OutputHandler(final EventEmitter source, final boolean active) {

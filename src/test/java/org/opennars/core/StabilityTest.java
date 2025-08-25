@@ -84,7 +84,7 @@ public class StabilityTest {
         tests.put(name, true);
     }
 
-    public static double runTests(final Class c) {
+    public static double runTests(final Class<?> c) {
 
         tests.clear();
         scores.clear();

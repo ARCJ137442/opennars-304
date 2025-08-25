@@ -18,10 +18,10 @@ import java.io.Serializable;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class Task<T extends Term> extends Item<Sentence<T>> implements Serializable {
+public class Task extends Item<Sentence> implements Serializable {
 
     /* The sentence of the Task */
-    public final Sentence<T> sentence;
+    public final Sentence sentence;
     /* Belief from which the Task is derived, or null if derived from a theorem */
     public final Sentence parentBelief;
     /*
@@ -42,7 +42,7 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
      * @param s The sentence
      * @param b The budget
      */
-    public Task(final Sentence<T> s, final BudgetValue b, EnumType type) {
+    public Task(final Sentence s, final BudgetValue b, EnumType type) {
         this(s, b, null, null);
         this.isInput = type == EnumType.INPUT;
     }
@@ -54,7 +54,7 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
      * @param b            The budget
      * @param parentBelief The belief used for deriving the task
      */
-    public Task(final Sentence<T> s, final BudgetValue b, final Sentence parentBelief) {
+    public Task(final Sentence s, final BudgetValue b, final Sentence parentBelief) {
         this(s, b, parentBelief, null);
     }
 
@@ -66,7 +66,7 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
      * @param parentBelief The belief used for deriving the task
      * @param solution     The solution to the task
      */
-    public Task(final Sentence<T> s, final BudgetValue b, final Sentence parentBelief, final Sentence solution) {
+    public Task(final Sentence s, final BudgetValue b, final Sentence parentBelief, final Sentence solution) {
         super(b);
         this.sentence = s;
         this.parentBelief = parentBelief;
@@ -189,7 +189,7 @@ public class Task<T extends Term> extends Item<Sentence<T>> implements Serializa
         return !this.sentence.isEternal() && (this.isInput() || partOfSequenceBuffer);
     }
 
-    public T getTerm() {
+    public Term getTerm() {
         return sentence.getTerm();
     }
 

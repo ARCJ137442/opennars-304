@@ -22,14 +22,14 @@ import org.opennars.storage.Memory;
  * @author Pei Wang
  * @author Patrick Hammer
  */
-public class Sentence<T extends Term> implements Cloneable, Serializable {
+public class Sentence implements Cloneable, Serializable {
 
     public boolean producedByTemporalInduction = false;
 
     /**
      * The content of a Sentence is a Term
      */
-    public final T term;
+    public final Term term;
 
     /**
      * The punctuation indicates the type of the Sentence:
@@ -59,7 +59,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
 
     private final int hash;
 
-    public Sentence(final T term, final char punctuation, final TruthValue newTruth, final Stamp newStamp) {
+    public Sentence(final Term term, final char punctuation, final TruthValue newTruth, final Stamp newStamp) {
         this(term, punctuation, newTruth, newStamp, true);
     }
 
@@ -73,7 +73,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
      *                    and
      *                    base
      */
-    private Sentence(T _content, final char punctuation, final TruthValue truth, final Stamp stamp,
+    private Sentence(Term _content, final char punctuation, final TruthValue truth, final Stamp stamp,
             final boolean normalize) {
 
         // cut interval at end for sentence in serial conjunction, and inbetween for
@@ -93,7 +93,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
 
                         final Term[] term2 = new Term[c.term.length - u];
                         System.arraycopy(c.term, 0, term2, 0, term2.length);
-                        _content = (T) Conjunction.make(term2, c.getTemporalOrder(), c.isSpatial);
+                        _content = Conjunction.make(term2, c.getTemporalOrder(), c.isSpatial);
                         // ok we removed a part of the interval, we have to transform the occurence time
                         // of the sentence back
                         // accordingly
@@ -112,7 +112,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
 
                         final Term[] term2 = new Term[c.term.length - u];
                         System.arraycopy(c.term, u, term2, 0, term2.length);
-                        _content = (T) Conjunction.make(term2, c.getTemporalOrder(), c.isSpatial);
+                        _content = Conjunction.make(term2, c.getTemporalOrder(), c.isSpatial);
                         // ok we removed a part of the interval, we have to transform the occurence time
                         // of the sentence back
                         // accordingly
@@ -175,9 +175,9 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
         this.stamp = stamp;
         this.revisable = _content instanceof Implication || _content instanceof Equivalence || !(_content.hasVarDep());
 
-        T newTerm = null;
+        Term newTerm = null;
         if (_content instanceof CompoundTerm)
-            newTerm = (T) ((CompoundTerm) _content).cloneDeepVariables();
+            newTerm = ((CompoundTerm) _content).cloneDeepVariables();
 
         // Variable name normalization
         // TODO move this to Concept method, like cloneNormalized()
@@ -565,7 +565,7 @@ public class Sentence<T extends Term> implements Cloneable, Serializable {
      *
      * @return term of the sentence, terms are properties of sentences
      */
-    public T getTerm() {
+    public Term getTerm() {
         return term;
     }
 

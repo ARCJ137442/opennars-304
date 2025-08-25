@@ -553,12 +553,12 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
     }
 
     /** attach event handler */
-    public void on(final Class c, final EventObserver o) {
+    public void on(final Class<?> c, final EventObserver o) {
         memory.event.on(c, o);
     }
 
     /** remove event handler */
-    public void off(final Class c, final EventObserver o) {
+    public void off(final Class<?> c, final EventObserver o) {
         memory.event.off(c, o);
     }
 
@@ -670,7 +670,7 @@ public class Nar extends SensoryChannel implements Reasoner, Serializable, Runna
         }
     }
 
-    public void emit(final Class c, final Object... o) {
+    public void emit(final Class<?> c, final Object... o) {
         memory.event.emit(c, o);
     }
 

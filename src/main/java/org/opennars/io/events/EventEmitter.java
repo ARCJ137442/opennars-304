@@ -34,7 +34,7 @@ public class EventEmitter {
      */
     public EventEmitter(final Class... knownEventClasses) {
         events = new LinkedHashMap(knownEventClasses.length);
-        for (final Class c : knownEventClasses) {
+        for (final Class<?> c : knownEventClasses) {
             events.put(c, newObserverList());
         }
     }
@@ -47,7 +47,7 @@ public class EventEmitter {
          */
     }
 
-    public final boolean isActive(final Class event) {
+    public final boolean isActive(final Class<?> event) {
         if (events.get(event) != null)
             return !events.get(event).isEmpty();
         return false;
@@ -58,7 +58,7 @@ public class EventEmitter {
         synchronized (pendingOps) {
             if (!pendingOps.isEmpty()) {
                 for (final Object[] o : pendingOps) {
-                    final Class c = (Class) o[1];
+                    final Class<?> c = (Class) o[1];
                     final EventObserver d = (EventObserver) o[2];
                     if ((Boolean) o[0]) {
                         on(c, d);
@@ -103,7 +103,7 @@ public class EventEmitter {
 
     /** for enabling many events at the same time */
     public void set(final EventObserver o, final boolean enable, final Class... events) {
-        for (final Class c : events) {
+        for (final Class<?> c : events) {
             if (enable)
                 on(c, o);
             else
@@ -111,7 +111,7 @@ public class EventEmitter {
         }
     }
 
-    public void emit(final Class eventClass, final Object... params) {
+    public void emit(final Class<?> eventClass, final Object... params) {
         final List<EventObserver> observers = events.get(eventClass);
 
         if ((observers == null) || (observers.isEmpty()))
@@ -125,7 +125,7 @@ public class EventEmitter {
     }
 
     /** Observes events emitted by EventEmitter */
-    public interface EventObserver<C> {
-        void event(Class<? extends C> event, Object[] args);
+    public interface EventObserver {
+        void event(Class<?> event, Object[] args);
     }
 }

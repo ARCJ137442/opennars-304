@@ -19,7 +19,7 @@ public class OutputNotContainsCondition extends OutputContainsCondition {
     }
 
     @Override
-    public boolean condition(final Class channel, final Object signal) {
+    public boolean condition(final Class<?> channel, final Object signal) {
         if (!succeeded) {
             return false;
         }
@@ -35,7 +35,7 @@ public class OutputNotContainsCondition extends OutputContainsCondition {
         return true;
     }
 
-    protected void onFailure(final Class channel, final Object signal) {
+    protected void onFailure(final Class<?> channel, final Object signal) {
     }
 
 }

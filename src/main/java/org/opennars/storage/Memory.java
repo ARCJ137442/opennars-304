@@ -73,11 +73,11 @@ public class Memory implements Serializable, Iterable<Concept>, Resettable {
     private final Boolean tasksMutex = Boolean.TRUE;
 
     /* New tasks with novel composed terms, for delayed and selective processing */
-    public final Bag<Task<Term>, Sentence<Term>> novelTasks;
+    public final Bag<Task, Sentence> novelTasks;
 
     /* Input event tasks that were either input events or derived sequences */
-    public final Bag<Task<Term>, Sentence<Term>> seq_current;
-    public final Bag<Task<Term>, Sentence<Term>> recent_operations;
+    public final Bag<Task, Sentence> seq_current;
+    public final Bag<Task, Sentence> recent_operations;
 
     // Boolean localInferenceMutex = false;
 
@@ -89,9 +89,9 @@ public class Memory implements Serializable, Iterable<Concept>, Resettable {
      * Create a new memory
      */
     public Memory(final Parameters narParameters, final Bag<Concept, Term> concepts,
-            final Bag<Task<Term>, Sentence<Term>> novelTasks,
-            final Bag<Task<Term>, Sentence<Term>> seq_current,
-            final Bag<Task<Term>, Sentence<Term>> recent_operations) {
+            final Bag<Task, Sentence> novelTasks,
+            final Bag<Task, Sentence> seq_current,
+            final Bag<Task, Sentence> recent_operations) {
         this.narParameters = narParameters;
         this.event = new EventEmitter();
         this.concepts = concepts;
@@ -311,11 +311,11 @@ public class Memory implements Serializable, Iterable<Concept>, Resettable {
         }
     }
 
-    final public void emit(final Class c, final Object... signal) {
+    final public void emit(final Class<?> c, final Object... signal) {
         event.emit(c, signal);
     }
 
-    final public boolean emitting(final Class channel) {
+    final public boolean emitting(final Class<?> channel) {
         return event.isActive(channel);
     }
 

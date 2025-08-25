@@ -76,7 +76,7 @@ public class Events {
         abstract public void onBeliefAdd(Concept c, Task t, Object[] extra);
 
         @Override
-        public void event(final Class event, final Object[] args) {
+        public void event(final Class<?> event, final Object[] args) {
             onBeliefAdd((Concept) args[0], (Task) args[1], (Object[]) args[2]);
         }
 
@@ -87,7 +87,7 @@ public class Events {
         abstract public void onBeliefRemove(Concept c, Sentence removed, Task t, Object[] extra);
 
         @Override
-        public void event(final Class event, final Object[] args) {
+        public void event(final Class<?> event, final Object[] args) {
             onBeliefRemove((Concept) args[0], (Sentence) args[1], (Task) args[2], (Object[]) args[3]);
         }
 
@@ -149,7 +149,7 @@ public class Events {
         abstract public void onFire(GeneralInferenceControl n);
 
         @Override
-        public void event(final Class event, final Object[] args) {
+        public void event(final Class<?> event, final Object[] args) {
             onFire((GeneralInferenceControl) args[0]);
         }
 
@@ -160,7 +160,7 @@ public class Events {
         abstract public void onProcessed(Task t, DerivationContext n);
 
         @Override
-        public void event(final Class event, final Object[] args) {
+        public void event(final Class<?> event, final Object[] args) {
             onProcessed((Task) args[0], (DerivationContext) args[1]);
         }
 
@@ -184,7 +184,7 @@ public class Events {
         abstract public void onTaskAdd(Task t, String reason);
 
         @Override
-        public void event(final Class event, final Object[] args) {
+        public void event(final Class<?> event, final Object[] args) {
             onTaskAdd((Task) args[0], (String) args[1]);
         }
     }
@@ -238,7 +238,7 @@ public class Events {
             }
         }
 
-        public Class getType() {
+        public Class<?> getType() {
             return getClass();
         }
 

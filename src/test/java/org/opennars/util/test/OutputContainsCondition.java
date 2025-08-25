@@ -13,11 +13,11 @@ import java.util.*;
  * while collecting similar results (according to Levenshtein text distance).
  * 
  */
-public class OutputContainsCondition extends OutputCondition<Task> {
+public class OutputContainsCondition extends OutputCondition {
     public double confOfBestAnswer = 0.0;
     public long timeOfBestAnswer = 0;
 
-    public final List<Task> exact = new ArrayList();
+    public final List<Task> exact = new ArrayList<Task>();
 
     public static class SimilarOutput implements Comparable<SimilarOutput> {
         public final String signal;
@@ -118,7 +118,7 @@ public class OutputContainsCondition extends OutputCondition<Task> {
         return cost[len0 - 1];
     }
 
-    public boolean cond(final Class channel, final Object signal) {
+    public boolean cond(final Class<?> channel, final Object signal) {
         if ((channel == OUT.class) || (channel == EXE.class)) {
             final String o;
             if (signal instanceof Task) {
@@ -171,7 +171,7 @@ public class OutputContainsCondition extends OutputCondition<Task> {
     }
 
     @Override
-    public boolean condition(final Class channel, final Object signal) {
+    public boolean condition(final Class<?> channel, final Object signal) {
         if ((channel == OUT.class) || (channel == EXE.class)) {
             if (signal instanceof Task) {
                 final Task t = (Task) signal;
@@ -192,7 +192,7 @@ public class OutputContainsCondition extends OutputCondition<Task> {
     }
 
     @Override
-    public List<Task> getTrueReasons() {
+    public List getTrueReasons() {
         return exact;
     }
 

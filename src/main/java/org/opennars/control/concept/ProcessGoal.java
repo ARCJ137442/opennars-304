@@ -263,6 +263,7 @@ public class ProcessGoal {
      * @param projectedGoal The current goal
      * @param task          The goal task
      */
+    @SuppressWarnings("unchecked")
     public static void bestReactionForGoal(final Concept concept, final DerivationContext nal,
             final Sentence projectedGoal, final Task task) {
         concept.incAcquiredQuality(); // useful as it is represents a goal concept that can hold important procedure

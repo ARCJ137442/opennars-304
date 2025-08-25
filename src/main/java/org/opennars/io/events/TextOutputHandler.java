@@ -92,7 +92,7 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
      *
      */
     @Override
-    public void event(final Class channel, final Object... oo) {
+    public void event(final Class<?> channel, final Object... oo) {
         if (!showErrors && (channel == ERR.class))
             return;
 
@@ -116,7 +116,7 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
 
     final StringBuilder result = new StringBuilder(16 /* estimate */);
 
-    public String process(final Class c, final Object o) {
+    public String process(final Class<?> c, final Object o) {
         return getOutputString(c, o, true, showStamp, nar, result, minPriority);
     }
 
@@ -140,13 +140,13 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
         return this;
     }
 
-    public static String getOutputString(final Class channel, final Object signal, final boolean showChannel,
+    public static String getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
             final boolean showStamp, final Nar nar, final StringBuilder buffer) {
         return getOutputString(channel, signal, showChannel, showStamp, nar, buffer, 0);
     }
 
     /** generates a human-readable string from an output channel and signal */
-    public static String getOutputString(final Class channel, final Object signal, final boolean showChannel,
+    public static String getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
             final boolean showStamp, final Nar nar, final StringBuilder buffer, final float minPriority) {
         buffer.setLength(0);
 
@@ -202,7 +202,7 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
 
     }
 
-    public static CharSequence getOutputString(final Class channel, final Object signal, final boolean showChannel,
+    public static CharSequence getOutputString(final Class<?> channel, final Object signal, final boolean showChannel,
             final boolean showStamp, final Nar nar) {
         final CharSequence s = getOutputString(channel, signal, showStamp, nar);
         if (showChannel) {
@@ -214,13 +214,13 @@ public class TextOutputHandler extends OutputHandler implements Serializable {
         }
     }
 
-    public static CharSequence getOutputString(final Class channel, final Object signal, final boolean showStamp,
+    public static CharSequence getOutputString(final Class<?> channel, final Object signal, final boolean showStamp,
             final Nar nar) {
         return getOutputString(channel, signal, showStamp, nar, new StringBuilder());
     }
 
     /** generates a human-readable string from an output channel and signal */
-    public static CharSequence getOutputString(final Class channel, final Object signal, final boolean showStamp,
+    public static CharSequence getOutputString(final Class<?> channel, final Object signal, final boolean showStamp,
             final Nar nar, final StringBuilder buffer) {
         buffer.setLength(0);
 

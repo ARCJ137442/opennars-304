@@ -95,7 +95,7 @@ public class NALTest {
         tests.put(name, true);
     }
 
-    public static void runTests(final Class c) {
+    public static void runTests(final Class<?> c) {
 
         tests.clear();
         scores.clear();

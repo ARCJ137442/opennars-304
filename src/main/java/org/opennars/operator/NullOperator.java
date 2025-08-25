@@ -26,7 +26,7 @@ public class NullOperator extends Operator {
     protected List<Task> execute(final Operation operation, final Term[] args, final Memory memory,
             final Timable time) {
         if (Debug.DETAILED) {
-            memory.emit(getClass(), args);
+            memory.emit(getClass(), (Object[]) args);
         }
         return null;
     }

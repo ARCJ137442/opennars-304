@@ -14,7 +14,7 @@ import java.util.List;
  * Parameter O is the type of object which will be remembered that can make
  * the condition true
  */
-public abstract class OutputCondition<O> extends OutputHandler {
+public abstract class OutputCondition extends OutputHandler {
     public boolean succeeded = false;
 
     public final Nar nar;
@@ -31,7 +31,7 @@ public abstract class OutputCondition<O> extends OutputHandler {
     }
 
     @Override
-    public void event(final Class channel, final Object... args) {
+    public void event(final Class<?> channel, final Object... args) {
         if ((succeeded) && (!isInverse())) {
             return;
         }
@@ -55,7 +55,7 @@ public abstract class OutputCondition<O> extends OutputHandler {
     }
 
     /** returns true if condition was satisfied */
-    public abstract boolean condition(Class channel, Object signal);
+    public abstract boolean condition(Class<?> channel, Object signal);
 
     /**
      * reads an example file line-by-line, before being processed, to extract
@@ -114,7 +114,7 @@ public abstract class OutputCondition<O> extends OutputHandler {
         return getClass().getSimpleName() + " " + (succeeded ? "OK: " + getTrueReasons() : getFalseReason());
     }
 
-    public List<O> getTrueReasons() {
+    public List getTrueReasons() {
         if (!isTrue())
             throw new IllegalStateException(this + " is not true so has no true reasons");
         return Collections.emptyList();

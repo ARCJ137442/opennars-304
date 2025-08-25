@@ -41,7 +41,7 @@ public class DerivationContext {
         this.time = time;
     }
 
-    public void emit(final Class c, final Object... o) {
+    public void emit(final Class<?> c, final Object... o) {
         memory.emit(c, o);
     }
 

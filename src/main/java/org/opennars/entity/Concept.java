@@ -39,7 +39,7 @@ public class Concept extends Item<Term> implements Serializable {
 
     // recent events that happened before the operation the
     // concept represents was executed
-    public Bag<Task<Term>, Sentence<Term>> seq_before;
+    public Bag<Task, Sentence> seq_before;
 
     /**
      * Task links for indirect processing
@@ -149,7 +149,7 @@ public class Concept extends Item<Term> implements Serializable {
     }
 
     public void addToTable(final Task task, final boolean rankTruthExpectation, final List<Task> table, final int max,
-            final Class eventAdd, final Class eventRemove, final Object... extraEventArguments) {
+            final Class<?> eventAdd, final Class<?> eventRemove, final Object... extraEventArguments) {
 
         final int preSize = table.size();
         final Task removedT;

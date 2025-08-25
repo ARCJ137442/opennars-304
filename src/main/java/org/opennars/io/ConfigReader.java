@@ -181,10 +181,10 @@ public class ConfigReader {
             }
         }
 
-        Class[] typesAsArr = types.toArray(new Class[types.size()]);
+        Class<?>[] typesAsArr = types.toArray(new Class[types.size()]);
         Object[] valuesAsArr = values.toArray(new Object[values.size()]);
 
-        Class c = Class.forName(pluginClassPath);
+        Class<?> c = Class.forName(pluginClassPath);
 
         Plugin createdPlugin = (Plugin) c.getConstructor(typesAsArr).newInstance(valuesAsArr);
         return createdPlugin;

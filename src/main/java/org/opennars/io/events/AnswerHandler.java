@@ -14,7 +14,7 @@ public abstract class AnswerHandler implements EventObserver {
     private Task question;
     private Nar nar;
 
-    final static Class[] events = new Class[] {
+    final static Class<?>[] events = new Class<?>[] {
             Answer.class
     };
 
@@ -30,7 +30,7 @@ public abstract class AnswerHandler implements EventObserver {
     }
 
     @Override
-    public void event(final Class event, final Object[] args) {
+    public void event(final Class<?> event, final Object[] args) {
 
         if (event == Answer.class) {
             final Task task = (Task) args[0];

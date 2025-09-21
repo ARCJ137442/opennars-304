@@ -2,7 +2,7 @@ package org.opennars.language;
 
 import com.google.common.collect.ObjectArrays;
 import org.opennars.io.Symbols.NativeOperator;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 
 import java.util.ArrayList;
 import java.util.List;

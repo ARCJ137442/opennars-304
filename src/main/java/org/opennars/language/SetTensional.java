@@ -1,7 +1,7 @@
 package org.opennars.language;
 
 import org.opennars.io.Symbols;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 
 import java.nio.CharBuffer;
 

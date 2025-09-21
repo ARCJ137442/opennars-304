@@ -1,13 +1,13 @@
 package org.opennars.main;
 
 import org.opennars.io.events.TextOutputHandler;
+import org.opennars.language.Term;
+import org.opennars.parameter.Debug;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import org.opennars.language.Term;
 
 /**
  * Run Reasoner inside a command line application for batch processing

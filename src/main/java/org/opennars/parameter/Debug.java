@@ -1,4 +1,4 @@
-package org.opennars.main;
+package org.opennars.parameter;
 
 /**
  * Nar operating parameters.

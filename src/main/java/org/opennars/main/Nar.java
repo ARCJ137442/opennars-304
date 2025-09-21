@@ -1,7 +1,33 @@
 package org.opennars.main;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang3.StringUtils;
-import org.opennars.entity.*;
+
+import org.opennars.entity.BudgetValue;
+import org.opennars.entity.Concept;
+import org.opennars.entity.Sentence;
+import org.opennars.entity.Stamp;
+import org.opennars.entity.Task;
 import org.opennars.interfaces.Timable;
 import org.opennars.interfaces.pub.Reasoner;
 import org.opennars.io.ConfigReader;
@@ -17,26 +43,20 @@ import org.opennars.io.events.Events.CyclesStart;
 import org.opennars.io.events.OutputHandler.ERR;
 import org.opennars.language.Inheritance;
 import org.opennars.language.SetExt;
+import org.opennars.language.SetInt;
 import org.opennars.language.Tense;
 import org.opennars.language.Term;
 import org.opennars.operator.Operator;
+import org.opennars.parameter.Debug;
+import org.opennars.parameter.Parameters;
 import org.opennars.plugin.Plugin;
+import org.opennars.plugin.mental.Emotions;
+import org.opennars.plugin.mental.InternalExperience;
 import org.opennars.plugin.perception.SensoryChannel;
 import org.opennars.storage.Bag;
 import org.opennars.storage.Memory;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.opennars.language.SetInt;
-import org.opennars.plugin.mental.Emotions;
-import org.opennars.plugin.mental.InternalExperience;
+import org.xml.sax.SAXException;
 
 /**
  * Non-Axiomatic Reasoner

@@ -6,8 +6,8 @@ import org.xml.sax.SAXException;
 import org.opennars.entity.BudgetValue;
 import org.opennars.entity.Item;
 import org.opennars.main.Nar;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Bag;
-import org.opennars.main.Parameters;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;

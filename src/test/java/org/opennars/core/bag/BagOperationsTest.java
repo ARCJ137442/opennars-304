@@ -6,6 +6,7 @@ import org.opennars.entity.Concept;
 import org.opennars.entity.Item;
 import org.opennars.language.Term;
 import org.opennars.main.Nar;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Bag;
 import org.xml.sax.SAXException;
 
@@ -16,7 +17,6 @@ import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import org.opennars.main.Parameters;
 
 /**
  *

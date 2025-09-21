@@ -1,6 +1,7 @@
 package org.opennars.operator.mental;
 
 import com.google.common.collect.Lists;
+
 import org.opennars.entity.*;
 import org.opennars.inference.BudgetFunctions;
 import org.opennars.interfaces.Timable;

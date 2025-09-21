@@ -1,7 +1,7 @@
 package org.opennars.language;
 
 import org.opennars.io.Symbols.NativeOperator;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 
 import java.util.NavigableSet;
 import java.util.TreeSet;

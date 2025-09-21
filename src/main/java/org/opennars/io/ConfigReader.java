@@ -2,8 +2,8 @@ package org.opennars.io;
 
 import com.google.common.io.Resources;
 import org.opennars.interfaces.pub.Reasoner;
-import org.opennars.main.Parameters;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
+import org.opennars.parameter.Parameters;
 import org.opennars.plugin.Plugin;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

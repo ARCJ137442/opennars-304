@@ -5,7 +5,7 @@ import org.opennars.entity.TermLink;
 import org.opennars.inference.TemporalRules;
 import org.opennars.io.Symbols;
 import org.opennars.io.Symbols.NativeOperator;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 import org.opennars.storage.Memory;
 
 import java.nio.CharBuffer;

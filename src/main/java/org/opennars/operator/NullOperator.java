@@ -3,7 +3,7 @@ package org.opennars.operator;
 import org.opennars.entity.Task;
 import org.opennars.interfaces.Timable;
 import org.opennars.language.Term;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 import org.opennars.storage.Memory;
 
 import java.util.List;

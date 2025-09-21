@@ -4,11 +4,11 @@ import org.opennars.entity.*;
 import org.opennars.inference.TruthFunctions;
 import org.opennars.interfaces.Timable;
 import org.opennars.io.events.Events;
-import org.opennars.main.Parameters;
 import org.opennars.language.*;
 import org.opennars.operator.Operation;
+import org.opennars.parameter.Debug;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Memory;
-import org.opennars.main.Debug;
 
 import java.util.ArrayList;
 import java.util.List;

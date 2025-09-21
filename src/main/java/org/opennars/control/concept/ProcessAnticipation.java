@@ -18,9 +18,9 @@ import org.opennars.io.Symbols;
 import org.opennars.io.events.OutputHandler;
 import org.opennars.language.*;
 import org.opennars.main.Nar;
-import org.opennars.main.Parameters;
 import org.opennars.operator.Operator;
 import org.opennars.operator.mental.Anticipate;
+import org.opennars.parameter.Parameters;
 
 import static org.opennars.inference.UtilityFunctions.c2w;
 import static org.opennars.inference.UtilityFunctions.w2c;

@@ -8,7 +8,7 @@ import org.opennars.io.events.Events.*;
 import org.opennars.language.CompoundTerm;
 import org.opennars.language.Term;
 import org.opennars.main.Shell;
-import org.opennars.main.Parameters;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Bag;
 import org.opennars.storage.Memory;
 

@@ -1,12 +1,13 @@
 package org.opennars.language;
 
 import org.apache.commons.lang3.StringUtils;
+
 import org.opennars.inference.TemporalRules;
 import org.opennars.io.Symbols;
 import org.opennars.io.Symbols.NativeOperator;
 import org.opennars.io.Texts;
-import org.opennars.main.Debug;
 import org.opennars.operator.*;
+import org.opennars.parameter.Debug;
 import org.opennars.storage.Memory;
 
 import java.io.Serializable;

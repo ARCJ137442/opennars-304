@@ -9,13 +9,13 @@ import org.opennars.language.Product;
 import org.opennars.language.Statement;
 import org.opennars.language.Term;
 import org.opennars.main.Nar;
+import org.opennars.parameter.Debug;
 import org.opennars.plugin.Plugin;
 import org.opennars.storage.Memory;
 
 import java.util.Arrays;
 import java.util.List;
 import org.opennars.io.events.OutputHandler.ERR;
-import org.opennars.main.Debug;
 
 /**
  * An individual operator that can be execute by the system, which can be either

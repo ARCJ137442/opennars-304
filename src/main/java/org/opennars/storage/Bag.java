@@ -1,10 +1,14 @@
 package org.opennars.storage;
 
-import org.opennars.entity.Item;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+
+import org.opennars.entity.Item;
 import org.opennars.inference.BudgetFunctions;
-import org.opennars.main.Parameters;
+import org.opennars.parameter.Parameters;
 
 /**
  * Original Bag implementation which distributes items into

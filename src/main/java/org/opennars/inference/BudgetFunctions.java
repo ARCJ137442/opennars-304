@@ -2,11 +2,11 @@ package org.opennars.inference;
 
 import org.opennars.entity.*;
 import org.opennars.language.Term;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Memory;
 import org.opennars.control.DerivationContext;
 
 import static java.lang.Math.*;
-import org.opennars.main.Parameters;
 
 /**
  * Budget functions for resources allocation

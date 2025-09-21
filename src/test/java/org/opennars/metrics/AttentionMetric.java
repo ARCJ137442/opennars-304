@@ -9,8 +9,8 @@ import org.opennars.io.Narsese;
 import org.opennars.io.events.EventHandler;
 import org.opennars.io.events.OutputHandler;
 import org.opennars.main.Nar;
-import org.opennars.main.Parameters;
 import org.opennars.operator.Operator;
+import org.opennars.parameter.Parameters;
 import org.opennars.util.io.ExampleFileInput;
 import org.xml.sax.SAXException;
 

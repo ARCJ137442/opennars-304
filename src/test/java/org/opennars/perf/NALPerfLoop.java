@@ -3,7 +3,7 @@ package org.opennars.perf;
 import org.opennars.core.NALTest;
 import org.opennars.interfaces.pub.Reasoner;
 import org.opennars.main.Nar;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

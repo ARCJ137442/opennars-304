@@ -3,11 +3,11 @@ package org.opennars.entity;
 import org.opennars.inference.BudgetFunctions;
 import org.opennars.io.Symbols;
 import org.opennars.io.Texts;
+import org.opennars.parameter.Parameters;
 
 import java.io.Serializable;
 
 import static org.opennars.inference.UtilityFunctions.*;
-import org.opennars.main.Parameters;
 
 /**
  * A triple of priority (current), durability (decay), and quality (long-term

@@ -2,7 +2,8 @@ package org.opennars.inference;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
-import org.opennars.main.Parameters;
+
+import org.opennars.parameter.Parameters;
 
 /**
  * Common functions on real numbers, mostly in [0,1].

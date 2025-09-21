@@ -1,7 +1,7 @@
 package org.opennars.entity;
 
 import org.opennars.language.Term;
-import org.opennars.main.Parameters;
+import org.opennars.parameter.Parameters;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;

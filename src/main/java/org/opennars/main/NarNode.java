@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.opennars.entity.Task;
 import org.opennars.io.events.EventEmitter.EventObserver;
 import org.opennars.io.events.Events;

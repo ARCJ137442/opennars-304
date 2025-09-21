@@ -22,11 +22,11 @@ import org.opennars.language.Interval;
 import org.opennars.language.Tense;
 import org.opennars.language.Term;
 import org.opennars.main.Nar;
-import org.opennars.main.Parameters;
 import org.opennars.operator.Operation;
 import org.opennars.operator.Operator;
+import org.opennars.parameter.Debug;
+import org.opennars.parameter.Parameters;
 import org.opennars.plugin.mental.Emotions;
-import org.opennars.main.Debug;
 
 import java.io.Serializable;
 import java.util.*;

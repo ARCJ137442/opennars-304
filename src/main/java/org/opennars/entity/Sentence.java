@@ -7,11 +7,12 @@ import org.opennars.io.Symbols;
 import org.opennars.io.Texts;
 import org.opennars.language.*;
 import org.opennars.main.Nar;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
+import org.opennars.parameter.Parameters;
 
 import java.io.Serializable;
 import java.util.*;
-import org.opennars.main.Parameters;
+
 import org.opennars.storage.Memory;
 
 /**

@@ -1,9 +1,9 @@
 package org.opennars.inference;
 
 import org.opennars.entity.TruthValue;
+import org.opennars.parameter.Parameters;
 
 import static java.lang.Math.abs;
-import org.opennars.main.Parameters;
 
 /**
  * All truth-value (and desire-value) functions used in inference rules

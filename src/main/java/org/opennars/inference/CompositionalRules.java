@@ -6,7 +6,7 @@ import org.opennars.control.DerivationContext;
 import org.opennars.entity.*;
 import org.opennars.io.Symbols;
 import org.opennars.language.*;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;

@@ -31,10 +31,10 @@ import org.opennars.language.Product;
 import org.opennars.language.Term;
 import org.opennars.language.Variable;
 import org.opennars.language.Variables;
-import org.opennars.main.Debug;
 import org.opennars.operator.FunctionOperator;
 import org.opennars.operator.Operation;
 import org.opennars.operator.Operator;
+import org.opennars.parameter.Debug;
 import org.opennars.plugin.mental.InternalExperience;
 
 /**
@@ -285,13 +285,13 @@ public class ProcessGoal {
             // pull variable based preconditions from component concepts
             synchronized (get_concept) {
                 boolean useful_component = false;
-                for (Task precon : get_concept.general_executable_preconditions) {
+                for (Task precondition : get_concept.general_executable_preconditions) {
                     // check whether the conclusion matches
                     if (Variables.findSubstitute(nal.memory.randomNumber, Symbols.VAR_INDEPENDENT,
-                            ((Implication) precon.sentence.term).getPredicate(), projectedGoal.term,
+                            ((Implication) precondition.sentence.term).getPredicate(), projectedGoal.term,
                             new LinkedHashMap<>(), new LinkedHashMap<>())) {
-                        for (Task precondition : get_concept.general_executable_preconditions) {
-                            generalPreconditions.add(precondition);
+                        for (Task precondition2 : get_concept.general_executable_preconditions) {
+                            generalPreconditions.add(precondition2);
                             useful_component = true;
                         }
                     }
@@ -321,13 +321,14 @@ public class ProcessGoal {
                     }
                 }
                 System.out.println("Executed based on: " + bestOpWithMeta.executable_precondition);
-                for (ExecutablePrecondition precon : anticipationsToMake.get(bestOpWithMeta.bestOp)) {
-                    float distance = precon.timeOffset - nal.time.time();
+                for (ExecutablePrecondition precondition : anticipationsToMake.get(bestOpWithMeta.bestOp)) {
+                    float distance = precondition.timeOffset - nal.time.time();
                     float urgency = 2.0f + 1.0f / distance;
 
-                    ProcessAnticipation.anticipate(nal, precon.executable_precondition.sentence,
-                            precon.executable_precondition.budget, precon.minTime, precon.maxTime, urgency,
-                            precon.substitution);
+                    ProcessAnticipation.anticipate(nal, precondition.executable_precondition.sentence,
+                            precondition.executable_precondition.budget, precondition.minTime, precondition.maxTime,
+                            urgency,
+                            precondition.substitution);
                 }
                 return; // don't try the other table as a specific solution was already used
             }

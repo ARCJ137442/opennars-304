@@ -1,6 +1,7 @@
 package org.opennars.operator;
 
 import com.google.common.collect.Lists;
+
 import org.opennars.entity.*;
 import org.opennars.interfaces.Timable;
 import org.opennars.io.Symbols;

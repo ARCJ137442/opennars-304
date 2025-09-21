@@ -3,9 +3,9 @@ package org.opennars.entity;
 import org.opennars.io.Symbols;
 import org.opennars.io.Texts;
 import org.opennars.language.Term;
+import org.opennars.parameter.Parameters;
 
 import java.io.Serializable;
-import org.opennars.main.Parameters;
 
 /**
  * Truth is a tuple of frequency and confidence as defined by NARS theory

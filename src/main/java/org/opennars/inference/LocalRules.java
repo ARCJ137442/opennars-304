@@ -9,13 +9,13 @@ import org.opennars.io.events.Events.Answer;
 import org.opennars.io.events.Events.Unsolved;
 import org.opennars.io.events.OutputHandler;
 import org.opennars.language.*;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Memory;
 import java.util.List;
 import static org.opennars.inference.TemporalRules.matchingOrder;
 import static org.opennars.inference.TemporalRules.reverseOrder;
 import static org.opennars.inference.TruthFunctions.temporalProjection;
 import static org.opennars.language.CompoundTerm.extractIntervals;
-import org.opennars.main.Parameters;
 
 /**
  * Directly process a task by a oldBelief, with only two Terms in both. In

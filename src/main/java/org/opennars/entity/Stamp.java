@@ -4,7 +4,8 @@ import org.opennars.inference.TemporalRules;
 import org.opennars.interfaces.Timable;
 import org.opennars.io.Symbols;
 import org.opennars.language.Tense;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
+import org.opennars.parameter.Parameters;
 import org.opennars.storage.Memory;
 
 import java.io.Serializable;
@@ -15,7 +16,6 @@ import java.util.Set;
 
 import static org.opennars.inference.TemporalRules.*;
 import static org.opennars.language.Tense.*;
-import org.opennars.main.Parameters;
 
 /**
  * Stamps are used to keep track of done derivations

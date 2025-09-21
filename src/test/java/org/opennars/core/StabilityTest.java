@@ -9,7 +9,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 import org.opennars.io.events.TextOutputHandler;
 import org.opennars.main.Nar;
-import org.opennars.main.Debug;
+import org.opennars.parameter.Debug;
 import org.opennars.util.io.ExampleFileInput;
 import org.opennars.util.test.OutputCondition;
 import org.xml.sax.SAXException;

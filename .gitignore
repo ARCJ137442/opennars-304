@@ -61,4 +61,9 @@ hs_err_pid*
 #project specific
 /src/genjava
 
+# node
 node_modules/
+
+# python
+venv/
+**/__pycache__/**

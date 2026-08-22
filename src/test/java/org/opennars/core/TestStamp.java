@@ -24,9 +24,16 @@
 package org.opennars.core;
 
 import org.junit.Test;
+import org.opennars.entity.Sentence;
+import org.opennars.entity.Stamp;
+import org.opennars.entity.TruthValue;
+import org.opennars.io.Narsese;
+import org.opennars.io.Symbols;
+import org.opennars.main.Nar;
 
 import java.util.Arrays;
 
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import org.opennars.entity.Stamp.BaseEntry;
 import static org.opennars.entity.Stamp.toSetArray;
@@ -55,5 +62,17 @@ public class TestStamp {
         assertTrue(
                 Arrays.hashCode(toSetArray(new BaseEntry[] { entry(1), entry(2), entry(3) })) != Arrays
                         .hashCode(toSetArray(new BaseEntry[] { entry(1), entry(1), entry(3) })));
+    }
+
+    @Test
+    public void testSentenceToStringWithoutStamp() throws Exception {
+        final Nar nar = new Nar();
+        final Sentence sentence = new Sentence(
+                new Narsese(nar).parseTerm("a"),
+                Symbols.JUDGMENT_MARK,
+                new TruthValue(1.0f, 0.9f, nar.narParameters),
+                new Stamp(nar, nar.memory));
+
+        assertNotNull(sentence.toString(nar, false));
     }
 }

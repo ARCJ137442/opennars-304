@@ -518,8 +518,6 @@ public class Sentence implements Cloneable, Serializable {
         if (truth != null)
             stringLength += 11;
 
-        if (stampString == null)
-            throw new AssertionError("stampString should not be null");
         if (showStamp)
             stringLength += stampString.length() + 1;
 
